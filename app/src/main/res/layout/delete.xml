@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/deleteEventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Event"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"/>
+
+    <!-- Subtitle Text -->
+
+    <!-- Warning Card -->
+
+    <TextView
+        android:id="@+id/deleteEventSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Are you sure you want to delete"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+
+    <TextView
+        android:id="@+id/event_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="eventname?"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="139dp"
+        android:layout_marginTop="24dp"
+        android:background="#FFEBEE"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Warning Icon -->
+
+        <!-- Warning Message -->
+
+        <ImageView
+            android:layout_width="44dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_warning"
+            android:tint="#D32F2F"
+            app:srcCompat="@android:drawable/stat_sys_warning" />
+
+        <LinearLayout
+            android:layout_width="297dp"
+            android:layout_height="147dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Warning"
+                android:textColor="#D32F2F"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="306dp"
+                android:layout_height="103dp"
+                android:layout_marginTop="4dp"
+                android:text="By deleting this event, you won’t be able to access the event."
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:gravity="center">
+
+        <!-- Cancel Button -->
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No, Cancel"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#3F51B5"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Delete Button -->
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Yes, Delete"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#D32F2F"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+</LinearLayout>
