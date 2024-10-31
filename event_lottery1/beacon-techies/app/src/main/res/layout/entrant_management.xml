@@ -1,0 +1,87 @@
+<!-- management_screen.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- Top Bar with Back Button and Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Back" />
+        <!--android:src="@drawable/ic_back_arrow" -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:text="Event"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:text="Participant Management"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Header Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Management"
+        android:background="#1F41BB"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Main Button Options -->
+    <Button
+        android:id="@+id/chosen_entrants_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chosen Entrants"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1F41BB"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <Button
+        android:id="@+id/cancelled_entrants_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancelled Entrants"
+        android:backgroundTint="#1F41BB"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+
+    <Button
+        android:id="@+id/final_registered_list_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Final Registered List"
+        android:backgroundTint="#1F41BB"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"/>
+</LinearLayout>
