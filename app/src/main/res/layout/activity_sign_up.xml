@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Top Blue Background -->
+    <View
+        android:id="@+id/top_blue_background"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/primary" />
+
+    <!-- Back Arrow and Notification Icons -->
+    <ImageView
+        android:id="@+id/back_arrow"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_arrow_desc" />
+
+    <ImageView
+        android:id="@+id/notification_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_notification"
+        android:contentDescription="@string/notification_icon_desc" />
+
+    <!-- Sign Up Title -->
+    <TextView
+        android:id="@+id/signup_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold" />
+
+    <!-- Profile Image with Edit Icon -->
+    <RelativeLayout
+        android:id="@+id/profile_picture_container"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@id/top_blue_background"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-60dp"> <!-- Overlap adjustment -->
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_profile_placeholder"
+            android:background="@drawable/circle_background"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/profile_picture" />
+
+        <ImageView
+            android:id="@+id/edit_image_icon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_camera"
+            android:layout_alignBottom="@id/profile_image"
+            android:layout_alignEnd="@id/profile_image"
+            android:contentDescription="@string/edit_profile_picture_desc" />
+    </RelativeLayout>
+
+    <!-- Change Picture Text -->
+    <TextView
+        android:id="@+id/change_picture_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_picture_container"
+        android:layout_centerHorizontal="true"
+        android:text="Change Picture"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:layout_marginTop="8dp" />
+
+    <!-- Form Fields in a ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/change_picture_text"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Email ID Input -->
+            <EditText
+                android:id="@+id/email_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email ID*"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"
+                android:inputType="textEmailAddress" />
+
+            <!-- Username Input -->
+            <EditText
+                android:id="@+id/username_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="User Name*"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- First Name Input -->
+            <EditText
+                android:id="@+id/first_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="First Name*"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Last Name Input -->
+            <EditText
+                android:id="@+id/last_name_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Last Name*"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Password Input -->
+            <EditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password*"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"
+                android:inputType="textPassword" />
+
+            <!-- Phone Number Input -->
+            <EditText
+                android:id="@+id/phone_number_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"
+                android:inputType="phone" />
+
+            <!-- Role Selection Dropdown (Spinner) -->
+
+            <!-- Sign Up Button -->
+            <Spinner
+                android:id="@+id/role_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@android:drawable/edit_text"
+                android:padding="12dp" />
+
+            <Button
+                android:id="@+id/signup_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Signup"
+                android:backgroundTint="@color/primary"
+                android:textColor="@android:color/white"
+                android:elevation="8dp"
+                android:padding="12dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
