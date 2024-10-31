@@ -14,16 +14,15 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_arrow_back"
-        android:contentDescription="@string/back_arrow_desc" />
+        android:contentDescription="Back Arrow" />
 
     <!-- Title -->
     <TextView
         android:id="@+id/login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/back_arrow"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="60dp"
         android:text="Login here"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -49,11 +48,10 @@
         android:layout_below="@id/login_subtitle"
         android:layout_marginTop="32dp"
         android:hint="Email"
-        android:background="@android:drawable/edit_text"
-        android:padding="16dp"
-        android:inputType="textEmailAddress"
         android:backgroundTint="#E0E0E0"
-        android:layout_marginBottom="12dp"/>
+        android:padding="16dp"
+        android:background="@drawable/rounded_edit_text"
+        android:inputType="textEmailAddress"/>
 
     <!-- Password Input -->
     <EditText
@@ -61,12 +59,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/email_input"
+        android:layout_marginTop="12dp"
         android:hint="Password"
-        android:background="@android:drawable/edit_text"
-        android:padding="16dp"
-        android:inputType="textPassword"
         android:backgroundTint="#E0E0E0"
-        android:layout_marginBottom="12dp"/>
+        android:padding="16dp"
+        android:background="@drawable/rounded_edit_text"
+        android:inputType="textPassword"/>
 
     <!-- Role Selection Dropdown (Spinner) -->
     <Spinner
@@ -74,11 +72,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/password_input"
-        android:layout_marginBottom="12dp"
-        android:hint="Selected Role"
-        android:background="@android:drawable/edit_text"
-        android:padding="16dp"
-        android:backgroundTint="#E0E0E0"/>
+        android:layout_marginTop="12dp"
+        android:backgroundTint="#E0E0E0"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="16dp" />
 
     <!-- Forgot Password Link -->
     <TextView
@@ -87,10 +84,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/role_spinner"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
         android:text="Forgot your password?"
         android:textSize="14sp"
-        android:textColor="@color/primary"
-        android:layout_marginBottom="24dp"/>
+        android:textColor="@color/primary" />
 
     <!-- Sign In Button -->
     <Button
@@ -98,9 +95,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/forgot_password"
+        android:layout_marginTop="24dp"
         android:text="Sign in"
         android:backgroundTint="@color/primary"
-        android:textColor="@android:color/white"
+        android:textColor="@color/white"
         android:elevation="8dp"
         android:padding="12dp"/>
 </RelativeLayout>
