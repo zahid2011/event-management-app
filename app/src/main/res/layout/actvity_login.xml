@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="24dp">
+
+    <!-- Back Arrow -->
+    <ImageView
+        android:id="@+id/back_arrow"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_arrow_back"
+        android:contentDescription="@string/back_arrow_desc" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/back_arrow"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Login here"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/login_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Welcome back you’ve been missed!"
+        android:textSize="16sp"
+        android:textColor="@color/black" />
+
+    <!-- Email Input -->
+    <EditText
+        android:id="@+id/email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_subtitle"
+        android:layout_marginTop="32dp"
+        android:hint="Email"
+        android:background="@android:drawable/edit_text"
+        android:padding="16dp"
+        android:inputType="textEmailAddress"
+        android:backgroundTint="#E0E0E0"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Password Input -->
+    <EditText
+        android:id="@+id/password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/email_input"
+        android:hint="Password"
+        android:background="@android:drawable/edit_text"
+        android:padding="16dp"
+        android:inputType="textPassword"
+        android:backgroundTint="#E0E0E0"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Role Selection Dropdown (Spinner) -->
+    <Spinner
+        android:id="@+id/role_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password_input"
+        android:layout_marginBottom="12dp"
+        android:hint="Selected Role"
+        android:background="@android:drawable/edit_text"
+        android:padding="16dp"
+        android:backgroundTint="#E0E0E0"/>
+
+    <!-- Forgot Password Link -->
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/role_spinner"
+        android:layout_alignParentEnd="true"
+        android:text="Forgot your password?"
+        android:textSize="14sp"
+        android:textColor="@color/primary"
+        android:layout_marginBottom="24dp"/>
+
+    <!-- Sign In Button -->
+    <Button
+        android:id="@+id/sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/forgot_password"
+        android:text="Sign in"
+        android:backgroundTint="@color/primary"
+        android:textColor="@android:color/white"
+        android:elevation="8dp"
+        android:padding="12dp"/>
+</RelativeLayout>
