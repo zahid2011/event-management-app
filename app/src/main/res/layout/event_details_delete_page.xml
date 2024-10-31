@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- Back Arrow Icon -->
+    <ImageView
+        android:id="@+id/iv_back_arrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Event Name Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_event_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="#1F41BB"
+        app:layout_constraintTop_toBottomOf="@id/iv_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_event_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Event Name"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Event Image -->
+    <ImageView
+        android:id="@+id/img_event_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Event Image"
+        android:src="@drawable/ic_image_placeholder"
+        app:layout_constraintTop_toBottomOf="@id/card_event_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Details Section with Light Blue Background -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_event_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="#E0E7FF"
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Event Date and Edit Icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_event_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date: 13th October 7:30PM"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_edit_event_date"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:contentDescription="Edit Event Date" />
+            </LinearLayout>
+
+            <!-- Event Description and Edit Icon -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tv_event_description_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Event Description:"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_edit_event_description"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:contentDescription="Edit Event Description" />
+            </LinearLayout>
+
+            <!-- Event Description Content -->
+            <TextView
+                android:id="@+id/tv_event_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="1st line\n2nd line\n3rd line\n4th line"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <!-- Event Capacity -->
+            <TextView
+                android:id="@+id/tv_event_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Capacity: 27/150 seats left"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Remove Event Button -->
+    <Button
+        android:id="@+id/btn_remove_event"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Remove Event"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#FF0000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/card_event_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_edit_event_name"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="Edit Event Name"
+        android:src="@android:drawable/ic_menu_edit"
+        tools:layout_editor_absoluteX="221dp"
+        tools:layout_editor_absoluteY="112dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
