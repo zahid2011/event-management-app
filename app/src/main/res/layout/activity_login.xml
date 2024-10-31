@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Welcome Text -->
+
+    <!-- Image in Circular Shape -->
+    <ImageView
+        android:id="@+id/app_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:scaleType="centerCrop"
+        android:background="@drawable/circle_background"
+        android:contentDescription="@string/app_logo" />
+
+    <!-- Welcome Message -->
+    <TextView
+        android:id="@+id/welcome_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:lineSpacingExtra="4dp"
+        android:text="Welcome to\nthe lottery system\nApplication!"
+        android:textAlignment="center"
+        android:textColor="@android:color/system_on_primary_container_light"
+        android:textSize="18sp" />
+
+    <!-- Button Container -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"
+        android:weightSum="2">
+
+        <!-- Login Button -->
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/system_on_primary_dark"
+            android:elevation="8dp"
+            android:padding="10dp"
+            android:text="Login"
+            android:textColor="@color/white" />
+
+        <!-- Sign Up Button -->
+        <Button
+            android:id="@+id/signup_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/system_on_primary_dark"
+            android:elevation="8dp"
+            android:padding="10dp"
+            android:text="Sign Up"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>ut>
