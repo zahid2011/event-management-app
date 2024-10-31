@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Back Arrow -->
+
+    <Button
+        android:id="@+id/scan_qr_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/back_arrow"
+        android:layout_marginTop="13dp"
+        android:backgroundTint="@color/primary"
+        android:elevation="8dp"
+        android:padding="10dp"
+        android:text="Scan QR Code"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/scan_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/primary"
+        android:elevation="8dp"
+        android:padding="10dp"
+        android:text="Scan"
+        android:textColor="@android:color/white" />
+
+    <!-- Scan QR Code Button -->
+
+    <!-- QR Code Display -->
+
+    <ImageView
+        android:id="@+id/qr_code_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_qr_placeholder"
+        android:contentDescription="@string/qr_code_image_desc" />
+
+    <!-- Scan Button at Bottom -->
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="Scan"
+        android:backgroundTint="@color/primary"
+        android:textColor="@android:color/white"
+        android:padding="10dp"
+        android:elevation="8dp" />
+</RelativeLayout>
