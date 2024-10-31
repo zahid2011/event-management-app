@@ -1,0 +1,189 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/checkBox"
+        android:layout_marginTop="1dp"
+        android:
+        android:background="@android:color/background_dark" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#0D0C0C"
+        android:backgroundTint="#F8F7F7"
+        android:src="@drawable/ic_back"
+        tools:src="@android:drawable/ic_menu_revert" />
+
+    <!-- Facility Details Table -->
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/backButton"
+        android:layout_marginTop="-1dp"
+        android:src="@drawable/ic_profile_placeholder" />
+
+
+    <!-- Remove Facility Button -->
+
+    <TextView
+        android:id="@+id/facilityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="56dp"
+        android:layout_toEndOf="@+id/profileImage"
+        android:text="@Facility_name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/facilityEmail"
+        android:layout_width="86dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/facilityName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="175dp"
+        android:layout_toEndOf="@+id/profileImage"
+        android:text="@Email"
+        android:textColor="#757575"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/removeFacilityButton"
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/facilityDetails"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="333dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginBottom="7dp"
+        android:backgroundTint="#F44336"
+        android:text="Remove Facility"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF" />
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <EditText
+        android:id="@+id/facility_name"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/divider"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-191dp"
+        android:ems="7"
+        android:hint="Facilit Name"/>
+
+    <EditText
+        android:id="@+id/facility_address"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/facility_description"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="2dp"
+        android:ems="7"
+        android:hint="Facility Address" />
+
+    <EditText
+        android:id="@+id/facility_description"
+        android:layout_width="395dp"
+        android:layout_height="58dp"
+        android:layout_above="@+id/facility_phone"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-13dp"
+        android:ems="7"
+        android:hint="Facility Description" />
+
+    <EditText
+        android:id="@+id/facility_email"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/divider"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-457dp"
+        android:ems="7"
+        android:hint="Email" />
+
+    <EditText
+        android:id="@+id/facility_phone"
+        android:layout_width="395dp"
+        android:layout_height="62dp"
+        android:layout_above="@+id/facility_event"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:ems="7"
+        android:hint="Phone" />
+
+    <EditText
+        android:id="@+id/facility_event"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/facility_email"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="12dp"
+        android:ems="7"
+        android:hint="Total Events" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/divider"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="461dp"
+        android:text="Geolocation" />
+
+
+
+</RelativeLayout>
+
+
+
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
