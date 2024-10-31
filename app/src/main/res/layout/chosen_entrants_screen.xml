@@ -1,0 +1,101 @@
+<!-- chosen_entrants_screen.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0F4FF"
+    android:padding="16dp">
+
+    <!-- Header Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chosen Entrants"
+        android:background="#1F41BB"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Event Count and Search Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Events: 8"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_marginEnd="16dp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search"
+            android:padding="8dp"
+            android:drawablePadding="8dp" />
+    </LinearLayout>
+
+    <!-- List of Users with Status Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#D4E1FF"
+        android:padding="8dp"
+        android:layout_marginTop="8dp">
+
+        <!-- User Item -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingVertical="8dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" @User"
+                android:textSize="16sp"
+                android:textColor="#000000" />
+
+            <Button
+                android:id="@+id/status_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#1F41BB"
+                android:paddingHorizontal="16dp"/>
+        </LinearLayout>
+
+        <!-- Repeat the User Item layout for each user or dynamically generate them in your code -->
+    </LinearLayout>
+
+    <!-- Send Notifications Button -->
+    <Button
+        android:id="@+id/send_notifications_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Notifications"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1F41BB"
+        android:layout_marginTop="16dp"
+        android:paddingVertical="12dp" />
+
+</LinearLayout>
