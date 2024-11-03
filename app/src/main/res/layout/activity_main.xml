@@ -15,5 +15,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <svg width="49" height="45" viewBox="0 0 49 45" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <rect width="49" height="45" fill="url(#pattern0_40_698)"/>
+        <defs>
+            <pattern id="pattern0_40_698" patternContentUnits="objectBoundingBox" width="1" height="1">
+                <use xlink:href="#image0_40_698" transform="matrix(0.0102041 0 0 0.0111111 0.0408163 0)"/>
+            </pattern>
+            <image id="image0_40_698" width="90" height="90" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAACuklEQVR4nO3cO2tUQRiH8UcxCoqNgqKolQiKvS5+AkVU1Fa0ShEsos0iJLCKfgHFWynBTxDExmutbYzgil0QDOKt8P7KgRGShWh2dnfOO7P/H0yRKidPDnPmzJ6zICIiIiIiIou0Fv8og4psSpsmsil0msim0Gkim0KniWwKnSayKXSayKbQaSKbQqeJbAqdJrIpdJrIptBpItuAxjfgPdAGHgG3gLPAXmBF7v9cL5HtP+MtcBs4kGP0XCJbx5gFzgAjZCDXyLZgvAFO4FgJkW3BuA/swJnSIlsYH4CTOFJqaAN+A5M4UnJsA64BK3Gi6SCIDXDcwJHSz+wJHGkWPmcfxZGSz+x5YDuOeNhUGgE2AfuA8bDf8aMPse/hjMdt0g3AReBzj7GP44zXjf/NwJ0eQr8GVuHMci6QdRkFvkfGPo1Dnj+cPRw5d7/wusX6rzO7buORZ3UDp1pOQ1emIkLfxLGm09DVUvBTxCc1LqePpWJ7cSnirN6Dcy2HoTdGXBjHyEDTWejK4y5DXycTLXw512Xoh3UfcK4aEXeJEnl73k3odzG/RGBNl6G/KlochU5EU0ciuhgmcl7LuzSelnrD4kmxt+DeXInYVNpd90HnZgvwpcvIc963ST26m/ujYiWuNCyM/XUfeE6OAD8jIs/UfeA5Ge3h6aVTdR98DrZGzsl/R9vjAzTe1smXI1YXneNY3X+IJ6vDBlEjXOyeRM7FnWOagq0LsZ4DH/sQK3ZUm/zbKNSu8PiVOXgQ/SCFWg+8dBC5Ghco2KSDwEOxQ9d2EPmqp9ffBvXZ3a+a5+SipwsPoauXgg4xRF7VEHm65CXcUiYSBm57e48w9fJudsCBZ8IG0dDvXewMMfoZdy5s2rt9NaIua8N7Js/Cd2ks98ur5sM8/yCEHcvhwXERERERERERERERyvYH/qL0Mme+G2wAAAAASUVORK5CYII="/>
+        </defs>
+    </svg>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
