@@ -16,8 +16,7 @@
         android:layout_height="wrap_content"
         android:background="#0D0C0C"
         android:backgroundTint="#F8F7F7"
-
-        tools:src="@android:drawable/ic_menu_revert" />
+        android:src="@android:drawable/ic_menu_revert" />
 
     <!-- Login Text -->
     <TextView
