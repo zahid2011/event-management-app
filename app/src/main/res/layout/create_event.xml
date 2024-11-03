@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <!-- Event Icon (Vector Drawable) -->
+        <ImageView
+            android:id="@+id/eventIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/create_event_vector_drawable" />
+
+        <!-- Event Name Input -->
+        <EditText
+            android:id="@+id/eventNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventIcon"
+            android:layout_marginTop="24dp"
+            android:hint="Event Name" />
+
+        <!-- Event Date Input -->
+        <EditText
+            android:id="@+id/eventDateInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventNameInput"
+            android:layout_marginTop="16dp"
+            android:hint="Event Date (YYYY-MM-DD)"
+            android:inputType="date" />
+
+        <!-- Event Location Input -->
+        <EditText
+            android:id="@+id/eventLocationInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventDateInput"
+            android:layout_marginTop="16dp"
+            android:hint="Event Location" />
+
+        <!-- Create Event Button -->
+        <Button
+            android:id="@+id/createEventButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/eventLocationInput"
+            android:layout_marginTop="24dp"
+            android:layout_centerHorizontal="true"
+            android:text="Create Event" />
+
+    </RelativeLayout>
+
+
