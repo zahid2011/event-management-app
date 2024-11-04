@@ -11,17 +11,23 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.event_lottery.User;
+
 public class SignupActivity extends MainActivity{
     private EditText emailEditText, usernameEditText, firstNameEditText, lastNameEditText, passwordEditText;
     private Button signupButton;
     private ImageButton backButton;
     private Spinner roleSpinner;
     private String selectedRole;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_page);
+
+        db = FirebaseFirestore.getInstance();
 
         emailEditText = findViewById(R.id.emailEditText);
         usernameEditText = findViewById(R.id.usernameEditText);
@@ -32,13 +38,12 @@ public class SignupActivity extends MainActivity{
         backButton = findViewById(R.id.backButton);
         roleSpinner = findViewById(R.id.roleSpinner);
 
-        // settign up the spinner with role options
+        // Setting up the spinner with role options
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.role_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roleSpinner.setAdapter(adapter);
 
-        // the spinner selection
         roleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -54,7 +59,7 @@ public class SignupActivity extends MainActivity{
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish(); // closes the current activity and returns to the previous one
+                finish(); // This will close the activity and return to the previous one
             }
         });
 
@@ -62,25 +67,35 @@ public class SignupActivity extends MainActivity{
             @Override
             public void onClick(View v) {
                 String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
                 String username = usernameEditText.getText().toString();
                 String firstName = firstNameEditText.getText().toString();
                 String lastName = lastNameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
 
-                if (email.isEmpty() || username.isEmpty() || firstName.isEmpty() || password.isEmpty()) {
+                if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(SignupActivity.this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Success message for signup
-                    SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("registeredEmail", email);
-                    editor.putString("registeredPassword", password);
-                    editor.apply();
-
-                    Toast.makeText(SignupActivity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
-                    finish();
+                    // Directly save user information in Firestore
+                    saveUserInfo(email, username, firstName, lastName, password, selectedRole);
                 }
             }
+
         });
+    }
+
+    private void saveUserInfo(String email, String username, String firstName, String lastName, String password, String role) {
+        // Use email as the document ID or generate a unique ID if preferred
+        String userId = email;
+
+        // Create a User object
+        User userInfo = new User(email, username, firstName, lastName, password, role);
+
+        // Store the user information in Firestore
+        db.collection("users").document(userId).set(userInfo)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> Toast.makeText(SignupActivity.this, "Failed to save user info: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

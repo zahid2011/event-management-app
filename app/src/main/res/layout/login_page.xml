@@ -45,7 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Email"
-
         android:padding="12dp"
         android:layout_marginTop="24dp"
         android:inputType="textEmailAddress"/>
@@ -56,20 +55,17 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:hint="Password"
-
         android:padding="12dp"
         android:layout_marginTop="16dp"
         android:inputType="textPassword"/>
 
-    <!-- Role Selector -->
-    <EditText
-        android:id="@+id/roleEditText"
+    <!-- Role Selector as a Spinner -->
+    <Spinner
+        android:id="@+id/roleSpinner"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="Selected Role"
-
-        android:padding="12dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
 
     <!-- Forgot Password Text -->
     <TextView
@@ -94,4 +90,4 @@
         android:backgroundTint="#3333CC"
         android:layout_marginTop="24dp"/>
 
-    </LinearLayout>
+</LinearLayout>
