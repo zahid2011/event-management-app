@@ -45,13 +45,16 @@ public class DashboardActivity extends AppCompatActivity {
                 // TODO: Add functionality for waiting list button
             }
         });
-
+        // Shahmeer's work
         notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add functionality for notifications settings button
+                // Define an intent to open the NotificationSettingsActivity
+                Intent intent = new Intent(DashboardActivity.this, com.example.event_lottery.NotificationSettingsActivity.class);
+                startActivity(intent);
             }
         });
+
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override

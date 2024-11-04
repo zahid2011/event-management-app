@@ -1,0 +1,58 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <ImageButton
+        android:id="@+id/backButton2"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:background="#0D0C0C"
+        android:backgroundTint="#F8F7F7"
+        android:src="@android:drawable/ic_menu_revert" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="24dp"
+        android:text="@string/notification_settings"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_win_lottery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"
+        android:backgroundTint="#1F41BB"
+        android:text="@string/win_lottery"
+        android:textColor="#000000" />
+
+    <!-- Switch for "Lose Lottery" -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_lose_lottery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"
+        android:backgroundTint="#1F41BB"
+        android:text="@string/lose_lottery"
+        android:textColor="#000000" />
+
+    <!-- Switch for "Admin/Organizer" -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_admin_organizer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="12dp"
+        android:backgroundTint="#1F41BB"
+        android:text="@string/admin_organizer"
+        android:textColor="#000000" />
+</LinearLayout>
