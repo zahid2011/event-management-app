@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- ImageView for the ticket icon -->
+    <ImageView
+        android:id="@+id/ticketIcon"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/welcome_image"/>
+
+    <!-- Welcome message -->
+    <TextView
+        android:id="@+id/welcomeMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to\nthe lottery system\nApplication!"
+        android:textSize="20sp"
+        android:textColor="#2632C2"
+        android:gravity="center"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Buttons for Login and Sign Up -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#2632C2"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/signUpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:backgroundTint="#2632C2"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</LinearLayout>
