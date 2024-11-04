@@ -8,6 +8,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.event_lottery.R;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override

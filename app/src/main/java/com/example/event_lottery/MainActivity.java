@@ -1,22 +1,29 @@
-// MainActivity.java
 package com.example.event_lottery;
 
-<<<<<<< HEAD
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.FirebaseApp;
+
 public class MainActivity extends AppCompatActivity {
+
     private Button loginButton, signUpButton;
+    private Button btnCreateNewEvent, btnOngoingEvents, btnPastEvents, btnManageFacility, btnLogout;
+    private static final String TAG = "MainActivity";
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-        setContentView(R.layout.main_signup_page);
+        setContentView(R.layout.main_signup_page); // Ensure you are using the correct layout
 
+        // Initialize UI components for login and signup
         loginButton = findViewById(R.id.loginButton);
         signUpButton = findViewById(R.id.signUpButton);
 
@@ -33,43 +40,27 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent signUpIntent = new Intent(MainActivity.this, SignupActivity.class);
                 startActivity(signUpIntent);
-=======
-import static android.content.ContentValues.TAG;
-import android.util.Log;
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
+            }
+        });
 
-import com.example.event_lottery.R;
-
-public class MainActivity extends AppCompatActivity {
-
-    private Button btnCreateNewEvent, btnOngoingEvents, btnPastEvents, btnManageFacility, btnLogout;
-
-    @SuppressLint("MissingInflatedId")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        // Initialize other buttons for dashboard functionality
         btnCreateNewEvent = findViewById(R.id.btn_create_event);
-        if (btnCreateNewEvent == null) {
-            Log.e(TAG, "Button not found. Check the ID or layout.");
-            return; // Exit if button is null to avoid NullPointerException
-        }
         btnOngoingEvents = findViewById(R.id.btn_ongoing_events);
         btnPastEvents = findViewById(R.id.btn_past_events);
         btnManageFacility = findViewById(R.id.btn_manage_facility);
         btnLogout = findViewById(R.id.btn_logout);
 
+        // Check if btnCreateNewEvent exists to avoid NullPointerException
+        if (btnCreateNewEvent == null) {
+            Log.e(TAG, "Button not found. Check the ID or layout.");
+            return; // Exit if button is null to avoid NullPointerException
+        }
+
+        // Set click listeners for each button
         btnCreateNewEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Button clicked!");
-                // Navigate to CreateEventActivity
+                Log.d(TAG, "Create New Event button clicked!");
                 Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
                 startActivity(intent);
             }
@@ -102,9 +93,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                finish();
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+                finish(); // Log out by finishing the activity
             }
         });
     }

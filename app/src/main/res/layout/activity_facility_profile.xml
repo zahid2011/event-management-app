@@ -5,34 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="16dp"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp">
+    android:padding="16dp">
 
-<<<<<<< HEAD
     <!-- Back Arrow Icon -->
-=======
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <ImageView
         android:id="@+id/iv_back_arrow"
         android:layout_width="24dp"
         android:layout_height="24dp"
-<<<<<<< HEAD
         android:src="@drawable/ic_back_arrow"
-=======
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:contentDescription="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="24dp" />
-<<<<<<< HEAD
 
     <!-- Title at the top -->
-=======
-    <!--  android:src="@drawable/ic_back_arrow"-->
-
-
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <TextView
         android:id="@+id/tv_facility_profile_title"
         android:layout_width="wrap_content"
@@ -44,32 +30,20 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-
+    <!-- Facility Logo Upload -->
     <LinearLayout
         android:layout_width="289dp"
         android:layout_height="50dp"
         android:layout_marginHorizontal="32dp"
         android:background="#E5EAFF"
-        app:cardCornerRadius="12dp"
-
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFFFFF"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="67dp">
-=======
-        tools:layout_editor_absoluteY="67dp"
-        tools:ignore="MissingConstraints">
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/tv_facility_profile_title">
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,137 +56,83 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-<<<<<<< HEAD
             android:contentDescription="Camera Icon"
-            android:src="@drawable/ic_camera" />
-=======
-            android:contentDescription="Camera Icon"/>
-            <!-- android:src="@drawable/ic_camera" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+            android:src="@drawable/ic_image_placeholder" />
     </LinearLayout>
 
+    <!-- Facility Name -->
     <EditText
         android:id="@+id/et_facility_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
-=======
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:hint="Facility Name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="137dp" />
-=======
-        tools:layout_editor_absoluteY="137dp"
-        tools:ignore="MissingConstraints" />
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/img_user_icon" />
 
+    <!-- Facility Address -->
     <EditText
         android:id="@+id/et_facility_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
         android:hint="Facility Address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="190dp" />
+        app:layout_constraintTop_toBottomOf="@id/et_facility_name" />
 
-=======
-        android:hint="Facility Address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="190dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+    <!-- Phone Number -->
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
-=======
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:hint="Phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="247dp" />
+        app:layout_constraintTop_toBottomOf="@id/et_facility_address" />
 
-=======
-        tools:layout_editor_absoluteY="247dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+    <!-- Email Address -->
     <EditText
         android:id="@+id/et_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
         android:hint="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="304dp" />
-=======
-        android:hint="Email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="304dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/et_phone" />
 
+    <!-- Facility Description -->
     <EditText
         android:id="@+id/et_facility_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
         android:hint="Facility Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="363dp" />
-=======
-        android:hint="Facility Description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="363dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/et_email" />
 
+    <!-- Second Facility Address -->
     <EditText
         android:id="@+id/et_facility_address_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
-=======
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:hint="Facility Address"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="419dp" />
-=======
-        tools:layout_editor_absoluteY="419dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/et_facility_description" />
 
+    <!-- Geolocation Toggle -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -220,30 +140,17 @@
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="480dp">
-=======
-        tools:layout_editor_absoluteY="480dp"
-        tools:ignore="MissingConstraints">
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/et_facility_address_2">
 
         <TextView
             android:layout_width="215dp"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:background="@drawable/edittext_rounded_border"
-=======
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
             android:hint="Geolocation"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" />
-<<<<<<< HEAD
-=======
-        <!--android:background="@drawable/edittext_rounded_border" -->
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
         <Switch
             android:id="@+id/switch_geolocation"
@@ -256,6 +163,7 @@
             tools:ignore="UseSwitchCompatOrMaterialXml" />
     </LinearLayout>
 
+    <!-- Create Button -->
     <Button
         android:id="@+id/btn_create"
         android:layout_width="277dp"
@@ -266,15 +174,10 @@
         app:backgroundTint="#1F41BB"
         app:cornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="534dp" />
-=======
-        tools:layout_editor_absoluteY="534dp"
-        tools:ignore="MissingConstraints" />
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
+        app:layout_constraintTop_toBottomOf="@id/switch_geolocation" />
 
+    <!-- Save Changes Button -->
     <Button
         android:id="@+id/btn_save_changes"
         android:layout_width="277dp"
@@ -285,15 +188,7 @@
         app:backgroundTint="#1F41BB"
         app:cornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent"
-<<<<<<< HEAD
-        tools:layout_editor_absoluteY="609dp" />
+        app:layout_constraintTop_toBottomOf="@id/btn_create" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-=======
-        tools:layout_editor_absoluteY="609dp"
-        tools:ignore="MissingConstraints" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc

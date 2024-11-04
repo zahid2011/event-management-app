@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:id="@+id/iv_search_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_search"/>
+                android:src="@drawable/ic_image_placeholder"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -113,119 +113,3 @@
         app:cornerRadius="18dp"
         android:layout_marginTop="8dp"/>
 </LinearLayout>
-=======
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#f1f3f8">
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <!-- <ImageView
-         android:id="@+id/iv_back"
-         android:layout_width="24dp"
-         android:layout_height="24dp"
-         android:src="@drawable/ic_back_arrow"
-         android:layout_alignParentStart="true"/> -->
-
-     <androidx.cardview.widget.CardView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         app:cardCornerRadius="16dp"
-         app:cardElevation="2dp"
-         android:layout_centerHorizontal="true">
-
-         <TextView
-             android:layout_width="378dp"
-             android:layout_height="match_parent"
-             android:background="#3F51B5"
-             android:backgroundTint="#1F41BB"
-             android:gravity="center"
-             android:padding="8dp"
-             android:text="Waiting list"
-             android:textColor="@android:color/white"
-             android:textSize="20sp" />
-     </androidx.cardview.widget.CardView>
- </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_total_participants"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Participants: 8"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#e0e7ff"
-            android:padding="8dp"
-            android:gravity="center_vertical">
-
-            <EditText
-                android:id="@+id/et_search_user"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Search"
-                android:background="@android:color/transparent"
-                android:padding="4dp"/>
-
-            <ImageView
-                android:id="@+id/iv_search_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"/>
-            <!--  android:src="@drawable/ic_search"/>-->
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        android:layout_marginBottom="8dp">
-
-
-        <ListView
-            android:id="@+id/lv_waiting_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#e0e7ff"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="8dp"
-            android:padding="8dp"/>
-    </androidx.cardview.widget.CardView>
-
-
-    <Button
-        android:id="@+id/btn_send_notifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send Notifications"
-        android:textColor="@android:color/white"
-        android:backgroundTint="#1F41BB"
-        app:cornerRadius="18dp"
-        android:layout_marginTop="8dp"/>
-</LinearLayout>
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc

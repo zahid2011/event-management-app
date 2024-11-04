@@ -1,21 +1,14 @@
-<<<<<<< HEAD
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
-=======
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F0F4FF"
     android:padding="16dp">
 
+    <!-- Header with Title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,48 +19,15 @@
         android:padding="12dp"
         android:textSize="20sp"
         android:textStyle="bold" />
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
+    <!-- Search Bar and Event Count -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-<<<<<<< HEAD
-        android:background="#e0e7ff"
-        android:gravity="center_vertical">
-
-        <!-- User Icon -->
-        <ImageView
-            android:id="@+id/iv_user_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_user"/>
-
-        <!-- Username -->
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@User"
-            android:textSize="16sp"
-            android:paddingStart="8dp"
-            android:gravity="center_vertical"/>
-
-        <!-- Details Button -->
-        <Button
-            android:id="@+id/btn_details"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Details"
-            android:textColor="@android:color/white"
-            app:backgroundTint="#1F41BB"
-            app:cornerRadius="12dp" />
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
-=======
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="#e0e7ff">
 
         <TextView
             android:layout_width="wrap_content"
@@ -86,6 +46,55 @@
             android:drawablePadding="8dp" />
     </LinearLayout>
 
+    <!-- User List Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center_vertical"
+            android:background="#e0e7ff">
+
+            <!-- User Icon -->
+            <ImageView
+                android:id="@+id/iv_user_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_image_placeholder"
+                android:contentDescription="User Icon" />
+
+            <!-- Username -->
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="user"
+                android:textSize="16sp"
+                android:paddingStart="8dp"
+                android:gravity="center_vertical"
+                android:textColor="#000000" />
+
+            <!-- Details Button -->
+            <Button
+                android:id="@+id/btn_details"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Details"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#1F41BB"
+                app:cornerRadius="12dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- User Item List -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -94,7 +103,7 @@
         android:padding="8dp"
         android:layout_marginTop="8dp">
 
-        <!-- User Item -->
+        <!-- Individual User Item -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,13 +114,14 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                android:contentDescription="User Icon" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=" @User"
+                android:text="user"
                 android:textSize="16sp"
                 android:textColor="#000000" />
 
@@ -121,31 +131,31 @@
                 android:layout_height="wrap_content"
                 android:text="Status"
                 android:textColor="#FFFFFF"
-                android:backgroundTint="#1F41BB"
-                android:paddingHorizontal="16dp"/>
+                app:backgroundTint="#1F41BB"
+                android:paddingHorizontal="16dp" />
         </LinearLayout>
-
     </LinearLayout>
 
+    <!-- Send Notifications Button -->
     <Button
         android:id="@+id/send_notifications_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send Notifications"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#1F41BB"
+        app:backgroundTint="#1F41BB"
         android:layout_marginTop="16dp"
         android:paddingVertical="12dp" />
 
+    <!-- Cancel Button -->
     <Button
         android:id="@+id/cancel_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#FF0000"
+        app:backgroundTint="#FF0000"
         android:layout_marginTop="8dp"
         android:paddingVertical="12dp" />
 
 </LinearLayout>
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
