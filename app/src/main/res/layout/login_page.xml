@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    tools:context=".LoginActivity">
+
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/backButton2"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:background="#0D0C0C"
+        android:backgroundTint="#F8F7F7"
+        android:src="@android:drawable/ic_menu_revert" />
+
+    <!-- Login Text -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login here"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#3333CC"
+        android:layout_marginTop="16dp" />
+
+    <!-- Welcome Message -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome back you've been missed!"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:layout_marginTop="8dp" />
+
+    <!-- Email Input -->
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Email"
+        android:padding="12dp"
+        android:layout_marginTop="24dp"
+        android:inputType="textEmailAddress"/>
+
+    <!-- Password Input -->
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Password"
+        android:padding="12dp"
+        android:layout_marginTop="16dp"
+        android:inputType="textPassword"/>
+
+    <!-- Role Selector as a Spinner -->
+    <Spinner
+        android:id="@+id/roleSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
+
+    <!-- Forgot Password Text -->
+    <TextView
+        android:id="@+id/forgotPasswordTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot your password?"
+        android:textColor="#3333CC"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <!-- Sign In Button -->
+    <Button
+        android:id="@+id/signInButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Sign in"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3333CC"
+        android:layout_marginTop="24dp"/>
+
+</LinearLayout>
