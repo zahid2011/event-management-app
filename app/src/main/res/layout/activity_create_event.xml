@@ -6,19 +6,29 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="16dp"
+<<<<<<< HEAD
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
     <!-- Title at the top -->
+=======
+    tools:context=".MainActivity">
+
+
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <TextView
         android:id="@+id/tv_create_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginTop="24dp"
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:text="CREATE EVENT"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
+<<<<<<< HEAD
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,12 +36,22 @@
     <!-- Event Image Placeholder -->
 
     <!-- Event Name Input -->
+=======
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <ImageView
         android:id="@+id/img_event_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Add Event Image"
+<<<<<<< HEAD
         android:src="@drawable/ic_add_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -41,6 +61,11 @@
     <!-- Event Date and Time Picker -->
 
     <!-- Capacity Input -->
+=======
+        app:layout_constraintTop_toBottomOf="@id/tv_create_event_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,13 +73,22 @@
         android:text="Add Event Image"
         android:textColor="#000000"
         android:textSize="12sp"
+<<<<<<< HEAD
         tools:layout_editor_absoluteX="146dp"
         tools:layout_editor_absoluteY="163dp" />
 
+=======
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Event Name Input -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <EditText
         android:id="@+id/et_event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/edittext_rounded_border"
@@ -62,11 +96,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/img_event_image" />
+=======
+        android:layout_marginTop="16dp"
+        android:hint="Event Name"
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <EditText
         android:id="@+id/et_event_datetime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:hint="Event Date and Time Picker"
@@ -76,12 +119,20 @@
         app:layout_constraintTop_toBottomOf="@id/et_event_name" />
 
     <!-- Price Input -->
+=======
+        android:layout_marginTop="16dp"
+        android:hint="Event Date and Time Picker"
+        app:layout_constraintTop_toBottomOf="@id/et_event_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
 
     <EditText
         android:id="@+id/et_capacity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:hint="Capacity"
@@ -89,11 +140,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_event_datetime" />
+=======
+        android:layout_marginTop="16dp"
+        android:hint="Capacity"
+        app:layout_constraintTop_toBottomOf="@id/et_event_datetime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <EditText
         android:id="@+id/et_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:hint="Price"
@@ -101,16 +161,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_capacity" />
+=======
+        android:layout_marginTop="16dp"
+        android:hint="Price"
+        app:layout_constraintTop_toBottomOf="@id/et_capacity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginHorizontal="32dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="440dp">
+=======
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/et_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,6 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+<<<<<<< HEAD
             android:checked="true"
             android:thumbTint="@color/black"
             android:trackTint="@color/black"
@@ -171,5 +249,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="590dp" />
+=======
+            android:checked="true" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_generate_qr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Generate QR Code"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#1F41BB"
+        app:layout_constraintTop_toBottomOf="@id/switch_geolocation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="NotSibling" />
+
+    <!-- Create and Cancel Buttons -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/btn_generate_qr"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/btn_create_event"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Create"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1F41BB" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1F41BB" />
+    </LinearLayout>
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
 </androidx.constraintlayout.widget.ConstraintLayout>

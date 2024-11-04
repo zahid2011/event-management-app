@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp">
-=======
+<!-- chosen_entrants_screen.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -16,57 +7,24 @@
     android:background="#F0F4FF"
     android:padding="16dp">
 
+    <!-- Header Section -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Waiting List"
+        android:text="Chosen Entrants"
         android:background="#1F41BB"
         android:textColor="#FFFFFF"
         android:gravity="center"
         android:padding="12dp"
         android:textSize="20sp"
         android:textStyle="bold" />
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
+    <!-- Event Count and Search Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-<<<<<<< HEAD
-        android:background="#e0e7ff"
-        android:gravity="center_vertical">
-
-        <!-- User Icon -->
-        <ImageView
-            android:id="@+id/iv_user_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_user"/>
-
-        <!-- Username -->
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@User"
-            android:textSize="16sp"
-            android:paddingStart="8dp"
-            android:gravity="center_vertical"/>
-
-        <!-- Details Button -->
-        <Button
-            android:id="@+id/btn_details"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="Details"
-            android:textColor="@android:color/white"
-            app:backgroundTint="#1F41BB"
-            app:cornerRadius="12dp" />
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
-=======
         android:gravity="center_vertical">
 
         <TextView
@@ -86,6 +44,7 @@
             android:drawablePadding="8dp" />
     </LinearLayout>
 
+    <!-- List of Users with Status Button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,8 +84,10 @@
                 android:paddingHorizontal="16dp"/>
         </LinearLayout>
 
+        <!-- Repeat the User Item layout for each user or dynamically generate them in your code -->
     </LinearLayout>
 
+    <!-- Send Notifications Button -->
     <Button
         android:id="@+id/send_notifications_button"
         android:layout_width="match_parent"
@@ -137,15 +98,4 @@
         android:layout_marginTop="16dp"
         android:paddingVertical="12dp" />
 
-    <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#FF0000"
-        android:layout_marginTop="8dp"
-        android:paddingVertical="12dp" />
-
 </LinearLayout>
->>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc

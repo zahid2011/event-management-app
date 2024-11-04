@@ -9,18 +9,30 @@
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
+<<<<<<< HEAD
     <!-- Back Arrow Icon -->
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <ImageView
         android:id="@+id/iv_back_arrow"
         android:layout_width="24dp"
         android:layout_height="24dp"
+<<<<<<< HEAD
         android:src="@drawable/ic_back_arrow"
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:contentDescription="Back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="24dp" />
+<<<<<<< HEAD
 
     <!-- Title at the top -->
+=======
+    <!--  android:src="@drawable/ic_back_arrow"-->
+
+
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <TextView
         android:id="@+id/tv_facility_profile_title"
         android:layout_width="wrap_content"
@@ -52,7 +64,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="67dp">
+=======
+        tools:layout_editor_absoluteY="67dp"
+        tools:ignore="MissingConstraints">
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,8 +82,13 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
+<<<<<<< HEAD
             android:contentDescription="Camera Icon"
             android:src="@drawable/ic_camera" />
+=======
+            android:contentDescription="Camera Icon"/>
+            <!-- android:src="@drawable/ic_camera" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     </LinearLayout>
 
     <EditText
@@ -74,69 +96,122 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:hint="Facility Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="137dp" />
+=======
+        tools:layout_editor_absoluteY="137dp"
+        tools:ignore="MissingConstraints" />
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <EditText
         android:id="@+id/et_facility_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
         android:hint="Facility Address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="190dp" />
 
+=======
+        android:hint="Facility Address"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="190dp"
+        tools:ignore="MissingConstraints" />
+    <!--android:background="@drawable/edittext_rounded_border" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:hint="Phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="247dp" />
 
+=======
+        tools:layout_editor_absoluteY="247dp"
+        tools:ignore="MissingConstraints" />
+    <!--android:background="@drawable/edittext_rounded_border" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
     <EditText
         android:id="@+id/et_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
         android:hint="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="304dp" />
+=======
+        android:hint="Email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="304dp"
+        tools:ignore="MissingConstraints" />
+    <!--android:background="@drawable/edittext_rounded_border" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <EditText
         android:id="@+id/et_facility_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
         android:hint="Facility Description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="363dp" />
+=======
+        android:hint="Facility Description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="363dp"
+        tools:ignore="MissingConstraints" />
+    <!--android:background="@drawable/edittext_rounded_border" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <EditText
         android:id="@+id/et_facility_address_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
+<<<<<<< HEAD
         android:background="@drawable/edittext_rounded_border"
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
         android:hint="Facility Address"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="419dp" />
+=======
+        tools:layout_editor_absoluteY="419dp"
+        tools:ignore="MissingConstraints" />
+    <!--android:background="@drawable/edittext_rounded_border" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <LinearLayout
         android:layout_width="0dp"
@@ -147,16 +222,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="480dp">
+=======
+        tools:layout_editor_absoluteY="480dp"
+        tools:ignore="MissingConstraints">
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
         <TextView
             android:layout_width="215dp"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             android:background="@drawable/edittext_rounded_border"
+=======
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
             android:hint="Geolocation"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" />
+<<<<<<< HEAD
+=======
+        <!--android:background="@drawable/edittext_rounded_border" -->
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
         <Switch
             android:id="@+id/switch_geolocation"
@@ -181,7 +268,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="534dp" />
+=======
+        tools:layout_editor_absoluteY="534dp"
+        tools:ignore="MissingConstraints" />
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
 
     <Button
         android:id="@+id/btn_save_changes"
@@ -195,6 +287,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent"
+<<<<<<< HEAD
         tools:layout_editor_absoluteY="609dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+        tools:layout_editor_absoluteY="609dp"
+        tools:ignore="MissingConstraints" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> 01ff96fd6ece7d37b1c05c76dd5d5be092fb23cc
