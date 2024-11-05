@@ -32,6 +32,9 @@
         <activity android:name=".EventListActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".NotificationSettingsActivity" />
+        <activity android:name=".AdminDashboardActivity" />
+        <activity android:name=".EventManagementActivity" />
+        <activity android:name=".AdminEventDetailsActivity" />
     </application>
 
 </manifest>

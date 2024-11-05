@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-        setContentView(R.layout.main_signup_page); // Ensure this is the correct layout file
+        setContentView(R.layout.main_signup_page);
 
         // Handle deep link if the activity was launched from a QR code scan
         Intent intent = getIntent();
