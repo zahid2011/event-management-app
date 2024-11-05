@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/dashboard_title"
-        android:layout_width="234dp"
-        android:layout_height="48dp"
+        android:layout_width="202dp"
+        android:layout_height="34dp"
         android:layout_marginTop="92dp"
         android:text="Entrant Dashboard"
         android:textColor="#000000"
