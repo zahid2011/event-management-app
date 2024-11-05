@@ -29,6 +29,8 @@
         <activity android:name=".DashboardActivity" />
         <activity android:name=".OrganizerDashboardActivity" />
         <activity android:name=".CreateEventActivity" />
+        <activity android:name=".EventListActivity" />
+        <activity android:name=".EditProfileActivity" />
 
     </application>
 

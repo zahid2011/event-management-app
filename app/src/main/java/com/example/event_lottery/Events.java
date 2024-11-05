@@ -16,6 +16,7 @@ public class Events {
         this.eventDateTime = eventDateTime;
         this.capacity = capacity;
         this.price = price;
+        this.description = description;
     }
 
     public String getEventName() {
