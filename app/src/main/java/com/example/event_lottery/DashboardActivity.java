@@ -68,7 +68,6 @@ public class DashboardActivity extends AppCompatActivity {
         notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Define an intent to open the NotificationSettingsActivity
                 Intent intent = new Intent(DashboardActivity.this, com.example.event_lottery.NotificationSettingsActivity.class);
                 startActivity(intent);
             }
