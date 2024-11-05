@@ -1,61 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:padding="8dp">
 
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/event_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/item_background"
-        android:padding="8dp"
-        android:layout_marginBottom="8dp">
+        android:text="Event Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/details_button"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-        <!-- ImageView for event image -->
-        <ImageView
-            android:id="@+id/event_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="Event image"
-            android:layout_marginEnd="8dp" />
+    <TextView
+        android:id="@+id/event_date_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Date and Time"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_name"
+        app:layout_constraintEnd_toStartOf="@+id/details_button"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-        <!-- LinearLayout for event text information -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/event_capacity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Capacity"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_date_time"
+        app:layout_constraintEnd_toStartOf="@+id/details_button"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-            <TextView
-                android:id="@+id/event_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@Event_ID"
-                android:textSize="16sp"
-                android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/event_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/event_capacity"
+        app:layout_constraintEnd_toStartOf="@+id/details_button"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
-            <TextView
-                android:id="@+id/event_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@Event_description"
-                android:textSize="14sp"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
-
-        <!-- Button for event details -->
-        <Button
-            android:id="@+id/details_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Details"
-            android:background="@android:color/black"
-            android:textColor="@android:color/white"
-            android:padding="8dp" />
-
-    </LinearLayout>
-
-
+    <Button
+        android:id="@+id/details_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#1F41BB"
+        android:text="Details"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
