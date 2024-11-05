@@ -31,6 +31,8 @@
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".EventListActivity" />
         <activity android:name=".EditProfileActivity" />
+        <activity android:name=".OngoingEventsActivity" />
+        <activity android:name=".EventDetailsActivity" />
 
     </application>
 

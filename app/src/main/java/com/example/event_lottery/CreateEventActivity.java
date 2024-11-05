@@ -2,6 +2,7 @@ package com.example.event_lottery;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +34,7 @@ import java.util.Date;
 public class CreateEventActivity extends AppCompatActivity {
 
 
-    private Button btnCreateEvent, btnGenerateQr, btnCancel;
+    private Button btnCreateEvent, btnGenerateQr, btnCancel, btnBackToDashboard;
     private FirebaseFirestore db;
     private ImageView qrCodeImageView;
 
@@ -47,12 +48,22 @@ public class CreateEventActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance(); // Initialize Firestore
 
-
         btnCreateEvent = findViewById(R.id.btn_create_event);
         btnGenerateQr = findViewById(R.id.btn_generate_qr);
         btnCancel = findViewById(R.id.btn_cancel);
         qrCodeImageView = findViewById(R.id.qrCodeImageView);
-        btnGenerateQr = findViewById(R.id.btn_generate_qr);
+        btnBackToDashboard = findViewById(R.id.btn_back_to_dashboard);
+
+        btnBackToDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to OrganizerDashboardActivity
+                Intent intent = new Intent(CreateEventActivity.this, OrganizerDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // Close the CreateEventActivity
+            }
+        });
 
 
         btnCreateEvent.setOnClickListener(new View.OnClickListener() {
