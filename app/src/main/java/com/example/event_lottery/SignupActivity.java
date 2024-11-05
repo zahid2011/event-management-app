@@ -1,6 +1,5 @@
 package com.example.event_lottery;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,7 +11,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.example.event_lottery.User;
 
 public class SignupActivity extends MainActivity{
     private EditText emailEditText, usernameEditText, firstNameEditText, lastNameEditText, passwordEditText;
@@ -34,7 +32,7 @@ public class SignupActivity extends MainActivity{
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        signupButton = findViewById(R.id.signupButton);
+        signupButton = findViewById(R.id.save_changes);
         backButton = findViewById(R.id.backButton);
         roleSpinner = findViewById(R.id.roleSpinner);
 

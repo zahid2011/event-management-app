@@ -1,9 +1,11 @@
 package com.example.event_lottery;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,11 +15,27 @@ public class DashboardActivity extends AppCompatActivity {
     private Button notificationButton;
     private Button editProfileButton;
     private Button qrCodeButton;
+    private String userId;
+
+    private Button viewEditProfileButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entrant_dashboard);
+
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+            userId = sharedPreferences.getString("USER_ID", null);
+
+            if (userId == null || userId.isEmpty()) {
+                Toast.makeText(DashboardActivity.this, "No user ID found. Please log in again.", Toast.LENGTH_SHORT).show();
+                // Redirect to login activity
+                Intent loginIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                finish();
+                return;
+            }
 
         // Initialize buttons
         logoutButton = findViewById(R.id.logout);
@@ -42,7 +60,8 @@ public class DashboardActivity extends AppCompatActivity {
         waitingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add functionality for waiting list button
+                Intent waitingListIntent = new Intent(DashboardActivity.this, EventListActivity.class);
+                startActivity(waitingListIntent);
             }
         });
         // Shahmeer's work
@@ -59,7 +78,8 @@ public class DashboardActivity extends AppCompatActivity {
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add functionality for edit profile button
+                Intent intent = new Intent(DashboardActivity.this, EditProfileActivity.class);
+                startActivity(intent);
             }
         });
 

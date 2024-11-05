@@ -9,10 +9,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class LoginActivity extends MainActivity {
+public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText, passwordEditText;
     private Spinner roleSpinner;
     private Button signInButton;
@@ -27,14 +30,15 @@ public class LoginActivity extends MainActivity {
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
+        // Initialize UI elements
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         signInButton = findViewById(R.id.signInButton);
         backButton = findViewById(R.id.backButton2);
         roleSpinner = findViewById(R.id.roleSpinner);
 
-        // Setting up the back button functionality
-        backButton.setOnClickListener(v -> finish()); // closes the current activity and returns to the previous one
+        // Set up the back button functionality
+        backButton.setOnClickListener(v -> finish()); // Closes the current activity and returns to the previous one
 
         // Set up the Spinner with the role options
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -43,7 +47,7 @@ public class LoginActivity extends MainActivity {
         roleSpinner.setAdapter(adapter);
 
         signInButton.setOnClickListener(v -> {
-            String email = emailEditText.getText().toString();
+            String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString();
             String selectedRole = roleSpinner.getSelectedItem().toString();
 
@@ -58,7 +62,6 @@ public class LoginActivity extends MainActivity {
     }
 
     private void validateUserCredentials(String email, String password, String selectedRole) {
-        // Use email as the document ID in Firestore (or adapt based on your signup logic)
         db.collection("users").document(email).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -66,17 +69,32 @@ public class LoginActivity extends MainActivity {
                         if (document != null && document.exists()) {
                             String storedPassword = document.getString("password");
                             String registeredRole = document.getString("role");
+                            Toast.makeText(LoginActivity.this, " Role: " + registeredRole, Toast.LENGTH_SHORT).show();
 
                             // Check if the password and role match
                             if (storedPassword != null && storedPassword.equals(password) &&
-                                    registeredRole != null && registeredRole.equals(selectedRole)) {
+                                    registeredRole != null && registeredRole.equals(selectedRole) && selectedRole.equals("Entrant")) {
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                                // Save the user ID (email) in SharedPreferences
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("USER_ID", email); // Use email as the user ID
+                                editor.apply();
+
                                 Intent dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
                                 startActivity(dashboardIntent);
                                 finish();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
+                            } else if (storedPassword != null && storedPassword.equals(password) &&
+                                    registeredRole != null && registeredRole.equals(selectedRole) && selectedRole.equals("Organiser")) {
+                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                Intent dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
+                                startActivity(dashboardIntent);
+                                finish();
                             }
+                            //{
+                               // Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
+                           // }
                         } else {
                             Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                         }
