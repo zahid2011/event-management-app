@@ -1,167 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFF"
-    android:padding="16dp"
     tools:context=".SignupActivity">
 
     <!-- Top Section with Back and Icons -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#3333CC">
 
-        <!-- Back Button -->
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_revert"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
-            android:padding="8dp"
-            android:layout_alignParentStart="true"
-            android:layout_margin="8dp"/>
+    <!-- Back Button -->
 
-        <!-- Title Text -->
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+    <!-- Title Text -->
 
-        <!-- Icons -->
-        <ImageView
-            android:id="@+id/emailIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+    <!-- Email Icon -->
 
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="48dp"
-            android:layout_centerVertical="true"/>
-
-        <ImageView
-            android:id="@+id/alertIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
+    <!-- Alert Icon -->
 
     <!-- Profile Image Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="-40dp">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"/>
+    <!-- Edit Image Button for Profile Image -->
 
-        <ImageView
-            android:id="@+id/cameraIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="-24dp"
-            tools:srcCompat="@android:drawable/ic_menu_camera" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change Picture"
-            android:textSize="14sp"
-            android:layout_marginTop="8dp"
-            android:textColor="#000000"/>
-    </LinearLayout>
 
     <!-- Input Fields -->
+
+    <!-- Role Spinner -->
+
+    <!-- Signup Button -->
+
+    <View
+        android:id="@+id/headerBackground"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#3333CC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintBottom_toTopOf="@+id/profileImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/headerBackground"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/headerBackground"
+        app:layout_constraintBottom_toTopOf="@+id/profileImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/headerBackground"
+        app:layout_constraintVertical_bias="0.704" />
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="@+id/headerBackground" />
+
+    <ImageButton
+        android:id="@+id/cameraIcon"
+        android:layout_width="30dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="98dp"
+        android:layout_height="22dp"
+        android:text="Change Picture"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileImage" />
+
     <EditText
         android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="402dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="48dp"
         android:hint="Email ID*"
-
+        android:inputType="textEmailAddress"
         android:padding="12dp"
-        android:layout_marginTop="16dp"
-        android:inputType="textEmailAddress"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraIcon" />
 
     <EditText
         android:id="@+id/usernameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="412dp"
+        android:layout_height="60dp"
         android:hint="User Name*"
-
         android:padding="12dp"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
     <EditText
         android:id="@+id/firstNameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="408dp"
+        android:layout_height="62dp"
         android:hint="First Name*"
-
         android:padding="12dp"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
 
     <EditText
         android:id="@+id/lastNameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="409dp"
+        android:layout_height="54dp"
         android:hint="Last Name*"
-
         android:padding="12dp"
-        android:layout_marginTop="8dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/firstNameEditText" />
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="412dp"
+        android:layout_height="57dp"
         android:hint="Password*"
-
+        android:inputType="textPassword"
         android:padding="12dp"
-        android:layout_marginTop="8dp"
-        android:inputType="textPassword"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/lastNameEditText" />
 
     <EditText
         android:id="@+id/phoneNumberEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="415dp"
+        android:layout_height="56dp"
         android:hint="Phone Number"
-
+        android:inputType="phone"
         android:padding="12dp"
-        android:layout_marginTop="8dp"
-        android:inputType="phone"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-    <!-- Role Spinner -->
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
+
     <Spinner
         android:id="@+id/roleSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp" />
+        android:layout_width="409dp"
+        android:layout_height="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-    <!-- Signup Button -->
+        app:layout_constraintTop_toBottomOf="@id/phoneNumberEditText" />
+
     <Button
         android:id="@+id/save_changes"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_width="389dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="#3333CC"
         android:text="Signup"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#3333CC"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/roleSpinner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
