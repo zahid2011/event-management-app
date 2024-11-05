@@ -7,10 +7,11 @@ public class Event {
     private Date eventDateTime;
     private String capacity;
     private String price;
+    private String description;
 
     public Event() {} // Default constructor needed for Firestore
 
-    public Event(String eventName, Date eventDateTime, String capacity, String price) {
+    public Event(String eventName, Date eventDateTime, String capacity, String price, String description) {
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
         this.capacity = capacity;
@@ -31,5 +32,9 @@ public class Event {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getDescription(){
+        return description;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.event_lottery;
 
+
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -8,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import android.graphics.Bitmap;
+
 
 import com.google.type.DateTime;
 import com.google.zxing.BarcodeFormat;
@@ -27,24 +32,31 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class CreateEventActivity extends AppCompatActivity {
+
 
     private Button btnCreateEvent, btnGenerateQr, btnCancel;
     private FirebaseFirestore db;
     private ImageView qrCodeImageView;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+
         db = FirebaseFirestore.getInstance(); // Initialize Firestore
+
 
         btnCreateEvent = findViewById(R.id.btn_create_event);
         btnGenerateQr = findViewById(R.id.btn_generate_qr);
         btnCancel = findViewById(R.id.btn_cancel);
         qrCodeImageView = findViewById(R.id.qrCodeImageView);
         btnGenerateQr = findViewById(R.id.btn_generate_qr);
+
 
         btnCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +65,20 @@ public class CreateEventActivity extends AppCompatActivity {
                 TextView evtView = findViewById(R.id.et_event_name);
                 String evtID = evtView.getText().toString();
 
+
                 TextView tevtView = findViewById(R.id.et_event_datetime);
                 String tevtID = tevtView.getText().toString();
+
 
                 TextView vtView = findViewById(R.id.et_capacity);
                 String vtID = vtView.getText().toString();
 
+
                 TextView tView = findViewById(R.id.et_price);
                 String tID = tView.getText().toString();
+
+                TextView desc = findViewById(R.id.et_event_description);
+                String descID = desc.getText().toString();
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
@@ -71,13 +89,16 @@ public class CreateEventActivity extends AppCompatActivity {
                     //return null; // Return null if parsing fails
                 }
                 // Basic validation
-                if (evtID.isEmpty() || tevtID.isEmpty() || vtID.isEmpty() || tID.isEmpty()) {
+                if (evtID.isEmpty() || tevtID.isEmpty() || vtID.isEmpty() || tID.isEmpty() || descID.isEmpty()) {
                     Toast.makeText(CreateEventActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+
                 // Create Event object
-                Event newEvent = new Event(evtID, date, vtID, tID);
+                Event newEvent = new Event(evtID, date, vtID, tID, descID);
+
+
 
 
                 // Save event to Firestore
@@ -86,6 +107,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+
         btnGenerateQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,14 +115,21 @@ public class CreateEventActivity extends AppCompatActivity {
                 TextView evtView = findViewById(R.id.et_event_name);
                 String evtID = evtView.getText().toString();
 
+
                 TextView dateTimeView = findViewById(R.id.et_event_datetime);
                 String tevtID = dateTimeView.getText().toString();
+
+                TextView desc = findViewById(R.id.et_event_description);
+                String descID = desc.getText().toString();
+
 
                 TextView vtView = findViewById(R.id.et_capacity);
                 String vtID = vtView.getText().toString();
 
+
                 TextView tView = findViewById(R.id.et_price);
                 String tID = tView.getText().toString();
+
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
@@ -111,8 +140,10 @@ public class CreateEventActivity extends AppCompatActivity {
                     //return null; // Return null if parsing fails
                 }
 
-                String qrContent = "Event: " + evtID + "\nCapacity: " + vtID +
+
+                String qrContent = "Event: " + evtID + "\nDescription: " + descID + "\nCapacity: " + vtID +
                         "\nDateTime: " + date + "\nPrice: " + tID;
+
 
                 // Generate QR Code Bitmap
                 Toast.makeText(CreateEventActivity.this, "before bitmap", Toast.LENGTH_SHORT).show();
@@ -121,6 +152,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     Toast.makeText(CreateEventActivity.this, "before hash", Toast.LENGTH_SHORT).show();
                     qrCodeImageView.setImageBitmap(qrCodeBitmap);
 
+
                     // Generate hash of the QR code bitmap
                     String qrHash = generateHashFromBitmap(qrCodeBitmap);
                     Toast.makeText(CreateEventActivity.this, qrHash, Toast.LENGTH_SHORT).show();
@@ -128,11 +160,12 @@ public class CreateEventActivity extends AppCompatActivity {
                     if (qrHash != null) {
                         FirebaseFirestore db = FirebaseFirestore.getInstance();
                         //Map<String, Object> eventData = new HashMap<>();
-                      //  eventData.put("eventName", evtID);
-                       // eventData.put("capacity", vtID);
-                      //  eventData.put("dateTime", formattedDateTime);
-                       // eventData.put("price", tID);
-                      //  eventData.put("qrHash", qrHash);
+                        //  eventData.put("eventName", evtID);
+                        // eventData.put("capacity", vtID);
+                        //  eventData.put("dateTime", formattedDateTime);
+                        // eventData.put("price", tID);
+                        //  eventData.put("qrHash", qrHash);
+
 
                         db.collection("events").document(evtID)
                                 .update("qrhash",qrHash)
@@ -153,25 +186,30 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
+
+
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   finish(); // Close the current activity and return
+                //   finish(); // Close the current activity and return
             }
         });
     }
+
 
     private void saveEventToFirestore(Event event) {
         db.collection("events").document(event.getEventName()) // Use event name as the document ID
                 .set(event)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(CreateEventActivity.this, "Event Created Successfully", Toast.LENGTH_SHORT).show();
-                 //   finish(); // Close the activity
+                    //   finish(); // Close the activity
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(CreateEventActivity.this, "Failed to create event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     public Bitmap generateQRCode(String text) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -180,6 +218,7 @@ public class CreateEventActivity extends AppCompatActivity {
             int height = 300;
             BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
 
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -200,9 +239,11 @@ public class CreateEventActivity extends AppCompatActivity {
     public String generateHashFromBitmap(Bitmap bitmap) {
         byte[] bitmapBytes = bitmapToByteArray(bitmap);
 
+
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(bitmapBytes);
+
 
             StringBuilder hexString = new StringBuilder();
             for (byte b : hashBytes) {

@@ -3,8 +3,8 @@ package com.example.event_lottery;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -22,6 +22,20 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         setContentView(R.layout.main_signup_page); // Ensure this is the correct layout file
 
+        // Handle deep link if the activity was launched from a QR code scan
+        Intent intent = getIntent();
+        if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri data = intent.getData();
+            if (data != null && "event".equals(data.getHost())) {
+                String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
+
+                // Launch EventDetailsActivity with the eventId
+                Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
+                detailsIntent.putExtra("event_id", eventId);
+                startActivity(detailsIntent);
+            }
+        }
+
         // Initialize buttons
         loginButton = findViewById(R.id.loginButton);
         signUpButton = findViewById(R.id.signUpButton);
@@ -30,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btnPastEvents = findViewById(R.id.btn_past_events);
         btnManageFacility = findViewById(R.id.btn_manage_facility);
 
-        // Check each button for null to avoid NullPointerException
+        // Set up button listeners with null checks
         if (loginButton != null) {
             loginButton.setOnClickListener(v -> {
                 Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
@@ -55,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "create event", Toast.LENGTH_SHORT).show();
                 Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);
                 startActivity(createEventIntent);
-                //Toast.makeText(this, "create event", Toast.LENGTH_SHORT).show();
             });
         }
 

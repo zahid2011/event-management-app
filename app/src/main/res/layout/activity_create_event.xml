@@ -8,7 +8,6 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-
     <TextView
         android:id="@+id/tv_create_event_title"
         android:layout_width="wrap_content"
@@ -20,16 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/qrCodeImageView"
-        android:layout_width="268dp"
-        android:layout_height="262dp"
-        android:layout_gravity="bottom"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="40dp"
-        tools:layout_editor_absoluteY="426dp" />
 
     <ImageView
         android:id="@+id/img_event_image"
@@ -49,9 +38,9 @@
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/img_event_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
 
-    <!-- Event Name Input -->
     <EditText
         android:id="@+id/et_event_name"
         android:layout_width="0dp"
@@ -61,7 +50,6 @@
         app:layout_constraintTop_toBottomOf="@id/img_event_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <EditText
         android:id="@+id/et_event_datetime"
@@ -73,7 +61,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <EditText
         android:id="@+id/et_capacity"
         android:layout_width="0dp"
@@ -83,7 +70,6 @@
         app:layout_constraintTop_toBottomOf="@id/et_event_datetime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <EditText
         android:id="@+id/et_price"
@@ -95,6 +81,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <EditText
+        android:id="@+id/et_event_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Event Description"
+        app:layout_constraintTop_toBottomOf="@id/et_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -102,7 +97,7 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/et_price"
+        app:layout_constraintTop_toBottomOf="@id/et_event_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -122,7 +117,6 @@
             android:checked="true" />
     </LinearLayout>
 
-
     <Button
         android:id="@+id/btn_generate_qr"
         android:layout_width="0dp"
@@ -136,7 +130,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="NotSibling" />
 
-    <!-- Create and Cancel Buttons -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -164,5 +157,16 @@
             android:textColor="#FFFFFF"
             app:backgroundTint="#1F41BB" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/qrCodeImageView"
+        android:layout_width="268dp"
+        android:layout_height="262dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="QR Code Image"
+        app:layout_constraintTop_toBottomOf="@id/btn_create_event"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="NotSibling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
