@@ -2,16 +2,16 @@ package com.example.event_lottery;
 
 import java.util.Date;
 
-public class Event {
+public class Events {
     private String eventName;
     private Date eventDateTime;
     private String capacity;
     private String price;
     private String description;
 
-    public Event() {} // Default constructor needed for Firestore
+    public Events() {} // Default constructor needed for Firestore
 
-    public Event(String eventName, Date eventDateTime, String capacity, String price, String description) {
+    public Events(String eventName, Date eventDateTime, String capacity, String price, String description) {
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
         this.capacity = capacity;

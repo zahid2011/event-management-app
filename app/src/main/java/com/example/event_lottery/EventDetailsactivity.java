@@ -7,11 +7,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.event_lottery.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-public class EventDetailsActivity extends AppCompatActivity {
+public class EventDetailsactivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private TextView eventTitle, eventDate, eventDescription, eventCapacity;

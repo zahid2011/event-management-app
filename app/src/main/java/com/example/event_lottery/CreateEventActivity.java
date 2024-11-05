@@ -18,7 +18,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import android.graphics.Bitmap;
 
 
-import com.google.type.DateTime;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -29,8 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -96,7 +93,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
                 // Create Event object
-                Event newEvent = new Event(evtID, date, vtID, tID, descID);
+                Events newEvent = new Events(evtID, date, vtID, tID, descID);
 
 
 
@@ -198,7 +195,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
-    private void saveEventToFirestore(Event event) {
+    private void saveEventToFirestore(Events event) {
         db.collection("events").document(event.getEventName()) // Use event name as the document ID
                 .set(event)
                 .addOnSuccessListener(aVoid -> {
