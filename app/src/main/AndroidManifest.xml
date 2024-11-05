@@ -17,13 +17,18 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="myapp" android:host="event" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".DashboardActivity" />
+        <activity android:name=".OrganizerDashboardActivity" />
+        <activity android:name=".CreateEventActivity" />
         <activity android:name=".EventListActivity" />
         <activity android:name=".EditProfileActivity" />
 
