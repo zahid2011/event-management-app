@@ -71,7 +71,7 @@
     <TextView
         android:id="@+id/tv_add_image"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:gravity="center"
@@ -174,8 +174,8 @@
 
                 <Switch
                     android:id="@+id/switch_geolocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="59dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="8dp"
                     android:checked="true"
                     android:thumbTint="#000000"
