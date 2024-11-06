@@ -2,28 +2,24 @@ package com.example.event_lottery;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.event_lottery.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EventDetailsActivity extends AppCompatActivity {
+public class EventDetailsactivity extends AppCompatActivity {
 
-    private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvMaxWaitingList, tvQrCodeLabel;
-    private ImageView imgQrCode, imgEventImage, ivBackArrow;
-    private Switch switchGeolocation;
-    private Button btnViewWaitingList, btnRunLottery, btnViewEntrantLocations;
-
+    private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel;
+    private ImageView ivBackArrow;
     private DatabaseReference eventsDatabaseRef;
     private String eventId;
 
@@ -34,6 +30,14 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         // Get the event ID passed from the previous activity
         eventId = getIntent().getStringExtra("event_id");
+        Log.d("EventDetailsActivity", "Received Event ID: " + eventId);
+
+        if (eventId == null) {
+            Log.e("EventDetailsActivity", "Event ID is null");
+            Toast.makeText(this, "Event ID is missing", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         // Initialize Firebase reference
         eventsDatabaseRef = FirebaseDatabase.getInstance().getReference("events");
@@ -43,14 +47,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvEventDate = findViewById(R.id.tv_event_date);
         tvEventDescription = findViewById(R.id.tv_event_description);
         tvEventCapacity = findViewById(R.id.tv_event_capacity);
-        tvMaxWaitingList = findViewById(R.id.tv_max_waiting_list);
-        imgQrCode = findViewById(R.id.img_qr_code);
-        imgEventImage = findViewById(R.id.img_event_image);
         tvQrCodeLabel = findViewById(R.id.tv_qr_code_label);
-        switchGeolocation = findViewById(R.id.switch_geolocation);
-        btnViewWaitingList = findViewById(R.id.btn_view_waiting_list);
-        btnRunLottery = findViewById(R.id.btn_run_lottery);
-        btnViewEntrantLocations = findViewById(R.id.btn_view_entrant_locations);
         ivBackArrow = findViewById(R.id.iv_back_arrow);
 
         // Fetch event details from Firebase
@@ -72,27 +69,23 @@ public class EventDetailsActivity extends AppCompatActivity {
                     String description = dataSnapshot.child("description").getValue(String.class);
                     String capacity = dataSnapshot.child("capacity").getValue(String.class);
                     String qrhash = dataSnapshot.child("qrhash").getValue(String.class);
-                    String price = dataSnapshot.child("price").getValue(String.class);
 
                     // Set data in views
-                    tvEventName.setText(eventName);
-                    tvEventDate.setText("Date: " + eventDateTime);
-                    tvEventDescription.setText("Event Description: " + description);
-                    tvEventCapacity.setText("Capacity: " + capacity + " seats available");
-                    tvQrCodeLabel.setText("QR Code for Event");
-
-                    // Optional: Load QR code or other images if you have URLs
-                    // Use a library like Glide or Picasso to load images from URLs
-                    // Glide.with(EventDetails.this).load(qrhash).into(imgQrCode);
-
-                    // Display any other details as required
-                    // Example: tvPrice.setText("Price: $" + price);
+                    tvEventName.setText(eventName != null ? eventName : "N/A");
+                    tvEventDate.setText("Date: " + (eventDateTime != null ? eventDateTime : "N/A"));
+                    tvEventDescription.setText("Event Description: " + (description != null ? description : "N/A"));
+                    tvEventCapacity.setText("Capacity: " + (capacity != null ? capacity + " seats available" : "N/A"));
+                    tvQrCodeLabel.setText("QR Code: " + (qrhash != null ? qrhash : "N/A"));
+                } else {
+                    Log.e("EventDetailsActivity", "DataSnapshot does not exist for event ID: " + eventId);
+                    Toast.makeText(EventDetailsactivity.this, "Event details not found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle database error if needed
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("EventDetailsActivity", "Database error: " + databaseError.getMessage());
+                Toast.makeText(EventDetailsactivity.this, "Error loading event details", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -74,9 +74,9 @@ public class OngoingEventsActivity extends AppCompatActivity {
         eventLayout.setBackgroundColor(getResources().getColor(R.color.event_background));
 
         // Event ID TextView
-        TextView eventIdTextView = new TextView(this);
-        eventIdTextView.setText("Event ID: " + event.getEventName());
-        eventIdTextView.setTypeface(null, android.graphics.Typeface.BOLD);
+        TextView event_idTextView = new TextView(this);
+        event_idTextView.setText("Event ID: " + event.getEventName());
+        event_idTextView.setTypeface(null, android.graphics.Typeface.BOLD);
 
         // Description TextView
         TextView eventDescTextView = new TextView(this);
@@ -88,7 +88,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
         detailsButton.setOnClickListener(v -> openEventDetails(event.getEventName()));
 
         // Add TextViews and Button to the event layout
-        eventLayout.addView(eventIdTextView);
+        eventLayout.addView(event_idTextView);
         eventLayout.addView(eventDescTextView);
         eventLayout.addView(detailsButton);
 
@@ -96,10 +96,10 @@ public class OngoingEventsActivity extends AppCompatActivity {
         eventsContainer.addView(eventLayout);
     }
 
-    private void openEventDetails(String eventId) {
+    private void openEventDetails(String event_id) {
         // Intent to open EventDetailsActivity (assuming it exists)
-        Intent intent = new Intent(OngoingEventsActivity.this, EventDetailsActivity.class);
-        intent.putExtra("eventId", eventId); // Pass event ID
+        Intent intent = new Intent(OngoingEventsActivity.this, EventDetailsactivity.class);
+        intent.putExtra("event_id", event_id); // Pass event ID
         startActivity(intent);
     }
 }
