@@ -68,19 +68,34 @@
     </androidx.cardview.widget.CardView>
 
     <!-- Event Image Placeholder -->
-    <ImageView
-        android:id="@+id/img_event_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <TextView
+        android:id="@+id/tv_add_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="Event Image"
-        android:src="@drawable/ic_image_placeholder"
-        app:layout_constraintTop_toBottomOf="@id/card_event_name"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onAddImageClicked"
+        android:text="Add Image"
+        android:textColor="#1F41BB"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/card_event_name" />
 
     <!-- Event Details Card -->
+    <ImageView
+        android:id="@+id/img_event_image"
+        android:layout_width="61dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="17dp"
+        android:contentDescription="Event Image"
+        android:src="@drawable/ic_image_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_add_image" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_event_details"
         android:layout_width="0dp"
@@ -94,7 +109,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="306dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -133,13 +148,13 @@
             <TextView
                 android:id="@+id/tv_max_waiting_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="4dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="Max Waiting List Entrants [Tap to Set] : "
                 android:textColor="#666666"
-                android:textSize="14sp"
-                android:clickable="true"
-                android:focusable="true" />
+                android:textSize="14sp" />
 
             <!-- Enable Geolocation with Switch -->
             <LinearLayout
@@ -173,63 +188,67 @@
                 android:id="@+id/img_qr_code"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:contentDescription="QR Code for Event"
-                android:layout_gravity="center" />
-    <!--   android:src="@drawable/ic_qr_code_placeholder"-->
+                android:contentDescription="QR Code for Event" />
+            <!--   android:src="@drawable/ic_qr_code_placeholder"-->
 
 
-   <TextView
-       android:id="@+id/tv_qr_code_label"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="4dp"
-       android:gravity="center"
-       android:text="QR Code for Event"
-       android:textColor="#000000"
-       android:textSize="14sp"
-       android:layout_gravity="center" />
-</LinearLayout>
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/tv_qr_code_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="QR Code for Event"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 <!-- Action Buttons -->
+
     <Button
         android:id="@+id/btn_view_waiting_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="View Waiting List"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
         app:cornerRadius="16dp"
-        app:layout_constraintTop_toBottomOf="@id/card_event_details"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_run_lottery" />
 
     <Button
         android:id="@+id/btn_run_lottery"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="40dp"
         android:text="Run Lottery"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
         app:cornerRadius="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_view_waiting_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/card_event_details" />
 
     <Button
         android:id="@+id/btn_view_entrant_locations"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="View Entrant Locations"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
         app:cornerRadius="16dp"
-        app:layout_constraintTop_toBottomOf="@id/btn_run_lottery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_view_waiting_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

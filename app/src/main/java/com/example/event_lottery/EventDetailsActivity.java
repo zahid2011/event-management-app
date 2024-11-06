@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bumptech.glide.Glide;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,7 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 public class EventDetailsActivity extends AppCompatActivity {
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
-    private ImageView ivBackArrow;
+    private ImageView ivBackArrow, imgEventImage;
     private FirebaseFirestore db;
     private String eventId;
 
@@ -28,6 +31,8 @@ public class EventDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+
+        imgEventImage = findViewById(R.id.img_event_image);
 
         // Get the event ID passed from the previous activity
         eventId = getIntent().getStringExtra("event_id");
@@ -132,5 +137,47 @@ public class EventDetailsActivity extends AppCompatActivity {
                     Log.e("EventDetailsActivity", "Error updating max waiting list", e);
                     Toast.makeText(EventDetailsActivity.this, "Failed to update max waiting list", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    public void onAddImageClicked(View view) {
+        // Create an input dialog to prompt for the URL
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Image URL");
+
+        // Set up the input field
+        final EditText input = new EditText(this);
+        input.setHint("Enter image URL");
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String url = input.getText().toString().trim();
+                if (!url.isEmpty()) {
+                    loadImageFromUrl(url);
+                } else {
+                    Toast.makeText(EventDetailsActivity.this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    // Method to load the image from the provided URL
+    private void loadImageFromUrl(String url) {
+        // Use Glide or Picasso to load the image
+        Glide.with(this)
+                .load(url)
+                .placeholder(R.drawable.ic_image_placeholder) // Placeholder image
+                .error(R.drawable.ic_error) // Error image if URL is invalid
+                .into(imgEventImage);
     }
 }
