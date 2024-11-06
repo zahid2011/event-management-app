@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Max Waiting List Entrants: [Tap to Set]"
+                android:text="Max Waiting List Entrants [Tap to Set] : "
                 android:textColor="#666666"
                 android:textSize="14sp"
                 android:clickable="true"
