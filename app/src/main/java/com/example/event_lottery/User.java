@@ -7,7 +7,6 @@ public class User {
     private String lastName;
     private String password;
     private String role;
-    private boolean isChosen;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -21,7 +20,6 @@ public class User {
         this.lastName = lastName;
         this.password = password;
         this.role = role;
-        this.isChosen = isChosen;
     }
 
     // Getters and Setters
@@ -71,14 +69,6 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public boolean isChosen() {
-        return isChosen;
-    }
-
-    public void setChosen(boolean chosen) {
-        isChosen = chosen;
     }
 
 }

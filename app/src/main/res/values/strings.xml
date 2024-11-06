@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Organizer</string>
+    <string name="app_name">event_lottery</string>
+    <string-array name="role_options">
+        <item>Admin</item>
+        <item>Organiser</item>
+        <item>Entrant</item>
+    </string-array>
 </resources>

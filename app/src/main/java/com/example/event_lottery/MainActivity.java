@@ -1,100 +1,96 @@
+// MainActivity.java
 package com.example.event_lottery;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Button loginButton, signUpButton;
-    private Button btnCreateNewEvent, btnOngoingEvents, btnPastEvents, btnManageFacility, btnLogout;
-    private static final String TAG = "MainActivity";
+    private Button loginButton, signUpButton, btnCreateNewEvent, btnOngoingEvents, btnPastEvents, btnManageFacility;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-        setContentView(R.layout.main_signup_page); // Ensure you are using the correct layout
+        setContentView(R.layout.main_signup_page); // Ensure this is the correct layout file
 
-        // Initialize UI components for login and signup
+        // Handle deep link if the activity was launched from a QR code scan
+        Intent intent = getIntent();
+        if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri data = intent.getData();
+            if (data != null && "event".equals(data.getHost())) {
+                String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
+
+                // Launch EventDetailsActivity with the eventId
+                Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
+                detailsIntent.putExtra("event_id", eventId);
+                startActivity(detailsIntent);
+            }
+        }
+
+        // Initialize buttons
         loginButton = findViewById(R.id.loginButton);
         signUpButton = findViewById(R.id.signUpButton);
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
-            }
-        });
-
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signUpIntent = new Intent(MainActivity.this, SignupActivity.class);
-                startActivity(signUpIntent);
-            }
-        });
-
-        // Initialize other buttons for dashboard functionality
         btnCreateNewEvent = findViewById(R.id.btn_create_event);
         btnOngoingEvents = findViewById(R.id.btn_ongoing_events);
         btnPastEvents = findViewById(R.id.btn_past_events);
         btnManageFacility = findViewById(R.id.btn_manage_facility);
-        btnLogout = findViewById(R.id.btn_logout);
 
-        // Check if btnCreateNewEvent exists to avoid NullPointerException
-        if (btnCreateNewEvent == null) {
-            Log.e(TAG, "Button not found. Check the ID or layout.");
-            return; // Exit if button is null to avoid NullPointerException
+        // Set up button listeners with null checks
+        if (loginButton != null) {
+            loginButton.setOnClickListener(v -> {
+                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+            });
+        } else {
+            Toast.makeText(this, "Login button not found", Toast.LENGTH_SHORT).show();
         }
 
-        // Set click listeners for each button
-        btnCreateNewEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Create New Event button clicked!");
-                Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (signUpButton != null) {
+            signUpButton.setOnClickListener(v -> {
+                Intent signUpIntent = new Intent(MainActivity.this, SignupActivity.class);
+                startActivity(signUpIntent);
+            });
+        } else {
+            Toast.makeText(this, "Sign Up button not found", Toast.LENGTH_SHORT).show();
+        }
 
-        btnOngoingEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, OngoingEventsActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Event management buttons
+        if (btnCreateNewEvent != null) {
+            btnCreateNewEvent.setOnClickListener(v -> {
+                Toast.makeText(this, "create event", Toast.LENGTH_SHORT).show();
+                Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);
+                startActivity(createEventIntent);
+            });
+        }
 
-        btnPastEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PastEventsActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (btnOngoingEvents != null) {
+            btnOngoingEvents.setOnClickListener(v -> {
+                Intent ongoingEventsIntent = new Intent(MainActivity.this, OngoingEventsActivity.class);
+                startActivity(ongoingEventsIntent);
+            });
+        }
 
-        btnManageFacility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ManageFacilityActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (btnPastEvents != null) {
+            btnPastEvents.setOnClickListener(v -> {
+                Intent pastEventsIntent = new Intent(MainActivity.this, PastEventsActivity.class);
+                startActivity(pastEventsIntent);
+            });
+        }
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Log out by finishing the activity
-            }
-        });
+        if (btnManageFacility != null) {
+            btnManageFacility.setOnClickListener(v -> {
+                Intent manageFacilityIntent = new Intent(MainActivity.this, ManageFacilityActivity.class);
+                startActivity(manageFacilityIntent);
+            });
+        }
     }
 }

@@ -1,87 +1,92 @@
 package com.example.event_lottery;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.event_lottery.R;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EventDetailsActivity extends AppCompatActivity {
 
-    private Button btnUpdateImage;
-    private Uri newImageUri;
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private FirebaseFirestore db;
-    private StorageReference storageRef;
-    private String eventId = "YOUR_EVENT_ID"; // Replace with actual event ID
+    private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel;
+    private ImageView ivBackArrow;
+    private DatabaseReference eventsDatabaseRef;
+    private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        db = FirebaseFirestore.getInstance();
-        storageRef = FirebaseStorage.getInstance().getReference("event_posters");
+        // Get the event ID passed from the previous activity
+        eventId = getIntent().getStringExtra("event_id");
+        Log.d("EventDetailsActivity", "Received Event ID: " + eventId);
 
-        btnUpdateImage = findViewById(R.id.btn_update_image);
+        if (eventId == null) {
+            Log.e("EventDetailsActivity", "Event ID is null");
+            Toast.makeText(this, "Event ID is missing", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
-        btnUpdateImage.setOnClickListener(new View.OnClickListener() {
+        // Initialize Firebase reference
+        eventsDatabaseRef = FirebaseDatabase.getInstance().getReference("events");
+
+        // Initialize views
+        tvEventName = findViewById(R.id.tv_event_name);
+        tvEventDate = findViewById(R.id.tv_event_date);
+        tvEventDescription = findViewById(R.id.tv_event_description);
+        tvEventCapacity = findViewById(R.id.tv_event_capacity);
+        tvQrCodeLabel = findViewById(R.id.tv_qr_code_label);
+        ivBackArrow = findViewById(R.id.iv_back_arrow);
+
+        // Fetch event details from Firebase
+        fetchEventDetails();
+
+        // Set back arrow click listener to finish the activity
+        ivBackArrow.setOnClickListener(v -> finish());
+    }
+
+    private void fetchEventDetails() {
+        eventsDatabaseRef.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onClick(View v) {
-                openFileChooser();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Retrieve and display event data
+                    String eventName = dataSnapshot.child("eventName").getValue(String.class);
+                    String eventDateTime = dataSnapshot.child("eventDateTime").getValue(String.class);
+                    String description = dataSnapshot.child("description").getValue(String.class);
+                    String capacity = dataSnapshot.child("capacity").getValue(String.class);
+                    String qrhash = dataSnapshot.child("qrhash").getValue(String.class);
+
+                    // Set data in views
+                    tvEventName.setText(eventName != null ? eventName : "N/A");
+                    tvEventDate.setText("Date: " + (eventDateTime != null ? eventDateTime : "N/A"));
+                    tvEventDescription.setText("Event Description: " + (description != null ? description : "N/A"));
+                    tvEventCapacity.setText("Capacity: " + (capacity != null ? capacity + " seats available" : "N/A"));
+                    tvQrCodeLabel.setText("QR Code: " + (qrhash != null ? qrhash : "N/A"));
+                } else {
+                    Log.e("EventDetailsActivity", "DataSnapshot does not exist for event ID: " + eventId);
+                    Toast.makeText(EventDetailsActivity.this, "Event details not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("EventDetailsActivity", "Database error: " + databaseError.getMessage());
+                Toast.makeText(EventDetailsActivity.this, "Error loading event details", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void openFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            newImageUri = data.getData();
-            uploadNewImageToFirebase();
-        }
-    }
-
-    private void uploadNewImageToFirebase() {
-        if (newImageUri != null) {
-            StorageReference fileRef = storageRef.child(System.currentTimeMillis() + ".jpg");
-
-            fileRef.putFile(newImageUri)
-                    .addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String newPosterUrl = uri.toString();
-                        updateEventPosterUrl(newPosterUrl);
-                    }))
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(EventDetailsActivity.this, "Image upload failed", Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void updateEventPosterUrl(String newPosterUrl) {
-        db.collection("Events").document(eventId)
-                .update("posterUrl", newPosterUrl)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(EventDetailsActivity.this, "Event poster updated!", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(EventDetailsActivity.this, "Failed to update event poster", Toast.LENGTH_SHORT).show();
-                });
     }
 }

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:weightSum="1"
     android:gravity="top">
 
-    <!-- Top Toolbar with Title and User Icon -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -23,34 +23,34 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_user_icon"
             android:layout_marginStart="16dp" />
 
         <ImageView
             android:id="@+id/img_user_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_image_placeholder"
             android:contentDescription="User Icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="16dp" />
+        <!--  android:src="@drawable/ic_person"-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Main Menu Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="1dp">
+        android:layout_marginTop="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <!-- Each button uses MaterialButton for corner radius and background tint support -->
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_create_event"
-            android:layout_width="354dp"
-            android:layout_height="wrap_content"
+            android:layout_width="325dp"
+            android:layout_height="95dp"
             android:layout_marginVertical="10dp"
             android:paddingHorizontal="50dp"
             android:paddingVertical="12dp"
@@ -60,10 +60,10 @@
             app:backgroundTint="#1F41BB"
             app:cornerRadius="18dp" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_ongoing_events"
-            android:layout_width="354dp"
-            android:layout_height="wrap_content"
+            android:layout_width="325dp"
+            android:layout_height="95dp"
             android:layout_marginVertical="10dp"
             android:paddingVertical="12dp"
             android:text="On Going Events"
@@ -72,43 +72,43 @@
             app:backgroundTint="#1F41BB"
             app:cornerRadius="18dp" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_past_events"
-            android:layout_width="354dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
+            android:layout_width="325dp"
+            android:layout_height="95dp"
             android:text="Past Events"
-            android:textColor="#FFFFFF"
-            android:textSize="21sp"
-            android:paddingVertical="12dp"
+            app:cornerRadius="18dp"
             app:backgroundTint="#1F41BB"
-            app:cornerRadius="18dp" />
+            android:textColor="#FFFFFF"
+            android:layout_marginVertical="10dp"
+            android:textSize="21sp"
+            android:paddingVertical="12dp"/>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_manage_facility"
-            android:layout_width="354dp"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="18dp"
+            android:layout_width="325dp"
+            android:layout_height="95dp"
             android:text="Create / Manage \nFacility"
-            android:textColor="#FFFFFF"
-            android:textSize="21sp"
-            android:paddingVertical="12dp"
+            app:cornerRadius="18dp"
             app:backgroundTint="#1F41BB"
-            app:cornerRadius="18dp" />
+            android:textColor="#FFFFFF"
+            android:layout_marginVertical="18dp"
+            android:textSize="21sp"
+            android:paddingVertical="12dp"/>
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btn_logout"
             android:layout_width="144dp"
-            android:layout_height="49dp"
+            android:layout_height="41dp"
             android:layout_marginVertical="30dp"
+            app:cornerRadius="10dp"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#000000"
             android:text="Logout"
             android:textColor="#FFFFFF"
-            app:cornerRadius="10dp"
             android:paddingHorizontal="24dp"
-            android:paddingVertical="8dp" />
+            android:paddingVertical="8dp"/> <!-- Smaller height -->
     </LinearLayout>
 
 </LinearLayout>

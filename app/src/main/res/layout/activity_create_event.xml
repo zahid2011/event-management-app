@@ -5,113 +5,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".MainActivity">
 
-    <!-- Title at the top -->
     <TextView
         android:id="@+id/tv_create_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="CREATE EVENT"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Event Image -->
     <ImageView
         android:id="@+id/img_event_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Add Event Image"
-        android:src="@drawable/ic_image_placeholder"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_create_event_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_create_event_title" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Event Image Label -->
-
-    <!-- Event Name -->
-
-    <Button
-        android:id="@+id/btn_add_image"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingHorizontal="12dp"
-        android:text="Add Image"
+        android:text="Add Event Image"
+        android:textColor="#000000"
         android:textSize="12sp"
-        app:backgroundTint="#1F41BB"
-        app:cornerRadius="4dp"
-        tools:layout_editor_absoluteX="142dp"
-        tools:layout_editor_absoluteY="573dp" />
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
 
     <EditText
         android:id="@+id/et_event_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/edittext_rounded_border"
+        android:layout_marginTop="16dp"
         android:hint="Event Name"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_event_image" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Event Date and Time Picker -->
     <EditText
         android:id="@+id/et_event_datetime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_rounded_border"
         android:hint="Event Date and Time Picker"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_event_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_event_name" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Capacity -->
     <EditText
         android:id="@+id/et_capacity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_rounded_border"
         android:hint="Capacity"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_event_datetime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_event_datetime" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Price -->
     <EditText
         android:id="@+id/et_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_rounded_border"
         android:hint="Price"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_capacity"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_capacity" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Geolocation Switch -->
-    <LinearLayout
+    <EditText
+        android:id="@+id/et_event_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:hint="Event Description"
+        app:layout_constraintTop_toBottomOf="@id/et_price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_price">
+        app:layout_constraintTop_toBottomOf="@id/et_event_description">
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,27 +115,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:checked="true"
-            android:thumbTint="@color/black"
-            android:trackTint="@color/black"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            android:checked="true" />
     </LinearLayout>
-
-    <!-- Generate QR Code Button -->
-
-    <!-- Create and Cancel Buttons -->
 
     <Button
         android:id="@+id/btn_generate_qr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Generate QR Code"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/switch_geolocation"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="493dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="NotSibling" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -157,28 +140,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <Button
+            android:id="@+id/btn_create_event"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Create"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1F41BB" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1F41BB" />
+
+        <Button
+            android:id="@+id/btn_back_to_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Dashboard" />
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_create_event"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Create"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
-        tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="573dp" />
-
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Cancel"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
-        tools:layout_editor_absoluteX="288dp"
-        tools:layout_editor_absoluteY="572dp" />
+    <ImageView
+        android:id="@+id/qrCodeImageView"
+        android:layout_width="196dp"
+        android:layout_height="193dp"
+        android:contentDescription="QR Code Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:ignore="NotSibling" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

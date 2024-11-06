@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,8 +11,10 @@
     tools:context=".SignupActivity">
 
     <!-- Top Section with Back and Icons -->
+
+    <!-- Profile Image Section -->
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:background="#3333CC">
 
@@ -20,24 +23,24 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_revert"
+            android:layout_alignParentStart="true"
+            android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
             android:padding="8dp"
-            android:layout_alignParentStart="true"
-            android:layout_margin="8dp"/>
+            android:src="@android:drawable/ic_menu_revert" />
 
         <!-- Title Text -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Edit Profile"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:textStyle="bold" />
 
         <!-- Icons -->
         <ImageView
@@ -46,8 +49,8 @@
             android:layout_height="24dp"
 
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="48dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="48dp" />
 
         <ImageView
             android:id="@+id/alertIcon"
@@ -55,11 +58,10 @@
             android:layout_height="24dp"
 
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp" />
     </RelativeLayout>
 
-    <!-- Profile Image Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,19 +69,18 @@
         android:gravity="center"
         android:layout_marginTop="-40dp">
 
+
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
-        <ImageView
-            android:id="@+id/cameraIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="-24dp"
-            tools:srcCompat="@android:drawable/ic_menu_camera" />
+        <ImageButton
+            android:id="@+id/edit_image"
+            android:layout_width="30dp"
+            android:layout_height="19dp"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -148,20 +149,33 @@
         android:layout_marginTop="8dp"
         android:inputType="phone"/>
 
-    <!-- Role Spinner -->
-    <Spinner
-        android:id="@+id/roleSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp" />
 
-    <!-- Signup Button -->
-    <Button
-        android:id="@+id/save_changes"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:text="Signup"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#3333CC"
-        android:layout_marginTop="16dp"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <!-- Save Changes Button -->
+        <Button
+            android:id="@+id/save_changes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#3333CC"
+            android:text="Save Changes"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="16dp"/>
+
+        <!-- Cancel Button -->
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="140dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="99dp"
+            android:layout_toEndOf="@id/save_changes"
+            android:backgroundTint="#3333CC"
+            android:text="Cancel"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+
 </LinearLayout>
