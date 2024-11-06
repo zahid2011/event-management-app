@@ -32,7 +32,7 @@
         <activity android:name=".EventListActivity" />
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".OngoingEventsActivity" />
-        <activity android:name=".EventDetailsactivity" />
+        <activity android:name=".EventDetailsActivity" />
 
     </application>
 

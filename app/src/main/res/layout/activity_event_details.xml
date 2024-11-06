@@ -103,7 +103,7 @@
                 android:id="@+id/tv_event_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date: 13th October 7:30PM"
+                android:text="Date:"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Capacity: 27/150 seats left"
+                android:text="Capacity:    seats left"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 

@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EventDetailsactivity extends AppCompatActivity {
+public class EventDetailsActivity extends AppCompatActivity {
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel;
     private ImageView ivBackArrow;
@@ -78,14 +78,14 @@ public class EventDetailsactivity extends AppCompatActivity {
                     tvQrCodeLabel.setText("QR Code: " + (qrhash != null ? qrhash : "N/A"));
                 } else {
                     Log.e("EventDetailsActivity", "DataSnapshot does not exist for event ID: " + eventId);
-                    Toast.makeText(EventDetailsactivity.this, "Event details not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventDetailsActivity.this, "Event details not found", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("EventDetailsActivity", "Database error: " + databaseError.getMessage());
-                Toast.makeText(EventDetailsactivity.this, "Error loading event details", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventDetailsActivity.this, "Error loading event details", Toast.LENGTH_SHORT).show();
             }
         });
     }
