@@ -33,6 +33,9 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".OngoingEventsActivity" />
         <activity android:name=".EventDetailsActivity" />
+        <activity android:name=".WaitingListActivity" />
+        <activity android:name=".WaitingListAdapter" />
+        <activity android:name=".ManageFacilityActivity" />
 
     </application>
 

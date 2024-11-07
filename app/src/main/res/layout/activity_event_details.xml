@@ -7,7 +7,7 @@
     android:background="#FFFFFF"
     android:padding="16dp">
 
-    <!-- Back Button -->
+
     <ImageView
         android:id="@+id/iv_back_arrow"
         android:layout_width="24dp"

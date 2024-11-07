@@ -1,5 +1,6 @@
 package com.example.event_lottery;
 
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
@@ -7,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.example.event_lottery.R;
 import com.google.firebase.database.DataSnapshot;
@@ -17,26 +20,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class EventDetailsActivity extends AppCompatActivity {
+
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvMaxWaitingList, tvQrCodeLabel;
     private ImageView imgQrCode, imgEventImage, ivBackArrow;
     private Switch switchGeolocation;
     private Button btnViewWaitingList, btnRunLottery, btnViewEntrantLocations;
 
+
     private DatabaseReference eventsDatabaseRef;
     private String eventId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
+
         // Get the event ID passed from the previous activity
-        eventId = getIntent().getStringExtra("event_id");
+        eventId = getIntent().getStringExtra("eventName");
+
 
         // Initialize Firebase reference
         eventsDatabaseRef = FirebaseDatabase.getInstance().getReference("events");
+
 
         // Initialize views
         tvEventName = findViewById(R.id.tv_event_name);
@@ -53,12 +63,15 @@ public class EventDetailsActivity extends AppCompatActivity {
         btnViewEntrantLocations = findViewById(R.id.btn_view_entrant_locations);
         ivBackArrow = findViewById(R.id.iv_back_arrow);
 
+
         // Fetch event details from Firebase
         fetchEventDetails();
+
 
         // Set back arrow click listener to finish the activity
         ivBackArrow.setOnClickListener(v -> finish());
     }
+
 
     private void fetchEventDetails() {
         eventsDatabaseRef.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,6 +87,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     String qrhash = dataSnapshot.child("qrhash").getValue(String.class);
                     String price = dataSnapshot.child("price").getValue(String.class);
 
+
                     // Set data in views
                     tvEventName.setText(eventName);
                     tvEventDate.setText("Date: " + eventDateTime);
@@ -81,14 +95,17 @@ public class EventDetailsActivity extends AppCompatActivity {
                     tvEventCapacity.setText("Capacity: " + capacity + " seats available");
                     tvQrCodeLabel.setText("QR Code for Event");
 
+
                     // Optional: Load QR code or other images if you have URLs
                     // Use a library like Glide or Picasso to load images from URLs
                     // Glide.with(EventDetails.this).load(qrhash).into(imgQrCode);
+
 
                     // Display any other details as required
                     // Example: tvPrice.setText("Price: $" + price);
                 }
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

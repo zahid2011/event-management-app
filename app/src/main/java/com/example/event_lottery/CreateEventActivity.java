@@ -1,6 +1,5 @@
 package com.example.event_lottery;
 
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,11 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.example.event_lottery.OrganizerDashboardActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import android.graphics.Bitmap;
+
+
 
 
 import com.google.zxing.BarcodeFormat;
@@ -31,12 +35,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+
+
 public class CreateEventActivity extends AppCompatActivity {
+
+
 
 
     private Button btnCreateEvent, btnGenerateQr, btnCancel, btnBackToDashboard;
     private FirebaseFirestore db;
     private ImageView qrCodeImageView;
+
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -46,13 +56,17 @@ public class CreateEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_event);
 
 
+
+
         db = FirebaseFirestore.getInstance(); // Initialize Firestore
+
 
         btnCreateEvent = findViewById(R.id.btn_create_event);
         btnGenerateQr = findViewById(R.id.btn_generate_qr);
         btnCancel = findViewById(R.id.btn_cancel);
         qrCodeImageView = findViewById(R.id.qrCodeImageView);
         btnBackToDashboard = findViewById(R.id.btn_back_to_dashboard);
+
 
         btnBackToDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +80,8 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
 
+
+
         btnCreateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,19 +90,27 @@ public class CreateEventActivity extends AppCompatActivity {
                 String evtID = evtView.getText().toString();
 
 
+
+
                 TextView tevtView = findViewById(R.id.et_event_datetime);
                 String tevtID = tevtView.getText().toString();
+
+
 
 
                 TextView vtView = findViewById(R.id.et_capacity);
                 String vtID = vtView.getText().toString();
 
 
+
+
                 TextView tView = findViewById(R.id.et_price);
                 String tID = tView.getText().toString();
 
+
                 TextView desc = findViewById(R.id.et_event_description);
                 String descID = desc.getText().toString();
+
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
@@ -103,8 +127,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
 
 
+
+
                 // Create Event object
                 Events newEvent = new Events(evtID, date, vtID, tID, descID);
+
+
+
+
 
 
 
@@ -116,6 +146,8 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
 
+
+
         btnGenerateQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,19 +156,28 @@ public class CreateEventActivity extends AppCompatActivity {
                 String evtID = evtView.getText().toString();
 
 
+
+
                 TextView dateTimeView = findViewById(R.id.et_event_datetime);
                 String tevtID = dateTimeView.getText().toString();
 
+
                 TextView desc = findViewById(R.id.et_event_description);
                 String descID = desc.getText().toString();
+
+
 
 
                 TextView vtView = findViewById(R.id.et_capacity);
                 String vtID = vtView.getText().toString();
 
 
+
+
                 TextView tView = findViewById(R.id.et_price);
                 String tID = tView.getText().toString();
+
+
 
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -149,8 +190,12 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
 
 
+
+
                 String qrContent = "Event: " + evtID + "\nDescription: " + descID + "\nCapacity: " + vtID +
                         "\nDateTime: " + date + "\nPrice: " + tID;
+
+
 
 
                 // Generate QR Code Bitmap
@@ -159,6 +204,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 if (qrCodeBitmap != null) {
                     Toast.makeText(CreateEventActivity.this, "before hash", Toast.LENGTH_SHORT).show();
                     qrCodeImageView.setImageBitmap(qrCodeBitmap);
+
+
 
 
                     // Generate hash of the QR code bitmap
@@ -173,6 +220,8 @@ public class CreateEventActivity extends AppCompatActivity {
                         //  eventData.put("dateTime", formattedDateTime);
                         // eventData.put("price", tID);
                         //  eventData.put("qrHash", qrHash);
+
+
 
 
                         db.collection("events").document(evtID)
@@ -197,6 +246,12 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,6 +259,8 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     private void saveEventToFirestore(Events event) {
@@ -219,6 +276,8 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
+
+
     public Bitmap generateQRCode(String text) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try {
@@ -226,6 +285,8 @@ public class CreateEventActivity extends AppCompatActivity {
             int height = 300;
             BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
+
 
 
             for (int x = 0; x < width; x++) {
@@ -248,9 +309,13 @@ public class CreateEventActivity extends AppCompatActivity {
         byte[] bitmapBytes = bitmapToByteArray(bitmap);
 
 
+
+
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(bitmapBytes);
+
+
 
 
             StringBuilder hexString = new StringBuilder();
