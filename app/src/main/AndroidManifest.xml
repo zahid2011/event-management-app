@@ -36,7 +36,6 @@
         <activity android:name=".WaitingListActivity" />
         <activity android:name=".WaitingListAdapter" />
         <activity android:name=".ManageFacilityActivity" />
-
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.event_lottery;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +57,7 @@ public class ManageFacilityActivity extends AppCompatActivity {
         btnSaveChanges = findViewById(R.id.btn_save_changes);
         btnGetFacility = findViewById(R.id.btn_get_facility);
 
-        // Set up button listeners
+
        // btnCreate.setOnClickListener(new View.OnClickListener() {
          //   @Override
          //   public void onClick(View v) {
@@ -69,6 +70,18 @@ public class ManageFacilityActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveFacilityProfile();
+            }
+        });
+
+        Button btnBackToDashboard = findViewById(R.id.btn_back_to_dashboard);
+        btnBackToDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the OrganizerDashboardActivity
+                Intent intent = new Intent(ManageFacilityActivity.this, OrganizerDashboardActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // Close ManageFacilityActivity
             }
         });
 

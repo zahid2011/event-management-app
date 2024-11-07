@@ -27,20 +27,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_signup_page); // Ensure this is the correct layout file
 
 
-        // Handle deep link if the activity was launched from a QR code scan
+
         Intent intent = getIntent();
         if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri data = intent.getData();
             if (data != null && "event".equals(data.getHost())) {
-                String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
-
-
-                // Launch EventDetailsActivity with the eventId
+                String eventId = data.getLastPathSegment();
                 Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
-                detailsIntent.putExtra("event_id", eventId);
+                detailsIntent.putExtra("eventName", eventId);
                 startActivity(detailsIntent);
             }
         }
+        // Handle deep link if the activity was launched from a QR code scan
+      //  Intent intent = getIntent();
+       // if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
+          //  Uri data = intent.getData();
+            //if (data != null && "event".equals(data.getHost())) {
+              //  String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
+
+
+                // Launch EventDetailsActivity with the eventId
+              //  Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
+                //detailsIntent.putExtra("event_id", eventId);
+                //startActivity(detailsIntent);
+            //}
+      //  }
 
 
         // Initialize buttons
