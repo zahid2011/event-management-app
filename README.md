@@ -8,6 +8,7 @@ An event lottery and management app that allows users to join event waitlists, r
 - QR code scanning for event details
 - Event organizer tools for creating and managing events
 - User profile management
+- Create and Manage Facilities
 
 ## Prerequisites
 - [Android Studio](https://developer.android.com/studio) (version X.X.X or higher)
