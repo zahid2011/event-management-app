@@ -9,14 +9,6 @@
     android:gravity="center_horizontal">
 
     <!-- Back Arrow -->
-    <ImageView
-        android:id="@+id/back_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_media_previous"
-        android:contentDescription="Back"
-        android:layout_gravity="start"
-        android:layout_marginBottom="8dp" />
 
     <!-- Dashboard Title and Icon -->
     <LinearLayout
@@ -97,4 +89,12 @@
         android:text="Facilities"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="185dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#0D0D0D"
+        android:text="Log out" />
 </LinearLayout>

@@ -31,11 +31,13 @@
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".EventListActivity" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".OngoingEventsActivity" />
-        <activity android:name=".EventDetailsActivity" />
-        <activity android:name=".WaitingListActivity" />
-        <activity android:name=".WaitingListAdapter" />
-        <activity android:name=".ManageFacilityActivity" />
+        <activity android:name=".NotificationSettingsActivity" />
+        <activity android:name=".AdminDashboardActivity" />
+        <activity android:name=".EventManagementActivity" />
+        <activity android:name=".AdminEventDetailsActivity" />
+        <activity android:name=".EventDetailsactivity" />
+        <activity android:name=".AdminProfileManagementActivity" />
+        <activity android:name=".AdminUserDetailsActivity" />
     </application>
 
 </manifest>
