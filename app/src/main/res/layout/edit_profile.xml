@@ -92,15 +92,24 @@
     </LinearLayout>
 
     <!-- Input Fields -->
+
     <EditText
         android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="Email ID*"
-
-        android:padding="12dp"
         android:layout_marginTop="16dp"
-        android:inputType="textEmailAddress"/>
+
+        android:hint="Email ID*"
+        android:inputType="textEmailAddress"
+        android:padding="12dp" />
+
+    <EditText
+        android:id="@+id/userIdEditText"
+        android:layout_width="377dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="User ID"
+        android:padding="12dp" />
 
     <EditText
         android:id="@+id/usernameEditText"
