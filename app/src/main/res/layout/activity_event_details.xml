@@ -68,30 +68,32 @@
     </androidx.cardview.widget.CardView>
 
     <!-- Event Image Placeholder -->
+
+    <!-- Event Details Card -->
+
     <TextView
         android:id="@+id/tv_add_image"
-        android:layout_width="wrap_content"
-        android:layout_height="49dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="131dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
         android:clickable="true"
         android:gravity="center"
         android:onClick="onAddImageClicked"
-        android:text="Add Image"
-        android:textColor="#1F41BB"
+        android:text="Update Event Image"
+        android:textColor="#000000"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_event_name" />
 
-    <!-- Event Details Card -->
     <ImageView
         android:id="@+id/img_event_image"
         android:layout_width="61dp"
         android:layout_height="50dp"
         android:layout_marginTop="17dp"
         android:contentDescription="Event Image"
-        android:src="@drawable/ic_image_placeholder"
+        android:src="@drawable/ic_event"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_add_image" />
@@ -140,26 +142,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Capacity:    seats left"
+                android:text="Capacity: "
                 android:textColor="#000000"
+                android:textStyle="bold"
                 android:textSize="14sp" />
 
             <!-- Max Waiting List Entrants -->
             <TextView
                 android:id="@+id/tv_max_waiting_list"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="4dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:text="Max Waiting List Entrants [Tap to Set] : "
-                android:textColor="#666666"
-                android:textSize="14sp" />
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
 
             <!-- Enable Geolocation with Switch -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="197dp"
+                android:layout_height="37dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
