@@ -38,6 +38,8 @@
         <activity android:name=".EventDetailsactivity" />
         <activity android:name=".AdminProfileManagementActivity" />
         <activity android:name=".AdminUserDetailsActivity" />
+        <activity android:name=".EntrantUserWaitingListActivity" />
+        <activity android:name=".EntrantEventWaitingDetails" />
     </application>
 
 </manifest>

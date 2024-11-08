@@ -69,16 +69,16 @@ public class LoginActivity extends AppCompatActivity {
                         if (document != null && document.exists()) {
                             String storedPassword = document.getString("password");
                             String registeredRole = document.getString("role");
+                            String userId = document.getString("id");  // Retrieve the `id` field
 
-                            // Check if the password and role match
                             if (storedPassword != null && storedPassword.equals(password)) {
                                 if (registeredRole != null && registeredRole.equals(selectedRole)) {
                                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                                    // Save the user ID (email) in SharedPreferences
+                                    // Save the unique user `id` in SharedPreferences
                                     SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("USER_ID", email); // Use email as the user ID
+                                    editor.putString("USER_ID", userId);  // Store `id` instead of email
                                     editor.apply();
 
                                     // Redirect based on role
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                         dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
                                     } else if (selectedRole.equals("Organiser")) {
                                         dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
-                                    } else if (selectedRole.equals("Admin")) { // Check for Admin role
+                                    } else if (selectedRole.equals("Admin")) {
                                         dashboardIntent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                                     } else {
                                         Toast.makeText(LoginActivity.this, "Invalid role selected.", Toast.LENGTH_SHORT).show();
