@@ -29,10 +29,9 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entrant_joined_waiting_list);
 
-        // Initialize Firebase Firestore
+        // initializing Firebase Firestore
         db = FirebaseFirestore.getInstance();
 
-        // Retrieve userId from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userId = sharedPreferences.getString("USER_ID", null);
 
@@ -45,7 +44,7 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
         listView = findViewById(R.id.list_view);
         eventsList = new ArrayList<>();
 
-        // Use EntrantWaitingListAdapter instead of EventAdapter
+
         entrantWaitingListAdapter = new EntrantWaitingListAdapter(this, eventsList);
         listView.setAdapter(entrantWaitingListAdapter);
 
@@ -69,7 +68,6 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
                                 String eventId = eventDocument.getId();
                                 Log.d(TAG, "Checking event: " + eventId);
 
-                                // Check if user is in the waiting list of the current event
                                 db.collection("events").document(eventId).collection("waitingList")
                                         .whereEqualTo("userId", userId)
                                         .get()
