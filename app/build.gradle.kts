@@ -40,6 +40,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    tasks.withType<Test>{
+            useJUnitPlatform()
+        }
 }
 
 dependencies {
@@ -77,6 +81,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
     androidTestImplementation("com.google.truth:truth:1.1.3")
     androidTestImplementation ("io.mockk:mockk-android:1.12.0")
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.7.0")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
 
 
 }
