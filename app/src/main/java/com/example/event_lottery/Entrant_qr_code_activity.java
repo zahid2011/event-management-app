@@ -10,13 +10,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class EventDetailsactivity extends AppCompatActivity {
+public class Entrant_qr_code_activity extends AppCompatActivity {
 
     private static final String TAG = "EventDetailsActivity";
     private TextView eventNameView, descriptionView, capacityView, dateTimeView, priceView, geolocationView, maxWaitingListView;
@@ -35,7 +34,7 @@ public class EventDetailsactivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_details);
+        setContentView(R.layout.entrant_qr_code_register_activity);
 
         // Initialize views
         eventNameView = findViewById(R.id.event_name);
@@ -141,7 +140,7 @@ public class EventDetailsactivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document != null && document.exists()) {
-                            Toast.makeText(EventDetailsactivity.this, "You are already registered for this event.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Entrant_qr_code_activity.this, "You are already registered for this event.", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "User already registered.");
                             // Optionally, disable the register button
                             finish();
@@ -170,7 +169,7 @@ public class EventDetailsactivity extends AppCompatActivity {
                         }
                     } else {
                         Log.e(TAG, "Failed to check registration status", task.getException());
-                        Toast.makeText(EventDetailsactivity.this, "Failed to check registration status.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Entrant_qr_code_activity.this, "Failed to check registration status.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -180,13 +179,13 @@ public class EventDetailsactivity extends AppCompatActivity {
                 .set(new WaitingListEntry(userId))
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "User successfully registered to the waiting list.");
-                    Toast.makeText(EventDetailsactivity.this, "Successfully registered.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Entrant_qr_code_activity.this, "Successfully registered.", Toast.LENGTH_SHORT).show();
                     // Optionally, disable the register button to prevent multiple registrations
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Error registering to the waiting list", e);
-                    Toast.makeText(EventDetailsactivity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Entrant_qr_code_activity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
                 });
     }
 

@@ -42,7 +42,7 @@ public class QRCodeScannerActivity extends AppCompatActivity {
 
                 if (eventName != null && !eventName.isEmpty()) {
                     // Start EventDetailsActivity with event name
-                    Intent intent = new Intent(QRCodeScannerActivity.this, EventDetailsactivity.class);
+                    Intent intent = new Intent(QRCodeScannerActivity.this, Entrant_qr_code_activity.class);
                     intent.putExtra("event_name", eventName);
                     startActivity(intent);
                     finish();

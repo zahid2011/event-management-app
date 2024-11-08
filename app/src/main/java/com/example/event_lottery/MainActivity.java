@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
 
                 // Launch EventDetailsActivity with the eventId
-                Intent detailsIntent = new Intent(this, EventDetailsactivity.class);
+                Intent detailsIntent = new Intent(this, Entrant_qr_code_activity.class);
                 detailsIntent.putExtra("event_id", eventId);
                 startActivity(detailsIntent);
             }
