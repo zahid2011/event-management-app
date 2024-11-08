@@ -43,7 +43,7 @@ import java.util.Locale;
 
 
 
-public class EventDetailsactivity extends AppCompatActivity {
+public class EventDetailsActivity extends AppCompatActivity {
 
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
@@ -205,7 +205,7 @@ public class EventDetailsactivity extends AppCompatActivity {
                 int maxWaitingListLimit = Integer.parseInt(inputText);
                 updateMaxWaitingListLimit(maxWaitingListLimit);
             } else {
-                Toast.makeText(EventDetailsactivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventDetailsActivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -221,11 +221,11 @@ public class EventDetailsactivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     // Immediately update the TextView with the new limit
                     tvMaxWaitingList.setText("Max Waiting List Entrants: " + maxWaitingListLimit);
-                    Toast.makeText(EventDetailsactivity.this, "Max waiting list limit updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventDetailsActivity.this, "Max waiting list limit updated", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
                     Log.e("EventDetailsActivity", "Error updating max waiting list", e);
-                    Toast.makeText(EventDetailsactivity.this, "Failed to update max waiting list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventDetailsActivity.this, "Failed to update max waiting list", Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -286,7 +286,7 @@ public class EventDetailsactivity extends AppCompatActivity {
                 } else {
 
 
-                    Toast.makeText(EventDetailsactivity.this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventDetailsActivity.this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
 
 
                 }
