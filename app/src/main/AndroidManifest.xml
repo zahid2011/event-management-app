@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -14,40 +12,41 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Event_lottery"
         tools:targetApi="31">
+
+        <!-- Main Activity with Intent Filters for Deep Links -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="myapp" android:host="event" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".OrganizerDashboardActivity" />
-        <activity android:name=".CreateEventActivity" />
-        <activity android:name=".EventListActivity" />
-        <activity android:name=".EditProfileActivity" />
-        <activity android:name=".NotificationSettingsActivity" />
-        <activity android:name=".AdminDashboardActivity" />
-        <activity android:name=".EventManagementActivity" />
-        <activity android:name=".AdminEventDetailsActivity" />
-        <activity android:name=".QRCodeScannerActivity"
-            android:exported="true" />
-        <activity android:name=".Entrant_qr_code_activity" />
-        <activity android:name=".OngoingEventsActivity" />
-        <activity android:name=".EventDetailsActivity" />
-        <activity android:name=".WaitingListActivity"/>
-        <activity android:name=".AdminProfileManagementActivity" />
-        <activity android:name=".AdminUserDetailsActivity" />
-        <activity android:name=".ManageFacilityActivity" />
-        <activity android:name=".NotificationActivity" />
 
+        <!-- Application Activities -->
+        <activity android:name=".LoginActivity" android:exported="true"/>
+        <activity android:name=".SignupActivity" android:exported="true"/>
+        <activity android:name=".DashboardActivity" android:exported="true"/>
+        <activity android:name=".OrganizerDashboardActivity" android:exported="true"/>
+        <activity android:name=".CreateEventActivity" android:exported="true"/>
+        <activity android:name=".EventListActivity" android:exported="true"/>
+        <activity android:name=".EditProfileActivity" android:exported="true"/>
+        <activity android:name=".NotificationSettingsActivity" android:exported="false"/>
+        <activity android:name=".AdminDashboardActivity" android:exported="true"/>
+        <activity android:name=".EventManagementActivity" android:exported="true"/>
+        <activity android:name=".AdminEventDetailsActivity" android:exported="true"/>
+        <activity android:name=".OngoingEventsActivity" android:exported="true"/>
+        <activity android:name=".EventDetailsActivity" android:exported="true"/>
+        <activity android:name=".WaitingListActivity" android:exported="true"/>
+        <activity android:name=".AdminProfileManagementActivity" android:exported="true"/>
+        <activity android:name=".AdminUserDetailsActivity" android:exported="true"/>
+        <activity android:name=".ManageFacilityActivity" android:exported="true"/>
 
     </application>
 
