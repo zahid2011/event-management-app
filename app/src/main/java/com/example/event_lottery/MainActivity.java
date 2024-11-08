@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
-        setContentView(R.layout.main_signup_page); // Ensure this is the correct layout file
+        setContentView(R.layout.main_signup_page); 
 
 
 
@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri data = intent.getData();
             if (data != null && "event".equals(data.getHost())) {
-                String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
+                String eventId = data.getLastPathSegment(); 
 
-                // Launch EventDetailsActivity with the eventId
+                // launch EventDetailsActivity with the eventId
                 Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
                 Intent qr_code_intent = new Intent(this, Entrant_qr_code_activity.class);
                 qr_code_intent.putExtra("event_id", eventId);
