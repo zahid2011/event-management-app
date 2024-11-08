@@ -67,7 +67,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        // Placeholder click listeners for other buttons
+        // for event activity
         waitingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
