@@ -57,13 +57,13 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
             Intent intent = new Intent(getContext(), AdminEventDetailsActivity.class);
 
-            // Pass the event details to the intent, including eventId and eventDescription
-            intent.putExtra("eventId", event.getEventId()); // Ensure getEventId() returns the document ID
+            // passing the event details to the intent, including eventId and eventDescription
+            intent.putExtra("eventId", event.getEventId()); 
             intent.putExtra("eventName", event.getEventName());
             intent.putExtra("eventDate", timestamp != null ? sdf.format(timestamp.toDate()) : "");
-            intent.putExtra("eventCapacity", event.getCapacity()); // Passing capacity as String
-            intent.putExtra("eventPrice", event.getPrice());       // Passing price as String
-            intent.putExtra("eventDescription", event.getDescription()); // Pass event description
+            intent.putExtra("eventCapacity", event.getCapacity()); 
+            intent.putExtra("eventPrice", event.getPrice());       
+            intent.putExtra("eventDescription", event.getDescription()); 
 
             // Start the activity
             getContext().startActivity(intent);
