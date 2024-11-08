@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tv_participant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Participant Name"
+        android:textSize="16sp"
+        android:textColor="#000000" />
+</LinearLayout>
