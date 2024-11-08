@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Blue Header Background -->
+
+    <!-- Profile Image Preview -->
+
+    <!-- Back Button -->
+
+    <!-- Notification Button -->
+
+    <!-- Title -->
+
+    <!-- Camera Icon for Adding Profile Image -->
+
+    <View
+        android:id="@+id/headerBackground"
+        android:layout_width="415dp"
+        android:layout_height="175dp"
+        android:background="#1F41BB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivProfileImagePreview"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUploadTitle"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageButton
+        android:id="@+id/backButton2"
+        android:layout_width="44dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintBottom_toTopOf="@+id/tvUploadTitle"
+        app:layout_constraintEnd_toStartOf="@+id/tvUploadTitle"
+        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+    <!-- Role Text -->
+
+    <!-- Upload Profile Picture Button -->
+
+    <!-- Remove Profile Picture Button -->
+
+
+    <TextView
+        android:id="@+id/tvUploadTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Profile Picture"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/headerBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/headerBackground"
+        app:layout_constraintVertical_bias="0.517" />
+
+    <Button
+        android:id="@+id/btnUploadProfileImage"
+        android:layout_width="161dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="132dp"
+        android:backgroundTint="#1F41BB"
+        android:text="Upload Picture"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/btnRemoveProfileImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfileImagePreview" />
+
+    <Button
+        android:id="@+id/btnRemoveProfileImage"
+        android:layout_width="168dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="28dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="Remove Picture"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfileImagePreview" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
