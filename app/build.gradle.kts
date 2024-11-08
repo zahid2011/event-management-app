@@ -68,5 +68,15 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
+    // Unit Testing
+    testImplementation("junit:junit:4.13.2")
+    testImplementation ("io.mockk:mockk:1.12.0")
+    // UI and Instrumentation Testing
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
+    androidTestImplementation("com.google.truth:truth:1.1.3")
+    androidTestImplementation ("io.mockk:mockk-android:1.12.0")
+
 
 }

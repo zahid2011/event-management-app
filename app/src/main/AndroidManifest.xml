@@ -47,6 +47,8 @@
         <activity android:name=".AdminProfileManagementActivity" android:exported="true"/>
         <activity android:name=".AdminUserDetailsActivity" android:exported="true"/>
         <activity android:name=".ManageFacilityActivity" android:exported="true"/>
+        <activity android:name=".EntrantUserWaitingListActivity" />
+        <activity android:name=".EntrantEventWaitingDetails" />
 
     </application>
 
