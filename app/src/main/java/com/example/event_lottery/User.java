@@ -1,42 +1,35 @@
 package com.example.event_lottery;
 
 public class User {
-    private String userId; // New field for unique user ID
+    private String id;
     private String email;
     private String username;
     private String firstName;
     private String lastName;
     private String password;
     private String role;
-    private String profileImageUrl;
 
-    // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
     }
 
-    // Updated constructor to include userId
-    public User(String userId, String email, String username, String firstName, String lastName, String password, String role, String profileImageUrl) {
-        this.userId = userId;
+    // Constructor to initialize user data
+    public User(String id, String email, String username, String firstName, String lastName, String password, String role) {
+        this.id = id;
         this.email = email;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.role = role;
-        this.profileImageUrl = profileImageUrl;
     }
 
-    // Getters and Setters
-
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
-
-    // Existing getters and setters
 
     public String getEmail() {
         return email;
@@ -86,11 +79,6 @@ public class User {
         this.role = role;
     }
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
 
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
+
 }
