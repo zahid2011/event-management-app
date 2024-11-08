@@ -67,10 +67,13 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        // Placeholder click listeners for other buttons
-        waitingListButton.setOnClickListener(v -> {
-            Intent waitingListIntent = new Intent(DashboardActivity.this, EntrantUserWaitingListActivity.class);
-            startActivity(waitingListIntent);
+        
+        waitingListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent waitingListIntent = new Intent(DashboardActivity.this, EventListActivity.class);
+                startActivity(waitingListIntent);
+            }
         });
         // Shahmeer's work
         notificationButton.setOnClickListener(new View.OnClickListener() {
