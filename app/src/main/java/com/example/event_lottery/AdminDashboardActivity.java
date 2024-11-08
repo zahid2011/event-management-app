@@ -31,7 +31,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         profileManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Profile Management - Coming Soon", Toast.LENGTH_SHORT).show();
+                // Navigate to AdminProfileManagementActivity
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminProfileManagementActivity.class);
+                startActivity(intent);
             }
         });
 
