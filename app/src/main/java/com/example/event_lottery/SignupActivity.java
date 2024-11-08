@@ -1,20 +1,22 @@
 package com.example.event_lottery;
 
 import android.os.Bundle;
-import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.UUID;
 
-public class SignupActivity extends MainActivity{
+public class SignupActivity extends AppCompatActivity {
     private EditText emailEditText, usernameEditText, firstNameEditText, lastNameEditText, passwordEditText;
     private Button signupButton;
     private ImageButton backButton;
@@ -46,7 +48,7 @@ public class SignupActivity extends MainActivity{
 
         roleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
                 selectedRole = parent.getItemAtPosition(position).toString();
             }
 
@@ -59,29 +61,53 @@ public class SignupActivity extends MainActivity{
         backButton.setOnClickListener(v -> finish());
 
         signupButton.setOnClickListener(v -> {
-            String email = emailEditText.getText().toString();
+            String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString();
             String username = usernameEditText.getText().toString();
             String firstName = firstNameEditText.getText().toString();
             String lastName = lastNameEditText.getText().toString();
 
-            if (email.isEmpty() || password.isEmpty()) {
+            if (!areFieldsFilled(email, password, username, firstName, lastName, selectedRole)) {
                 Toast.makeText(SignupActivity.this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            } else if (!isEmailValid(email)) {
+                Toast.makeText(SignupActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            } else if (!isPasswordValid(password)) {
+                Toast.makeText(SignupActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
             } else {
-                // generates a unique ID for the user
+                // Generate a unique ID for the user
                 String userId = UUID.randomUUID().toString();
 
-                // then saves user information in Firestore
+                // Save user information in Firestore
                 saveUserInfo(userId, email, username, firstName, lastName, password, selectedRole);
             }
         });
     }
 
+    // Validation Methods
+    public boolean areFieldsFilled(String... fields) {
+        for (String field : fields) {
+            if (field == null || field.trim().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isEmailValid(String email) {
+        // Simple regex for email validation
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public boolean isPasswordValid(String password) {
+        // Password should be at least 6 characters
+        return password != null && password.length() >= 6;
+    }
+
     private void saveUserInfo(String id, String email, String username, String firstName, String lastName, String password, String role) {
-        // creating a User object with id as the first parameter
+        // Create a User object with id as the first parameter
         User userInfo = new User(id, email, username, firstName, lastName, password, role);
 
-        // storing the user information in Firestore, using the email as the document ID
+        // Store the user information in Firestore, using the email as the document ID
         db.collection("users").document(email).set(userInfo)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
