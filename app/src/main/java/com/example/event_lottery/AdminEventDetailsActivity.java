@@ -16,17 +16,17 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
     private TextView eventNameTextView, eventDateTextView, eventCapacityTextView, eventPriceTextView, eventDescriptionTextView;
     private Button removeEventButton;
     private FirebaseFirestore db;
-    private String eventId; // Unique identifier for the event document in Firestore
+    private String eventId; // unique identifier for the event document in Firestore
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_event_details_page);
 
-        // Initialize Firestore
+        // initializing Firestore
         db = FirebaseFirestore.getInstance();
 
-        // Initialize UI elements
+       
         eventNameTextView = findViewById(R.id.event_name);
         eventDateTextView = findViewById(R.id.event_date);
         eventCapacityTextView = findViewById(R.id.event_capacity);
@@ -34,7 +34,7 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
         removeEventButton = findViewById(R.id.remove_event_button);
         eventDescriptionTextView = findViewById(R.id.event_description);
 
-        // Retrieve data from intent
+    
         Intent intent = getIntent();
         eventId = intent.getStringExtra("eventId");
         String eventName = intent.getStringExtra("eventName");
@@ -52,11 +52,11 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
         eventPriceTextView.setText("Price: $" + eventPrice);
 
 
-        // Set up the back button functionality
+        // back button functionality
         ImageButton backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
 
-        // Remove event button with confirmation dialog
+        // removing event button with confirmation dialog
         removeEventButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
@@ -76,13 +76,13 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
     }
 
     private void deleteEvent() {
-        // Ensure eventId is not null or empty before attempting to delete
+        // ensuring eventId is not null or empty before attempting to delete
         if (eventId != null && !eventId.isEmpty()) {
             db.collection("events").document(eventId)
                     .delete()
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(AdminEventDetailsActivity.this, "Event deleted successfully", Toast.LENGTH_SHORT).show();
-                        finish(); // Close the details page after deletion
+                        finish();
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(AdminEventDetailsActivity.this, "Error deleting event", Toast.LENGTH_SHORT).show()
