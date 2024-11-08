@@ -98,7 +98,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
 
     private void openEventDetails(String event_id) {
         // Intent to open EventDetailsActivity (assuming it exists)
-        Intent intent = new Intent(OngoingEventsActivity.this, EventDetailsactivity.class);
+        Intent intent = new Intent(OngoingEventsActivity.this, EventDetailsActivity.class);
         intent.putExtra("event_id", event_id); // Pass event ID
         startActivity(intent);
     }

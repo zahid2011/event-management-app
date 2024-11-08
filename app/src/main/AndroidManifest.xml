@@ -40,8 +40,9 @@
         <activity android:name=".WaitingListActivity"/>
         <activity android:name=".AdminProfileManagementActivity" />
         <activity android:name=".AdminUserDetailsActivity" />
-        <activity android:name=".OngoingEventsActivity" />
         <activity android:name=".ManageFacilityActivity" />
+        <activity android:name=".NotificationActivity" />
+
 
     </application>
 

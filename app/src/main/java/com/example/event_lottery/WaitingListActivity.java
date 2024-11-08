@@ -1,143 +1,198 @@
 package com.example.event_lottery;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
 
-import android.widget.EditText;
-import android.widget.Button;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-
+import java.util.Set;
 
 public class WaitingListActivity extends AppCompatActivity {
 
-
-    private TextView tvTotalParticipants;
-    private EditText etSearchUser;
-    private ImageView ivSearchIcon;
     private ListView lvWaitingList;
-    private Button btnSendNotifications;
-
-
+    private List<WaitingListUser> waitingListUsers;
     private FirebaseFirestore db;
-    private WaitingListAdapter adapter;
-    private List<String> participantList;
     private String eventId;
-    private EditText entrantEmailEditText;
-    private Button btnJoinWaitingList;
-    private EditText entrantNameEditText;
-    @SuppressLint("MissingInflatedId")
+    private Set<Integer> selectedUsers; // Track selected user positions
+    private TextView tvTotalParticipants; // TextView for total participants
+    private Button btnSelectAll; // Button for selecting all users
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_waiting_list); // Make sure the layout name matches
+        setContentView(R.layout.activity_waiting_list);
 
-
-        // Initialize UI components
-        tvTotalParticipants = findViewById(R.id.tv_total_participants);
-        etSearchUser = findViewById(R.id.et_search_user);
-        ivSearchIcon = findViewById(R.id.iv_search_icon);
         lvWaitingList = findViewById(R.id.lv_waiting_list);
-        btnSendNotifications = findViewById(R.id.btn_send_notifications);
-        entrantEmailEditText = findViewById(R.id.entrant_email);
-        entrantNameEditText = findViewById(R.id.entrant_name);
-        btnJoinWaitingList = findViewById(R.id.btn_join_waiting_list);
-        btnJoinWaitingList.setOnClickListener(v -> joinWaitingList());
-
-        // Initialize Firestore
+        Button btnSendNotifications = findViewById(R.id.btn_send_notifications);
+        tvTotalParticipants = findViewById(R.id.tv_total_participants); // Initialize participant count TextView
+        btnSelectAll = findViewById(R.id.btn_select_all); // Initialize the "Select All" button
+        waitingListUsers = new ArrayList<>();
+        selectedUsers = new HashSet<>();
         db = FirebaseFirestore.getInstance();
 
-
-        // Get eventId from Intent
-        eventId = getIntent().getStringExtra("eventName");
-
-
-        // Initialize participant list and adapter
-        participantList = new ArrayList<>();
-        adapter = new WaitingListAdapter(this, participantList);
-        lvWaitingList.setAdapter(adapter);
-
-
-        // Load participants from Firestore
-        loadParticipants();
-
-
-        // Set up button click listeners
-        btnSendNotifications.setOnClickListener(v -> sendNotifications());
-    }
-
-
-    private void loadParticipants() {
+        // Get the event ID from the intent
+        eventId = getIntent().getStringExtra("event_id");
         if (eventId == null) {
-            Toast.makeText(this, "Event ID not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Event ID missing", Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
 
+        // Fetch waiting list data
+        fetchWaitingList();
 
-        db.collection("events").document(eventId).collection("waiting_list")
+        // Set click listener for "Select All" button
+        btnSelectAll.setOnClickListener(v -> {
+            // Select all users
+            for (int i = 0; i < waitingListUsers.size(); i++) {
+                selectedUsers.add(i);
+            }
+            // Notify the adapter to update the ListView
+            ((ArrayAdapter) lvWaitingList.getAdapter()).notifyDataSetChanged();
+            Toast.makeText(this, "All users selected", Toast.LENGTH_SHORT).show();
+        });
+
+        // Set up Send Notifications button click listener
+        btnSendNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(WaitingListActivity.this, NotificationActivity.class);
+            intent.putExtra("event_id", eventId); // Pass event ID
+            intent.putStringArrayListExtra("selected_users", new ArrayList<>(getSelectedUserEmails()));
+            startActivity(intent);
+        });
+    }
+
+    private void fetchWaitingList() {
+        // Firestore reference: Adjust collection path as needed
+        DocumentReference eventRef = db.collection("events").document(eventId);
+        eventRef.collection("waitingList")
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        participantList.clear(); // Clear list to avoid duplicates
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String participantName = document.getString("name");
-                            if (participantName != null) {
-                                participantList.add(participantName); // Add participant names to list
-                            }
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        // Populate the waiting list
+                        waitingListUsers.clear();
+                        for (DocumentSnapshot document : querySnapshot) {
+                            String email = document.getString("email");
+                            waitingListUsers.add(new WaitingListUser(email != null ? email : "Unknown", R.drawable.ic_image_placeholder));
                         }
-                        adapter.notifyDataSetChanged();
-                        tvTotalParticipants.setText("Total Participants: " + participantList.size());
+
+                        // Update the total participants TextView
+                        tvTotalParticipants.setText("Total Participants: " + waitingListUsers.size());
+
+                        // Set up the adapter
+                        WaitingListAdapter adapter = new WaitingListAdapter(this, waitingListUsers);
+                        lvWaitingList.setAdapter(adapter);
                     } else {
-                        Toast.makeText(WaitingListActivity.this, "Failed to load waiting list.", Toast.LENGTH_SHORT).show();
+                        tvTotalParticipants.setText("Total Participants: 0"); // No participants
+                        Toast.makeText(this, "No waiting list data found", Toast.LENGTH_SHORT).show();
                     }
-                });
-    }
-
-
-    private void sendNotifications() {
-        // Placeholder functionality for sending notifications
-        Toast.makeText(this, "Notifications sent to all participants.", Toast.LENGTH_SHORT).show();
-        // Implement actual notification sending logic here if needed
-    }
-    private void joinWaitingList() {
-        String email = entrantEmailEditText.getText().toString().trim();
-        String name = entrantNameEditText.getText().toString().trim(); // Add an EditText for name
-
-        if (email.isEmpty() || name.isEmpty()) {
-            Toast.makeText(this, "Please enter both name and email", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Create a map to store entrant information
-        Map<String, Object> entrantData = new HashMap<>();
-        entrantData.put("name", name);
-        entrantData.put("email", email);
-
-        // Add entrant to the "Waiting_list" subcollection of the event
-        db.collection("events").document(eventId).collection("Waiting_list")
-                .add(entrantData)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Joined waiting list successfully!", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to join waiting list: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("WaitingListActivity", "Error fetching waiting list", e);
+                    Toast.makeText(this, "Failed to load waiting list", Toast.LENGTH_SHORT).show();
                 });
     }
 
+    private List<String> getSelectedUserEmails() {
+        List<String> emails = new ArrayList<>();
+        for (int position : selectedUsers) {
+            emails.add(waitingListUsers.get(position).getName()); // Assuming 'name' is the email
+        }
+        return emails;
+    }
+
+    // Custom Adapter for Waiting List
+    class WaitingListAdapter extends ArrayAdapter<WaitingListUser> {
+
+        private Context context;
+        private List<WaitingListUser> users;
+
+        public WaitingListAdapter(Context context, List<WaitingListUser> users) {
+            super(context, 0, users);
+            this.context = context;
+            this.users = users;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Inflate custom layout
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.waiting_list_item, parent, false);
+            }
+
+            // Get the current user
+            WaitingListUser user = users.get(position);
+
+            // Bind views
+            ImageView ivUserIcon = convertView.findViewById(R.id.iv_user_icon);
+            TextView tvUsername = convertView.findViewById(R.id.tv_username);
+            Button btnDetails = convertView.findViewById(R.id.btn_details);
+
+            ivUserIcon.setImageResource(user.getIcon());
+            tvUsername.setText(user.getName());
+
+            // Highlight if the user is selected
+            if (selectedUsers.contains(position)) {
+                convertView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_blue_light));
+            } else {
+                convertView.setBackgroundColor(context.getResources().getColor(android.R.color.transparent));
+            }
+
+            // Handle row click to select/unselect user
+            convertView.setOnClickListener(v -> {
+                if (selectedUsers.contains(position)) {
+                    selectedUsers.remove(position);
+                    Toast.makeText(context, "Unselected: " + user.getName(), Toast.LENGTH_SHORT).show();
+                } else {
+                    selectedUsers.add(position);
+                    Toast.makeText(context, "Selected: " + user.getName(), Toast.LENGTH_SHORT).show();
+                }
+                notifyDataSetChanged(); // Refresh the ListView to update selection
+            });
+
+            // Set up "Details" button (non-functional for now)
+            btnDetails.setOnClickListener(v -> {
+                // Placeholder: Show a message when clicked
+                Toast.makeText(context, "Details for " + user.getName(), Toast.LENGTH_SHORT).show();
+            });
+
+            return convertView;
+        }
+    }
+
+    // Model Class for Users
+    class WaitingListUser {
+        private String name;
+        private int icon;
+
+        public WaitingListUser(String name, int icon) {
+            this.name = name;
+            this.icon = icon;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIcon() {
+            return icon;
+        }
+    }
 }
