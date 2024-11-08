@@ -38,6 +38,9 @@
         <activity android:name=".EventDetailsactivity" />
         <activity android:name=".AdminProfileManagementActivity" />
         <activity android:name=".AdminUserDetailsActivity" />
+        <activity android:name=".OngoingEventsActivity" />
+        <activity android:name=".ManageFacilityActivity" />
+
     </application>
 
 </manifest>

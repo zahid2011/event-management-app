@@ -10,72 +10,28 @@
         android:id="@+id/total_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Events: 8"
+        android:text="Total Events: 0"
         android:textSize="18sp"
-        android:paddingBottom="8dp"/>
+        android:paddingBottom="8dp" />
 
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search"
-        android:inputType="text"/>
+        android:inputType="text" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Container for dynamically added event views -->
         <LinearLayout
+            android:id="@+id/events_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:background="#e0e0e0"
-                android:layout_marginBottom="8dp">
-
-                <!--   <ImageView
-                       android:layout_width="40dp"
-                       android:layout_height="40dp"
-                       android:src="@drawable/ic_event"/> -->
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:paddingStart="8dp">
-
-                    <TextView
-                        android:id="@+id/event_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Event ID"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/event_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Event description"/>
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/details_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Details"
-                    android:backgroundTint="@color/button_color"
-                    android:textColor="@android:color/white"/>
-            </LinearLayout>
-
-
-
         </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

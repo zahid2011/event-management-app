@@ -6,202 +6,231 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="16dp"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp">
-
-
-    <!-- android:id="@+id/iv_back_arrow" -->
-    <ImageView
-     android:layout_width="24dp"
-     android:layout_height="24dp"
-     android:contentDescription="Back"
-     app:layout_constraintStart_toStartOf="parent"
-     app:layout_constraintTop_toTopOf="parent"
-     android:layout_marginTop="24dp" />
- <!--  android:src="@drawable/ic_back_arrow"-->
+    tools:context=".MainActivity">
 
 
     <TextView
-        android:id="@+id/tv_facility_profile_title"
+        android:id="@+id/tv_create_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Manage Facility Profile"
+        android:text="CREATE EVENT"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
-
-
-
-    <LinearLayout
-        android:layout_width="289dp"
-        android:layout_height="50dp"
-        android:layout_marginHorizontal="32dp"
-        android:background="#E5EAFF"
-        app:cardCornerRadius="12dp"
-
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFFFFF"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="67dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="Upload Facility Logo"
-            android:textColor="#000000"
-            android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="Camera Icon"/>
-        <!-- android:src="@drawable/ic_camera" -->
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/img_event_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Add Event Image"
+        app:layout_constraintTop_toBottomOf="@id/tv_create_event_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Event Image"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="4dp" />
+
 
     <EditText
         android:id="@+id/et_facility_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
         android:hint="Facility Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintTop_toBottomOf="@id/img_event_image"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="137dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <EditText
+        android:id="@+id/et_facility_owner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Facility Owner"
+        app:layout_constraintTop_toBottomOf="@id/et_facility_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <EditText
         android:id="@+id/et_facility_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
         android:hint="Facility Address"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_facility_owner"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="190dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
-    <EditText
-        android:id="@+id/et_phone"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:hint="Phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="247dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:hint="Email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="304dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
-        android:id="@+id/et_facility_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:hint="Facility Description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="363dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
 
     <EditText
         android:id="@+id/et_facility_address_2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:hint="Facility Address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
+        android:layout_marginTop="16dp"
+        android:hint="Second Facility Address"
+        app:layout_constraintTop_toBottomOf="@id/et_facility_address"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="419dp"
-        tools:ignore="MissingConstraints" />
-    <!--android:background="@drawable/edittext_rounded_border" -->
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
+
+    <EditText
+        android:id="@+id/et_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:hint="Phone"
+        app:layout_constraintTop_toBottomOf="@id/et_facility_address_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Email"
+        app:layout_constraintTop_toBottomOf="@id/et_phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <EditText
+        android:id="@+id/et_facility_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Facility Description"
+        app:layout_constraintTop_toBottomOf="@id/et_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.375"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="480dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@id/et_event_description"
+        tools:ignore="NotSibling">
+
 
         <TextView
-            android:layout_width="215dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Geolocation"
+            android:text="Enable Geolocation"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" />
-        <!--android:background="@drawable/edittext_rounded_border" -->
+
 
         <Switch
             android:id="@+id/switch_geolocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:checked="true"
-            android:thumbTint="@color/black"
-            android:trackTint="@color/black"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            android:checked="true" />
     </LinearLayout>
+
 
     <Button
         android:id="@+id/btn_create"
-        android:layout_width="277dp"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="32dp"
-        android:text="Create"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Generate QR Code"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintTop_toBottomOf="@id/switch_geolocation"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="534dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="NotSibling" />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/btn_generate_qr"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="NotSibling">
+
+
+        <Button
+            android:id="@+id/btn_save_changes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1F41BB" />
+
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#1F41BB" />
+
+        <Button
+            android:id="@+id/btn_back_to_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Dashboard" />
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/qrCodeImageView"
+        android:layout_width="196dp"
+        android:layout_height="193dp"
+        android:contentDescription="QR Code Image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:ignore="NotSibling" />
 
     <Button
-        android:id="@+id/btn_save_changes"
-        android:layout_width="277dp"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="32dp"
-        android:text="Save Changes"
+        android:id="@+id/btn_get_facility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Get"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.588"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="609dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_facility_description"
+        tools:layout_editor_absoluteX="138dp"
         tools:ignore="MissingConstraints" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
