@@ -58,6 +58,10 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+        if (db == null) {
+            db = FirebaseFirestore.getInstance();
+        }
+
 
         db = FirebaseFirestore.getInstance(); // Initialize Firestore
 
@@ -177,6 +181,11 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
         btnCancel.setOnClickListener(v -> finish()); // Close the activity
+    }
+
+    // Setter for Firestore to allow testing with mock instances
+    public void setFirestore(FirebaseFirestore firestore) {
+        this.db = firestore;
     }
 
 
