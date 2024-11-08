@@ -32,27 +32,18 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri data = intent.getData();
             if (data != null && "event".equals(data.getHost())) {
-                String eventId = data.getLastPathSegment();
-                Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
-                detailsIntent.putExtra("eventName", eventId);
+                String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
+
+                // Launch EventDetailsActivity with the eventId
+                Intent detailsIntent = new Intent(this, EventDetailsactivity.class);
+                Intent qr_code_intent = new Intent(this, Entrant_qr_code_activity.class);
+                qr_code_intent.putExtra("event_id", eventId);
+
+                detailsIntent.putExtra("event_id", eventId);
+                startActivity(qr_code_intent);
                 startActivity(detailsIntent);
             }
         }
-        // Handle deep link if the activity was launched from a QR code scan
-      //  Intent intent = getIntent();
-       // if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
-          //  Uri data = intent.getData();
-            //if (data != null && "event".equals(data.getHost())) {
-              //  String eventId = data.getLastPathSegment(); // Extracts <event_id> from "myapp://event/<event_id>"
-
-
-                // Launch EventDetailsActivity with the eventId
-              //  Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
-                //detailsIntent.putExtra("event_id", eventId);
-                //startActivity(detailsIntent);
-            //}
-      //  }
-
 
         // Initialize buttons
         loginButton = findViewById(R.id.loginButton);
