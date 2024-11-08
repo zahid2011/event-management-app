@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.volley)
     testImplementation(libs.junit)
     testImplementation(libs.testng)
-    testImplementation(libs.testng)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.zxing:core:3.4.1")

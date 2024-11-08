@@ -1,9 +1,11 @@
 package com.example.event_lottery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,7 +32,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         Event event = getItem(position);
 
-        // Assuming `list_item_event.xml` has been updated with the correct TextView IDs
         TextView eventNameTextView = convertView.findViewById(R.id.event_name);
         TextView eventDateTimeTextView = convertView.findViewById(R.id.event_date_time);
         TextView capacityTextView = convertView.findViewById(R.id.event_capacity);
@@ -51,6 +52,24 @@ public class EventAdapter extends ArrayAdapter<Event> {
         capacityTextView.setText("Capacity: " + event.getCapacity());
         priceTextView.setText("Price: $" + event.getPrice());
 
+        Button detailsButton = convertView.findViewById(R.id.details_button);
+        detailsButton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getContext(), AdminEventDetailsActivity.class);
+
+            // passing the event details to the intent, including eventId and eventDescription
+            intent.putExtra("eventId", event.getEventId()); 
+            intent.putExtra("eventName", event.getEventName());
+            intent.putExtra("eventDate", timestamp != null ? sdf.format(timestamp.toDate()) : "");
+            intent.putExtra("eventCapacity", event.getCapacity()); 
+            intent.putExtra("eventPrice", event.getPrice());       
+            intent.putExtra("eventDescription", event.getDescription()); 
+
+            // Start the activity
+            getContext().startActivity(intent);
+        });
+
         return convertView;
     }
+
 }
