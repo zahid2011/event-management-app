@@ -1,0 +1,134 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f1f3f8">
+
+    <!-- Header Section with Back Arrow and Title -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow"
+            android:layout_alignParentStart="true"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:layout_width="378dp"
+                android:layout_height="match_parent"
+                android:background="#3F51B5"
+                android:backgroundTint="#1F41BB"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="Waiting list"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <!-- Total Participants Display -->
+    <TextView
+        android:id="@+id/tv_total_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Participants: 8"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Search Bar with CardView for Rounded Corners -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#e0e7ff"
+            android:padding="8dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/et_search_user"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Search"
+                android:background="@android:color/transparent"
+                android:padding="4dp"/>
+
+            <ImageView
+                android:id="@+id/iv_search_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_image_placeholder"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- CardView for Waiting List to Create Rounded Background -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        android:layout_marginBottom="8dp">
+
+        <!-- ListView for Participants with Rounded Background -->
+        <ListView
+            android:id="@+id/lv_waiting_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#e0e7ff"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="8dp"
+            android:padding="8dp"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Button Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp">
+
+        <!-- Select All Button -->
+        <Button
+            android:id="@+id/btn_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Select All"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#1F41BB"
+            app:cornerRadius="18dp" />
+
+        <!-- Send Notifications Button -->
+        <Button
+            android:id="@+id/btn_send_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Notifications"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#1F41BB"
+            app:cornerRadius="18dp" />
+    </LinearLayout>
+
+</LinearLayout>

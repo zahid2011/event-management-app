@@ -1,6 +1,7 @@
 package com.example.event_lottery;
 
 public class User {
+    private String id;
     private String email;
     private String username;
     private String firstName;
@@ -8,12 +9,12 @@ public class User {
     private String password;
     private String role;
 
-    // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
     }
 
     // Constructor to initialize user data
-    public User(String email, String username, String firstName, String lastName, String password, String role) {
+    public User(String id, String email, String username, String firstName, String lastName, String password, String role) {
+        this.id = id;
         this.email = email;
         this.username = username;
         this.firstName = firstName;
@@ -22,7 +23,14 @@ public class User {
         this.role = role;
     }
 
-    // Getters and Setters
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getEmail() {
         return email;
     }
