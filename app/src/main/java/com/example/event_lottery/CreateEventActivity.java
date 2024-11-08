@@ -53,13 +53,21 @@ import java.util.Map;
 
 public class CreateEventActivity extends AppCompatActivity {
 
+    public EditText etEventName;
+
+    public EditText etCapacity;
+    public EditText etPrice;
+    public EditText etEventDescription;
+    private String lastToastMessage; // For capturing toast messages in tests
 
 
-
-    private Button btnCreateEvent, btnGenerateQr, btnCancel, btnBackToDashboard;
+    public Button btnCreateEvent;
+    Button btnGenerateQr;
+    private Button btnCancel;
+    private Button btnBackToDashboard;
     private FirebaseFirestore db;
-    private ImageView qrCodeImageView;
-    private EditText etEventDateTime;
+    ImageView qrCodeImageView;
+    public EditText etEventDateTime;
     private Calendar calendar;
     private Switch switchGeolocation; // New switch for geolocation toggle
 
@@ -339,9 +347,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
-
-
-
     public Bitmap generateQRCode(String text) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try {
@@ -374,7 +379,14 @@ public class CreateEventActivity extends AppCompatActivity {
         return byteArrayOutputStream.toByteArray();
     }
 
+    public void showToast(String message) {
+        lastToastMessage = message;
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 
+    public String getLastToastMessage() {
+        return lastToastMessage;
+    }
 
 
     public String generateHashFromBitmap(Bitmap bitmap) {
