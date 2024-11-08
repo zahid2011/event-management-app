@@ -1,6 +1,8 @@
 package com.example.event_lottery;
 
 
+
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -17,7 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+
+
 import androidx.appcompat.app.AppCompatActivity;
+
+
 
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +32,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+
+
 
 
 import java.io.ByteArrayOutputStream;
@@ -41,7 +49,11 @@ import java.util.Locale;
 import java.util.Map;
 
 
+
+
 public class CreateEventActivity extends AppCompatActivity {
+
+
 
 
     private Button btnCreateEvent, btnGenerateQr, btnCancel, btnBackToDashboard;
@@ -52,6 +64,8 @@ public class CreateEventActivity extends AppCompatActivity {
     private Switch switchGeolocation; // New switch for geolocation toggle
 
 
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +73,11 @@ public class CreateEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_event);
 
 
+
+
         db = FirebaseFirestore.getInstance(); // Initialize Firestore
+
+
 
 
         btnCreateEvent = findViewById(R.id.btn_create_event);
@@ -70,11 +88,17 @@ public class CreateEventActivity extends AppCompatActivity {
         switchGeolocation = findViewById(R.id.switch_geolocation); // Initialize the switch
 
 
+
+
         etEventDateTime = findViewById(R.id.et_event_datetime);
         calendar = Calendar.getInstance();
 
 
+
+
         etEventDateTime.setOnClickListener(v -> showDatePicker());
+
+
 
 
         btnBackToDashboard.setOnClickListener(v -> {
@@ -85,25 +109,37 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
 
+
+
         btnCreateEvent.setOnClickListener(v -> {
             TextView evtView = findViewById(R.id.et_event_name);
             String evtID = evtView.getText().toString();
+
+
 
 
             TextView tevtView = findViewById(R.id.et_event_datetime);
             String tevtID = tevtView.getText().toString();
 
 
+
+
             TextView vtView = findViewById(R.id.et_capacity);
             String vtID = vtView.getText().toString();
+
+
 
 
             TextView tView = findViewById(R.id.et_price);
             String tID = tView.getText().toString();
 
 
+
+
             TextView desc = findViewById(R.id.et_event_description);
             String descID = desc.getText().toString();
+
+
 
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -116,6 +152,8 @@ public class CreateEventActivity extends AppCompatActivity {
             }
 
 
+
+
             if (evtID.isEmpty() || tevtID.isEmpty() || vtID.isEmpty() || tID.isEmpty() || descID.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 return;
@@ -123,9 +161,13 @@ public class CreateEventActivity extends AppCompatActivity {
             boolean geolocationEnabled = switchGeolocation.isChecked();
 
 
+
+
             Events newEvent = new Events(evtID, date, vtID, tID, descID);
             saveEventToFirestore(newEvent);
         });
+
+
 
 
         //  switchGeolocation.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -139,7 +181,13 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
+
+
+
+
         btnGenerateQr.setOnClickListener(v ->
+
+
 
 
         {
@@ -148,9 +196,15 @@ public class CreateEventActivity extends AppCompatActivity {
             String qrContent = "myapp://event/" + evtID;
 
 
+
+
             Bitmap qrCodeBitmap = generateQRCode(qrContent);
             if (qrCodeBitmap != null) {
                 qrCodeImageView.setImageBitmap(qrCodeBitmap);
+
+
+
+
 
 
 
@@ -176,8 +230,14 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
+
+
+
+
         btnCancel.setOnClickListener(v -> finish()); // Close the activity
     }
+
+
 
 
     private void showDatePicker() {
@@ -197,12 +257,16 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
+
+
     private void showTimePicker() {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 (view, hourOfDay, minute) -> {
                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     calendar.set(Calendar.MINUTE, minute);
+
+
 
 
                     // Format date and time and display it in EditText
@@ -217,6 +281,8 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
+
+
     private void saveEventToFirestore(Events event) {
         Map<String, Object> eventData = new HashMap<>();
         eventData.put("eventName", event.getEventName());
@@ -225,6 +291,8 @@ public class CreateEventActivity extends AppCompatActivity {
         eventData.put("price", event.getPrice());
         eventData.put("description", event.getDescription());
         eventData.put("geolocationEnabled", switchGeolocation.isChecked());
+
+
 
 
         // Save event data to Firestore including waitlist
@@ -242,11 +310,17 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
+
+
+
+
     private void createWaitingList(String eventName) {
         // Example entry in the waiting list
         Map<String, Object> waitingEntry = new HashMap<>();
         waitingEntry.put("userId", "sampleUserId");
-        waitingEntry.put("timestamp", new Date());
+        //waitingEntry.put("timestamp", new Date());
+
+
 
 
         // Add this entry to the "waitingList" subcollection under the event document
@@ -264,6 +338,10 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
+
+
+
+
     public Bitmap generateQRCode(String text) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try {
@@ -271,6 +349,8 @@ public class CreateEventActivity extends AppCompatActivity {
             int height = 300;
             BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+
+
 
 
             for (int x = 0; x < width; x++) {
@@ -286,6 +366,8 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
+
+
     public byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
@@ -293,13 +375,19 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
+
+
     public String generateHashFromBitmap(Bitmap bitmap) {
         byte[] bitmapBytes = bitmapToByteArray(bitmap);
+
+
 
 
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(bitmapBytes);
+
+
 
 
             StringBuilder hexString = new StringBuilder();
