@@ -64,13 +64,15 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(waitingListIntent);
             }
         });
-
+        // Shahmeer's work
         notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add functionality for notifications settings button
+                Intent intent = new Intent(DashboardActivity.this, com.example.event_lottery.NotificationSettingsActivity.class);
+                startActivity(intent);
             }
         });
+
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override

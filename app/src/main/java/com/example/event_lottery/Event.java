@@ -3,20 +3,31 @@ package com.example.event_lottery;
 import com.google.firebase.Timestamp;
 
 public class Event {
+    private String eventId;
     private String eventName;
     private Timestamp eventDateTime;
     private String capacity;
     private String price;
+    private String description;
 
     // Default constructor (required for Firebase or other serialization libraries)
     public Event() {}
 
-    // Constructor with parameters
-    public Event(String eventName, Timestamp eventDateTime, String capacity, String price) {
+    //
+    public Event(String eventId, String eventName, Timestamp eventDateTime, String capacity, String price) {
+        this.eventId = eventId;
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
         this.capacity = capacity;
         this.price = price;
+        this.description = description;
+    }
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 
     // Getters and Setters
@@ -51,4 +62,13 @@ public class Event {
     public void setPrice(String price) {
         this.price = price;
     }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 }

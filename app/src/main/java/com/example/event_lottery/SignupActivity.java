@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.UUID;
+
 public class SignupActivity extends MainActivity{
     private EditText emailEditText, usernameEditText, firstNameEditText, lastNameEditText, passwordEditText;
     private Button signupButton;
@@ -54,42 +56,33 @@ public class SignupActivity extends MainActivity{
             }
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // This will close the activity and return to the previous one
+        backButton.setOnClickListener(v -> finish());
+
+        signupButton.setOnClickListener(v -> {
+            String email = emailEditText.getText().toString();
+            String password = passwordEditText.getText().toString();
+            String username = usernameEditText.getText().toString();
+            String firstName = firstNameEditText.getText().toString();
+            String lastName = lastNameEditText.getText().toString();
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(SignupActivity.this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            } else {
+                // generates a unique ID for the user
+                String userId = UUID.randomUUID().toString();
+
+                // then saves user information in Firestore
+                saveUserInfo(userId, email, username, firstName, lastName, password, selectedRole);
             }
-        });
-
-        signupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
-                String username = usernameEditText.getText().toString();
-                String firstName = firstNameEditText.getText().toString();
-                String lastName = lastNameEditText.getText().toString();
-
-                if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(SignupActivity.this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Directly save user information in Firestore
-                    saveUserInfo(email, username, firstName, lastName, password, selectedRole);
-                }
-            }
-
         });
     }
 
-    private void saveUserInfo(String email, String username, String firstName, String lastName, String password, String role) {
-        // Use email as the document ID or generate a unique ID if preferred
-        String userId = email;
+    private void saveUserInfo(String id, String email, String username, String firstName, String lastName, String password, String role) {
+        // creating a User object with id as the first parameter
+        User userInfo = new User(id, email, username, firstName, lastName, password, role);
 
-        // Create a User object
-        User userInfo = new User(email, username, firstName, lastName, password, role);
-
-        // Store the user information in Firestore
-        db.collection("users").document(userId).set(userInfo)
+        // storing the user information in Firestore, using the email as the document ID
+        db.collection("users").document(email).set(userInfo)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(SignupActivity.this, "Signup successful", Toast.LENGTH_SHORT).show();
                     finish();
