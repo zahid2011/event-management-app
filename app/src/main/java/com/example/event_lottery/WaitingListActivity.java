@@ -1,6 +1,7 @@
 package com.example.event_lottery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +33,7 @@ public class WaitingListActivity extends AppCompatActivity {
     private String eventId;
     private Set<Integer> selectedUsers; // Track selected user positions
     private TextView tvTotalParticipants; // TextView for total participants
+    private Button btnSelectAll; // Button for selecting all users
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,9 @@ public class WaitingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_waiting_list);
 
         lvWaitingList = findViewById(R.id.lv_waiting_list);
+        Button btnSendNotifications = findViewById(R.id.btn_send_notifications);
         tvTotalParticipants = findViewById(R.id.tv_total_participants); // Initialize participant count TextView
+        btnSelectAll = findViewById(R.id.btn_select_all); // Initialize the "Select All" button
         waitingListUsers = new ArrayList<>();
         selectedUsers = new HashSet<>();
         db = FirebaseFirestore.getInstance();
@@ -55,6 +58,25 @@ public class WaitingListActivity extends AppCompatActivity {
 
         // Fetch waiting list data
         fetchWaitingList();
+
+        // Set click listener for "Select All" button
+        btnSelectAll.setOnClickListener(v -> {
+            // Select all users
+            for (int i = 0; i < waitingListUsers.size(); i++) {
+                selectedUsers.add(i);
+            }
+            // Notify the adapter to update the ListView
+            ((ArrayAdapter) lvWaitingList.getAdapter()).notifyDataSetChanged();
+            Toast.makeText(this, "All users selected", Toast.LENGTH_SHORT).show();
+        });
+
+        // Set up Send Notifications button click listener
+        btnSendNotifications.setOnClickListener(v -> {
+            Intent intent = new Intent(WaitingListActivity.this, NotificationActivity.class);
+            intent.putExtra("event_id", eventId); // Pass event ID
+            intent.putStringArrayListExtra("selected_users", new ArrayList<>(getSelectedUserEmails()));
+            startActivity(intent);
+        });
     }
 
     private void fetchWaitingList() {
@@ -86,6 +108,14 @@ public class WaitingListActivity extends AppCompatActivity {
                     Log.e("WaitingListActivity", "Error fetching waiting list", e);
                     Toast.makeText(this, "Failed to load waiting list", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private List<String> getSelectedUserEmails() {
+        List<String> emails = new ArrayList<>();
+        for (int position : selectedUsers) {
+            emails.add(waitingListUsers.get(position).getName()); // Assuming 'name' is the email
+        }
+        return emails;
     }
 
     // Custom Adapter for Waiting List

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f1f3f8"
+    android:padding="16dp">
+
+    <!-- Back Button and Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="Back Button"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Send Notifications"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:background="#3F51B5"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:gravity="center"
+            android:layout_marginTop="-16dp"
+            android:layout_toEndOf="@id/iv_back" />
+    </RelativeLayout>
+
+    <!-- Message Input Section -->
+    <TextView
+        android:id="@+id/tv_message_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        android:textSize="16sp"
+        android:textColor="#333"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Enter your custom message here"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:backgroundTint="#e0e7ff"
+        android:layout_marginBottom="16dp"
+        android:gravity="start|top" />
+
+    <!-- Buttons Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#3F51B5"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btn_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notify"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#1F41BB" />
+    </LinearLayout>
+</LinearLayout>

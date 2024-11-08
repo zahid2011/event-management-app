@@ -1,10 +1,15 @@
 package com.example.event_lottery;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,22 +21,40 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+
+
 
 public class EventDetailsActivity extends AppCompatActivity {
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
-    private ImageView ivBackArrow, imgEventImage;
+    private ImageView ivBackArrow, imgEventImage, qrCodeImageView;
     private FirebaseFirestore db;
+    private Button btnViewWaitingList;
     private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-
+        //imgEventImage = findViewById(R.id.img_event_image);
         imgEventImage = findViewById(R.id.img_event_image);
 
         // Get the event ID passed from the previous activity
@@ -45,6 +68,8 @@ public class EventDetailsActivity extends AppCompatActivity {
             return;
         }
 
+
+
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
@@ -56,6 +81,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvQrCodeLabel = findViewById(R.id.tv_qr_code_label);
         tvMaxWaitingList = findViewById(R.id.tv_max_waiting_list); // Initialize tvMaxWaitingList
         ivBackArrow = findViewById(R.id.iv_back_arrow);
+        qrCodeImageView = findViewById(R.id.img_qr_code);
+        btnViewWaitingList = findViewById(R.id.btn_view_waiting_list); // Initialize the button
+
 
         // Fetch event details from Firestore
         fetchEventDetails();
@@ -65,6 +93,13 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         // Set back arrow click listener to finish the activity
         ivBackArrow.setOnClickListener(v -> finish());
+
+        btnViewWaitingList.setOnClickListener(v -> {
+            Log.d("EventDetailsActivity", "Navigating to WaitingListActivity with Event ID: " + eventId);
+            Intent intent = new Intent(EventDetailsActivity.this, WaitingListActivity.class);
+            intent.putExtra("event_id", eventId); // Pass the event ID to the next activity
+            startActivity(intent);
+        });
     }
 
     private void fetchEventDetails() {
@@ -75,31 +110,67 @@ public class EventDetailsActivity extends AppCompatActivity {
                 if (document != null && document.exists()) {
                     // Retrieve and display event data
                     String eventName = document.getString("eventName");
-                    String eventDateTime = document.getString("eventDateTime");
+                    Timestamp eventTimestamp = document.getTimestamp("eventDateTime");  // Retrieve as Timestamp
                     String description = document.getString("description");
                     String capacity = document.getString("capacity");
                     String qrhash = document.getString("qrhash");
-                    Long maxWaitingList = document.getLong("maxWaitingList");
 
                     // Set data in views
                     tvEventName.setText(eventName != null ? eventName : "N/A");
-                    tvEventDate.setText("Date: " + (eventDateTime != null ? eventDateTime : "N/A"));
                     tvEventDescription.setText("Event Description: " + (description != null ? description : "N/A"));
                     tvEventCapacity.setText("Capacity: " + (capacity != null ? capacity + " seats available" : "N/A"));
-                    tvQrCodeLabel.setText("QR Code: " + (qrhash != null ? qrhash : "N/A"));
-                    tvMaxWaitingList.setText("Max Waiting List Entrants: " + (maxWaitingList != null ? maxWaitingList : "[Tap to Set]"));
+                    tvQrCodeLabel.setText("QR Code For The Event");
+
+
+                    // Generate QR code image if qrhash exists
+                    if (qrhash != null && !qrhash.isEmpty()) {
+                        generateQRCodeImage(qrhash); // Call the QR code generator with qrhash
+                    } else {
+                        //tvQrCodeLabel.setText("QR Code: N/A");
+                        qrCodeImageView.setImageDrawable(null); // Clear QR code image if qrhash is not available
+                    }
+
+                    // Format date if available
+                    if (eventTimestamp != null) {
+                        Date eventDate = eventTimestamp.toDate();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        tvEventDate.setText("Date: " + dateFormat.format(eventDate));
+                    } else {
+                        tvEventDate.setText("Date: N/A");
+                    }
+
+                    // Only set maxWaitingList if it exists in the document
+                    if (document.contains("maxWaitingList")) {
+                        Long maxWaitingList = document.getLong("maxWaitingList");
+                        tvMaxWaitingList.setText("Max Waiting List Entrants: " + maxWaitingList);
+                    } else {
+                        tvMaxWaitingList.setText("Max Waiting List Entrants: [Tap to Set]");
+                    }
+
                 } else {
-                    Log.e("EventDetailsActivity", "No such document or access denied");
-                    Toast.makeText(EventDetailsActivity.this, "Event details not available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Event details not found", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             } else {
                 Log.e("EventDetailsActivity", "Error fetching document", task.getException());
-                Toast.makeText(EventDetailsActivity.this, "Error loading event details", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error loading event details", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
     }
+
+    private void generateQRCodeImage(String qrhash) {
+        try {
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.encodeBitmap(qrhash, BarcodeFormat.QR_CODE, 200, 200);
+            qrCodeImageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error generating QR code", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void showMaxWaitingListDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -140,44 +211,90 @@ public class EventDetailsActivity extends AppCompatActivity {
     }
 
     public void onAddImageClicked(View view) {
+
         // Create an input dialog to prompt for the URL
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Add Image URL");
 
+
+
         // Set up the input field
+
         final EditText input = new EditText(this);
+
         input.setHint("Enter image URL");
+
         builder.setView(input);
 
+
+
         // Set up the buttons
+
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+
             @Override
+
             public void onClick(DialogInterface dialog, int which) {
+
                 String url = input.getText().toString().trim();
+
                 if (!url.isEmpty()) {
+
                     loadImageFromUrl(url);
+
                 } else {
+
                     Toast.makeText(EventDetailsActivity.this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+
                 }
+
             }
+
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
             @Override
+
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.cancel();
+
             }
+
         });
+
+
 
         builder.show();
+
     }
 
+
+
     // Method to load the image from the provided URL
+
     private void loadImageFromUrl(String url) {
-        // Use Glide or Picasso to load the image
+
+        // Use Glide to load the image from the URL
+
+
         Glide.with(this)
+
                 .load(url)
-                .placeholder(R.drawable.ic_image_placeholder) // Placeholder image
-                .error(R.drawable.ic_error) // Error image if URL is invalid
+
+                .placeholder(R.drawable.ic_image_placeholder) // Add a placeholder drawable
+
+                .error(R.drawable.ic_back_arrow) // Add an error drawable in case URL is invalid
+
                 .into(imgEventImage);
+
     }
+
+
+
+
+
 }
