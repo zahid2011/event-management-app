@@ -2,6 +2,7 @@ package com.example.event_lottery;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,9 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +37,7 @@ import java.util.Locale;
 public class EventDetailsActivity extends AppCompatActivity {
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
-    private ImageView ivBackArrow, imgEventImage;
+    private ImageView ivBackArrow, imgEventImage, qrCodeImageView;
     private FirebaseFirestore db;
     private String eventId;
 
@@ -55,6 +59,8 @@ public class EventDetailsActivity extends AppCompatActivity {
             return;
         }
 
+
+
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
@@ -66,6 +72,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvQrCodeLabel = findViewById(R.id.tv_qr_code_label);
         tvMaxWaitingList = findViewById(R.id.tv_max_waiting_list); // Initialize tvMaxWaitingList
         ivBackArrow = findViewById(R.id.iv_back_arrow);
+        qrCodeImageView = findViewById(R.id.img_qr_code);
+
 
         // Fetch event details from Firestore
         fetchEventDetails();
@@ -94,7 +102,16 @@ public class EventDetailsActivity extends AppCompatActivity {
                     tvEventName.setText(eventName != null ? eventName : "N/A");
                     tvEventDescription.setText("Event Description: " + (description != null ? description : "N/A"));
                     tvEventCapacity.setText("Capacity: " + (capacity != null ? capacity + " seats available" : "N/A"));
-                    tvQrCodeLabel.setText("QR Code: " + (qrhash != null ? qrhash : "N/A"));
+                    tvQrCodeLabel.setText("QR Code For The Event");
+
+
+                    // Generate QR code image if qrhash exists
+                    if (qrhash != null && !qrhash.isEmpty()) {
+                        generateQRCodeImage(qrhash); // Call the QR code generator with qrhash
+                    } else {
+                        //tvQrCodeLabel.setText("QR Code: N/A");
+                        qrCodeImageView.setImageDrawable(null); // Clear QR code image if qrhash is not available
+                    }
 
                     // Format date if available
                     if (eventTimestamp != null) {
@@ -123,6 +140,17 @@ public class EventDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void generateQRCodeImage(String qrhash) {
+        try {
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.encodeBitmap(qrhash, BarcodeFormat.QR_CODE, 200, 200);
+            qrCodeImageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error generating QR code", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
