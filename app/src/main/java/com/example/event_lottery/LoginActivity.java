@@ -69,32 +69,39 @@ public class LoginActivity extends AppCompatActivity {
                         if (document != null && document.exists()) {
                             String storedPassword = document.getString("password");
                             String registeredRole = document.getString("role");
-                            Toast.makeText(LoginActivity.this, " Role: " + registeredRole, Toast.LENGTH_SHORT).show();
 
                             // Check if the password and role match
-                            if (storedPassword != null && storedPassword.equals(password) &&
-                                    registeredRole != null && registeredRole.equals(selectedRole) && selectedRole.equals("Entrant")) {
-                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            if (storedPassword != null && storedPassword.equals(password)) {
+                                if (registeredRole != null && registeredRole.equals(selectedRole)) {
+                                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
-                                // Save the user ID (email) in SharedPreferences
-                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("USER_ID", email); // Use email as the user ID
-                                editor.apply();
+                                    // Save the user ID (email) in SharedPreferences
+                                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("USER_ID", email); // Use email as the user ID
+                                    editor.apply();
 
-                                Intent dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                startActivity(dashboardIntent);
-                                finish();
-                            } else if (storedPassword != null && storedPassword.equals(password) &&
-                                    registeredRole != null && registeredRole.equals(selectedRole) && selectedRole.equals("Organiser")) {
-                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                Intent dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
-                                startActivity(dashboardIntent);
-                                finish();
+                                    // Redirect based on role
+                                    Intent dashboardIntent;
+                                    if (selectedRole.equals("Entrant")) {
+                                        dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
+                                    } else if (selectedRole.equals("Organiser")) {
+                                        dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
+                                    } else if (selectedRole.equals("Admin")) { // Check for Admin role
+                                        dashboardIntent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Invalid role selected.", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    startActivity(dashboardIntent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
                             }
-                            //{
-                               // Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
-                           // }
                         } else {
                             Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
                         }

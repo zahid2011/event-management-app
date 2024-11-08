@@ -3,4 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="button_color">#1F41BB</color>
+    <color name="event_background">#e0e0e0</color>
 </resources>
