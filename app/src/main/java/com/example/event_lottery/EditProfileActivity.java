@@ -1,3 +1,4 @@
+
 package com.example.event_lottery;
 
 import android.content.SharedPreferences;
@@ -86,7 +87,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Handle "Edit Image" button click
         editImageButton.setOnClickListener(v -> {
-            // TODO: Implement image selection and upload functionality
             Toast.makeText(EditProfileActivity.this, "Edit profile image feature coming soon", Toast.LENGTH_SHORT).show();
         });
 

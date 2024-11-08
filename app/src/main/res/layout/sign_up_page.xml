@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,27 +8,9 @@
     android:background="#FFFFFF"
     tools:context=".SignupActivity">
 
-    <!-- Top Section with Back and Icons -->
+    <!-- Header Background -->
 
     <!-- Back Button -->
-
-    <!-- Title Text -->
-
-    <!-- Email Icon -->
-
-    <!-- Alert Icon -->
-
-    <!-- Profile Image Section -->
-
-    <!-- Edit Image Button for Profile Image -->
-
-
-    <!-- Input Fields -->
-
-    <!-- Role Spinner -->
-
-    <!-- Signup Button -->
-
     <View
         android:id="@+id/headerBackground"
         android:layout_width="0dp"
@@ -46,151 +29,172 @@
         android:contentDescription="Back"
         android:padding="8dp"
         android:src="@android:drawable/ic_menu_revert"
-        app:layout_constraintBottom_toTopOf="@+id/profileImage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/headerBackground"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@id/headerBackground" />
+
+    <!-- Title Text -->
+
+    <!-- Profile Image -->
+    <!-- Replace with your default image -->
+
+    <!-- Camera Icon -->
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:text="Sign Up"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/headerBackground"
-        app:layout_constraintBottom_toTopOf="@+id/profileImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/headerBackground"
-        app:layout_constraintVertical_bias="0.704" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toTopOf="@+id/headerBackground" />
+        app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
     <ImageButton
         android:id="@+id/cameraIcon"
         android:layout_width="30dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="30dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Change Profile Image"
         android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+        app:layout_constraintEnd_toEndOf="@id/profileImage"
+        app:layout_constraintStart_toStartOf="@id/profileImage"
+        app:layout_constraintTop_toBottomOf="@id/profileImage" />
 
+    <!-- "Change Picture" Text -->
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="98dp"
-        android:layout_height="22dp"
+        android:id="@+id/changePictureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Change Picture"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profileImage" />
+        app:layout_constraintEnd_toEndOf="@id/profileImage"
+        app:layout_constraintStart_toStartOf="@id/profileImage"
+        app:layout_constraintTop_toBottomOf="@id/cameraIcon" />
+
+    <!-- User ID EditText -->
+
+    <!-- Email EditText -->
+
+    <!-- Username EditText -->
+
+    <!-- First Name EditText -->
+
+    <!-- Last Name EditText -->
+
+    <!-- Password EditText -->
+
+    <!-- Role Spinner -->
+
+    <!-- Signup Button -->
 
     <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="402dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="48dp"
-        android:hint="Email ID*"
-        android:inputType="textEmailAddress"
+        android:id="@+id/userIdEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="User ID*"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cameraIcon" />
+        app:layout_constraintTop_toBottomOf="@id/changePictureText" />
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Email ID*"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userIdEditText" />
 
     <EditText
         android:id="@+id/usernameEditText"
-        android:layout_width="412dp"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:hint="User Name*"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditText" />
 
     <EditText
         android:id="@+id/firstNameEditText"
-        android:layout_width="408dp"
-        android:layout_height="62dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:hint="First Name*"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
 
     <EditText
         android:id="@+id/lastNameEditText"
-        android:layout_width="409dp"
-        android:layout_height="54dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:hint="Last Name*"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/firstNameEditText" />
 
     <EditText
         android:id="@+id/passwordEditText"
-        android:layout_width="412dp"
-        android:layout_height="57dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:hint="Password*"
         android:inputType="textPassword"
         android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/lastNameEditText" />
-
-    <EditText
-        android:id="@+id/phoneNumberEditText"
-        android:layout_width="415dp"
-        android:layout_height="56dp"
-        android:hint="Phone Number"
-        android:inputType="phone"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
     <Spinner
         android:id="@+id/roleSpinner"
-        android:layout_width="409dp"
-        android:layout_height="56dp"
+        android:layout_width="407dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@id/phoneNumberEditText" />
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
     <Button
-        android:id="@+id/save_changes"
-        android:layout_width="389dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="28dp"
+        android:id="@+id/signupButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
         android:backgroundTint="#3333CC"
         android:text="Signup"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/roleSpinner" />
 
