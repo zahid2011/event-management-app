@@ -31,6 +31,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    tasks.withType<Test>{
+        useJUnitPlatform()
+    }
 }
 
 dependencies {
@@ -46,6 +50,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.volley)
     testImplementation(libs.junit)
+    testImplementation(libs.testng)
+    testImplementation(libs.testng)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.zxing:core:3.4.1")
@@ -87,4 +93,9 @@ dependencies {
 
 
     implementation("com.google.zxing:core:3.3.3")
+
+    testImplementation ("org.junit.jupiter:junit-jupiter:5.7.0")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testImplementation ("org.junit.platform:junit-platform-runner:1.7.0")
+
 }
