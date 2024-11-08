@@ -1,3 +1,4 @@
+
 package com.example.event_lottery;
 
 import android.content.SharedPreferences;
@@ -24,8 +25,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageButton editImageButton, backButton;
     private ImageView profileImageView;
     private FirebaseFirestore db;
-    private String userId; // Use email as the user ID
-
+    private String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

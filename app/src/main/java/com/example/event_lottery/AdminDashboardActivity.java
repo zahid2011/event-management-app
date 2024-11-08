@@ -15,18 +15,21 @@ public class AdminDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_dashboard);
 
+
+
+
         // "Event Management" button
         Button eventManagementButton = findViewById(R.id.event_management_button);
         eventManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to EventManagementActivity
+                // navigating to EventManagementActivity
                 Intent intent = new Intent(AdminDashboardActivity.this, EventManagementActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Placeholder for other buttons - add functionality later
+        // added
         Button profileManagementButton = findViewById(R.id.profile_management_button);
         profileManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,10 +69,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminDashboardActivity.this, LoginActivity.class);
-                // Clear the activity stack to prevent returning to the dashboard
+            
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                finish(); // Finish the current activity
+                finish(); // finishing the current activity
                 Toast.makeText(AdminDashboardActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
             }
         });

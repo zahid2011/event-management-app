@@ -1,8 +1,11 @@
 package com.example.event_lottery;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,6 +27,14 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entrant_dashboard);
+        qrCodeButton = findViewById(R.id.qr_code);
+
+        if (qrCodeButton == null) {
+            Log.e(TAG, "qrCodeButton is null. Check the ID in your layout file.");
+        } else {
+            Log.d(TAG, "qrCodeButton initialized successfully.");
+        }
+
 
             SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
             userId = sharedPreferences.getString("USER_ID", null);
@@ -56,7 +67,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        // Placeholder click listeners for other buttons
+        
         waitingListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +96,9 @@ public class DashboardActivity extends AppCompatActivity {
         qrCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Add functionality for QR code button
+                Log.d(TAG, "QR Code button clicked.");
+                Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
+                startActivity(intent);
             }
         });
     }

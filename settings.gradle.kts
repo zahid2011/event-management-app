@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "event_lottery"
+rootProject.name = "Organizer"
 include(":app")
