@@ -35,14 +35,6 @@ public class DashboardActivity extends AppCompatActivity {
             Log.d(TAG, "qrCodeButton initialized successfully.");
         }
 
-        // Set onClick listener for the QR Code button
-//        qrCodeButton.setOnClickListener(v -> {
-//            // Launch the QR Code Scanner Activity
-//            Log.d(TAG, "QR Code button clicked.");
-//            Toast.makeText(DashboardActivity.this, "Qr code scanner clicked", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
-//            startActivity(intent);
-//        });
 
             SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
             userId = sharedPreferences.getString("USER_ID", null);
@@ -105,7 +97,6 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "QR Code button clicked.");
-                Toast.makeText(DashboardActivity.this, "Qr code scanner clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
                 startActivity(intent);
             }
