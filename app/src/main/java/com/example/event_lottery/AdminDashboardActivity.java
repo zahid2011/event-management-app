@@ -15,6 +15,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_dashboard);
 
+
+
+
         // "Event Management" button
         Button eventManagementButton = findViewById(R.id.event_management_button);
         eventManagementButton.setOnClickListener(new View.OnClickListener() {
