@@ -79,9 +79,9 @@
         android:id="@+id/final_registered_list_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Final Registered List"
-        android:backgroundTint="#1F41BB"
-        android:textColor="#FFFFFF"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="16dp"/>
+        android:backgroundTint="#1F41BB"
+        android:text="Final Registered List"
+        android:textColor="#FFFFFF" />
 </LinearLayout>

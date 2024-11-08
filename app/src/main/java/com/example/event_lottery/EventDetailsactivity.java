@@ -1,11 +1,15 @@
 package com.example.event_lottery;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,7 +33,10 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -39,6 +47,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
     private ImageView ivBackArrow, imgEventImage, qrCodeImageView;
     private FirebaseFirestore db;
+    private Button btnViewWaitingList;
     private String eventId;
 
     @Override
@@ -73,6 +82,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvMaxWaitingList = findViewById(R.id.tv_max_waiting_list); // Initialize tvMaxWaitingList
         ivBackArrow = findViewById(R.id.iv_back_arrow);
         qrCodeImageView = findViewById(R.id.img_qr_code);
+        btnViewWaitingList = findViewById(R.id.btn_view_waiting_list); // Initialize the button
 
 
         // Fetch event details from Firestore
@@ -83,6 +93,13 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         // Set back arrow click listener to finish the activity
         ivBackArrow.setOnClickListener(v -> finish());
+
+        btnViewWaitingList.setOnClickListener(v -> {
+            Log.d("EventDetailsActivity", "Navigating to WaitingListActivity with Event ID: " + eventId);
+            Intent intent = new Intent(EventDetailsActivity.this, WaitingListActivity.class);
+            intent.putExtra("event_id", eventId); // Pass the event ID to the next activity
+            startActivity(intent);
+        });
     }
 
     private void fetchEventDetails() {
@@ -275,6 +292,10 @@ public class EventDetailsActivity extends AppCompatActivity {
                 .into(imgEventImage);
 
     }
+
+
+
+
 
 }
 
