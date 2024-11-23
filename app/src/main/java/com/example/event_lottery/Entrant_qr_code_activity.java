@@ -5,21 +5,28 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View; // Make sure to import this
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class Entrant_qr_code_activity extends AppCompatActivity {
 
-    private static final String TAG = "EventDetailsActivity";
+    private static final String TAG = "EntrantQRCodeActivity";
     private TextView eventNameView, descriptionView, capacityView, dateTimeView, priceView, geolocationView, maxWaitingListView;
     private Button registerButton;
+    private TextView alreadyRegisteredMessage;
+    private ImageView ivBackArrow;
     private FirebaseFirestore db;
     private String eventId;
     private String eventName;
@@ -34,7 +41,7 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entrant_qr_code_register_activity);
+        setContentView(R.layout.entrant_qr_code_register_activity); // Ensure this matches your actual layout file
 
         // Initialize views
         eventNameView = findViewById(R.id.event_name);
@@ -45,6 +52,8 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
         geolocationView = findViewById(R.id.event_geolocation);
         maxWaitingListView = findViewById(R.id.event_max_waiting_list);
         registerButton = findViewById(R.id.register_button);
+        alreadyRegisteredMessage = findViewById(R.id.already_registered_message);
+        ivBackArrow = findViewById(R.id.iv_back_arrow);
 
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
@@ -64,6 +73,9 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
 
         // Set up the register button click listener
         registerButton.setOnClickListener(view -> registerForEvent());
+
+        // Set up the back arrow click listener
+        ivBackArrow.setOnClickListener(v -> finish());
     }
 
     private void fetchEventDetails(String eventName) {
@@ -83,21 +95,32 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
 
                             // Retrieve and display each field according to the Firebase structure
                             String description = document.getString("description");
-                            String eventDateTime = document.getString("eventDateTime");
+                            Timestamp eventTimestamp = document.getTimestamp("eventDateTime");
                             String price = document.getString("price");
                             String capacity = document.getString("capacity");
                             Boolean geoEnabled = document.getBoolean("geolocationEnabled");
                             geolocationEnabled = (geoEnabled != null) ? geoEnabled : false;
                             Long maxWaitingList = document.getLong("maxWaitingList");
 
+                            // Format date if available
+                            String eventDateTimeStr = "N/A";
+                            if (eventTimestamp != null) {
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                eventDateTimeStr = dateFormat.format(eventTimestamp.toDate());
+                            }
+
                             // Update UI with event details
                             eventNameView.setText("Event Name: " + eventName);
                             descriptionView.setText("Description: " + (description != null ? description : "N/A"));
                             capacityView.setText("Capacity: " + (capacity != null ? capacity : "N/A"));
-                            dateTimeView.setText("Date: " + (eventDateTime != null ? eventDateTime : "N/A"));
+                            dateTimeView.setText("Date: " + eventDateTimeStr);
                             priceView.setText("Price: $" + (price != null ? price : "N/A"));
                             geolocationView.setText("Geolocation Enabled: " + geolocationEnabled);
                             maxWaitingListView.setText("Max Waiting List: " + (maxWaitingList != null ? maxWaitingList : "N/A"));
+
+                            // Check if the user is already registered
+                            checkUserRegistrationStatus();
+
                         } else {
                             Log.d(TAG, "No event found with the name " + eventName);
                             Toast.makeText(this, "No event found with the name " + eventName, Toast.LENGTH_SHORT).show();
@@ -107,6 +130,43 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
                         Log.e(TAG, "Failed to fetch event details", task.getException());
                         Toast.makeText(this, "Failed to fetch event details", Toast.LENGTH_SHORT).show();
                         finish();
+                    }
+                });
+    }
+
+    private void checkUserRegistrationStatus() {
+        // Retrieve the user ID from SharedPreferences
+        userId = sharedPreferences.getString("USER_ID", null);
+
+        if (userId == null) {
+            Toast.makeText(this, "User ID not found. Please log in.", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "User ID not found in SharedPreferences.");
+            return;
+        }
+
+        Log.d(TAG, "User ID retrieved from SharedPreferences: " + userId);
+
+        // Reference to the event's waiting list in Firestore
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        eventRef.collection("waitingList").document(userId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document != null && document.exists()) {
+                            // User is already registered
+                            Log.d(TAG, "User already registered.");
+                            registerButton.setVisibility(View.GONE);
+                            alreadyRegisteredMessage.setVisibility(View.VISIBLE);
+                        } else {
+                            // User is not registered yet
+                            registerButton.setVisibility(View.VISIBLE);
+                            alreadyRegisteredMessage.setVisibility(View.GONE);
+                        }
+                    } else {
+                        Log.e(TAG, "Failed to check registration status", task.getException());
+                        Toast.makeText(Entrant_qr_code_activity.this, "Failed to check registration status.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -133,7 +193,7 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
         // Reference to the event's waiting list in Firestore
         DocumentReference eventRef = db.collection("events").document(eventId);
 
-        // Check if the user is already registered
+        // Check if the user is already registered (redundant but ensures data consistency)
         eventRef.collection("waitingList").document(userId)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -142,22 +202,25 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
                         if (document != null && document.exists()) {
                             Toast.makeText(Entrant_qr_code_activity.this, "You are already registered for this event.", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "User already registered.");
-                            // Optionally, disable the register button
-                            finish();
-
+                            registerButton.setVisibility(View.GONE);
+                            alreadyRegisteredMessage.setVisibility(View.VISIBLE);
                         } else {
                             // User is not registered yet
                             if (geolocationEnabled) {
-                                // Show warning popup with only a Dismiss button
+                                // Show warning popup with a Dismiss button
                                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                                 builder.setTitle("Geolocation Required")
-                                        .setMessage("This waiting list requires geolocation. Press Confirm to register otherwise touch anywhere outside to exit")
-                                        .setNeutralButton("Confirm", new DialogInterface.OnClickListener() {
+                                        .setMessage("This waiting list requires geolocation. Press Confirm to register or Dismiss to cancel.")
+                                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                // User dismissed the dialog
-                                                dialog.dismiss();
                                                 // Proceed to register the user
                                                 addUserToWaitingList(eventRef);
+                                            }
+                                        })
+                                        .setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // User cancelled the dialog
+                                                dialog.dismiss();
                                             }
                                         });
                                 AlertDialog alert = builder.create();
@@ -180,8 +243,9 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Log.d(TAG, "User successfully registered to the waiting list.");
                     Toast.makeText(Entrant_qr_code_activity.this, "Successfully registered.", Toast.LENGTH_SHORT).show();
-                    // Optionally, disable the register button to prevent multiple registrations
-                    finish();
+                    // Disable the register button and show the message
+                    registerButton.setVisibility(View.GONE);
+                    alreadyRegisteredMessage.setVisibility(View.VISIBLE);
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Error registering to the waiting list", e);
@@ -195,7 +259,6 @@ public class Entrant_qr_code_activity extends AppCompatActivity {
 
         public WaitingListEntry() {
             // Default constructor required
-            this.userId = "";
         }
 
         public WaitingListEntry(String userId) {
