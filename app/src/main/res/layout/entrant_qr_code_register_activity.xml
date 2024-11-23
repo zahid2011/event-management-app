@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/entrant_qr_code_register_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAF8F8">
@@ -10,6 +11,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/iv_back_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow"
+        />
 
         <!-- Event Header -->
         <LinearLayout
@@ -105,6 +114,17 @@
             android:backgroundTint="#1F41BB"
             android:text="Register"
             android:textSize="18sp" />
+
+        <!-- Already Registered Message -->
+        <TextView
+            android:id="@+id/already_registered_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You are already registered."
+            android:textSize="16sp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
