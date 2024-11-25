@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.event_lottery">
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
@@ -37,8 +38,7 @@
         <activity android:name=".AdminDashboardActivity" />
         <activity android:name=".EventManagementActivity" />
         <activity android:name=".AdminEventDetailsActivity" />
-        <activity android:name=".QRCodeScannerActivity"
-            android:exported="true" />
+        <activity android:name=".QRCodeScannerActivity" />
         <activity android:name=".Entrant_qr_code_activity" />
         <activity android:name=".OngoingEventsActivity" />
         <activity android:name=".EventDetailsActivity" />

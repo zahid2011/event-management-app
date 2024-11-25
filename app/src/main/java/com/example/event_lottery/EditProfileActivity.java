@@ -69,7 +69,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             firstNameEditText.setText(document.getString("firstName"));
                             lastNameEditText.setText(document.getString("lastName"));
                             phoneNumberEditText.setText(document.getString("phoneNumber"));
-                            // TODO: Load profile image if stored
+
                         } else {
                             Toast.makeText(EditProfileActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                         }
