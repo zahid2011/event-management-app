@@ -26,6 +26,7 @@
         android:layout_height="57dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Add Event Image"
+        android:onClick="onAddImageClicked"
         android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

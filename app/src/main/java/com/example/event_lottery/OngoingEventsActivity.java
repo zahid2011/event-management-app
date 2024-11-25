@@ -26,7 +26,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
     private LinearLayout eventsContainer;
     private TextView totalEvents;
     private EditText searchInput;
-    private ImageButton searchButton;
+    private ImageButton searchButton, backButton;
     private int eventCount = 0;
     private List<Events> allEvents = new ArrayList<>(); // Store all events for filtering
 
@@ -41,9 +41,12 @@ public class OngoingEventsActivity extends AppCompatActivity {
         totalEvents = findViewById(R.id.total_events);
         searchInput = findViewById(R.id.search_input);
         searchButton = findViewById(R.id.search_button);
+        backButton = findViewById(R.id.back_button);
 
         // Load events from Firestore
         loadEvents();
+
+        backButton.setOnClickListener(v -> finish());
 
         // Set up search button click listener
         searchButton.setOnClickListener(v -> {

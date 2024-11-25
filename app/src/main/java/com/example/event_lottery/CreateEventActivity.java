@@ -1,13 +1,14 @@
 package com.example.event_lottery;
 
-
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,17 +17,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-
 
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
@@ -40,16 +39,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
 public class CreateEventActivity extends AppCompatActivity {
-
 
     private Button btnCreateEvent, btnGenerateQr, btnCancel, btnBackToDashboard;
     private FirebaseFirestore db;
-    private ImageView qrCodeImageView;
+    private ImageView qrCodeImageView, imgEventImage;
     private EditText etEventDateTime;
     private Calendar calendar;
-    private Switch switchGeolocation; // New switch for geolocation toggle
+    private Switch switchGeolocation;
+    private String imageUrl; // To store the image URL
 
 
     @SuppressLint("MissingInflatedId")
@@ -58,28 +56,20 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
-        if (db == null) {
-            db = FirebaseFirestore.getInstance();
-        }
-
-
-        db = FirebaseFirestore.getInstance(); // Initialize Firestore
-
+        db = FirebaseFirestore.getInstance();
 
         btnCreateEvent = findViewById(R.id.btn_create_event);
         btnGenerateQr = findViewById(R.id.btn_generate_qr);
         btnCancel = findViewById(R.id.btn_cancel);
         qrCodeImageView = findViewById(R.id.qrCodeImageView);
         btnBackToDashboard = findViewById(R.id.btn_back_to_dashboard);
-        switchGeolocation = findViewById(R.id.switch_geolocation); // Initialize the switch
-
+        switchGeolocation = findViewById(R.id.switch_geolocation);
+        imgEventImage = findViewById(R.id.img_event_image);
 
         etEventDateTime = findViewById(R.id.et_event_datetime);
         calendar = Calendar.getInstance();
 
-
         etEventDateTime.setOnClickListener(v -> showDatePicker());
-
 
         btnBackToDashboard.setOnClickListener(v -> {
             Intent intent = new Intent(CreateEventActivity.this, OrganizerDashboardActivity.class);
@@ -88,86 +78,54 @@ public class CreateEventActivity extends AppCompatActivity {
             finish();
         });
 
-
         btnCreateEvent.setOnClickListener(v -> {
-            TextView evtView = findViewById(R.id.et_event_name);
-            String evtID = evtView.getText().toString();
+            String eventName = ((EditText) findViewById(R.id.et_event_name)).getText().toString().trim();
+            String eventDateTime = etEventDateTime.getText().toString().trim();
+            String capacity = ((EditText) findViewById(R.id.et_capacity)).getText().toString().trim();
+            String price = ((EditText) findViewById(R.id.et_price)).getText().toString().trim();
+            String description = ((EditText) findViewById(R.id.et_event_description)).getText().toString().trim();
 
+            if (eventName.isEmpty() || eventDateTime.isEmpty() || capacity.isEmpty() || price.isEmpty() || description.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            TextView tevtView = findViewById(R.id.et_event_datetime);
-            String tevtID = tevtView.getText().toString();
-
-
-            TextView vtView = findViewById(R.id.et_capacity);
-            String vtID = vtView.getText().toString();
-
-
-            TextView tView = findViewById(R.id.et_price);
-            String tID = tView.getText().toString();
-
-
-            TextView desc = findViewById(R.id.et_event_description);
-            String descID = desc.getText().toString();
-
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             Date date;
             try {
-                date = dateFormat.parse(tevtID);
+                date = dateFormat.parse(eventDateTime);
             } catch (ParseException e) {
                 Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-
-            if (evtID.isEmpty() || tevtID.isEmpty() || vtID.isEmpty() || tID.isEmpty() || descID.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
             boolean geolocationEnabled = switchGeolocation.isChecked();
 
-
-            Events newEvent = new Events(evtID, date, vtID, tID, descID);
-            saveEventToFirestore(newEvent);
+            // Save event without image URL initially
+            saveEventToFirestore(eventName, date, capacity, price, description, geolocationEnabled, imageUrl);
         });
 
+        btnGenerateQr.setOnClickListener(v -> {
+            String eventName = ((EditText) findViewById(R.id.et_event_name)).getText().toString().trim();
+            if (eventName.isEmpty()) {
+                Toast.makeText(this, "Please enter an event name first", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        //  switchGeolocation.setOnCheckedChangeListener((buttonView, isChecked) -> {
-        //  if (isChecked) {
-        //     Toast.makeText(CreateEventActivity.this, "Geolocation required for this event", Toast.LENGTH_SHORT).show();
-        //  } else {
-        //  Toast.makeText(CreateEventActivity.this, "Geolocation requirement removed", Toast.LENGTH_SHORT).show();
-        //}
-        //    });
-
-
-
-
-        btnGenerateQr.setOnClickListener(v ->
-
-
-        {
-            TextView evtView = findViewById(R.id.et_event_name);
-            String evtID = evtView.getText().toString();
-            String qrContent = "myapp://event/" + evtID;
-
-
+            String qrContent = "myapp://event/" + eventName;
             Bitmap qrCodeBitmap = generateQRCode(qrContent);
             if (qrCodeBitmap != null) {
                 qrCodeImageView.setImageBitmap(qrCodeBitmap);
 
-
-
-
                 String qrHash = generateHashFromBitmap(qrCodeBitmap);
                 if (qrHash != null) {
-                    db.collection("events").document(evtID)
+                    db.collection("events").document(eventName)
                             .set(Collections.singletonMap("qrhash", qrHash), SetOptions.merge())
                             .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Event and QR hash stored successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "QR Code stored successfully", Toast.LENGTH_SHORT).show();
                             })
                             .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Failed to store event data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Failed to store QR Code: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             });
                 } else {
                     Toast.makeText(this, "Failed to generate QR hash", Toast.LENGTH_SHORT).show();
@@ -177,17 +135,8 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        btnCancel.setOnClickListener(v -> finish()); // Close the activity
+        btnCancel.setOnClickListener(v -> finish());
     }
-
-    // Setter for Firestore to allow testing with mock instances
-    public void setFirestore(FirebaseFirestore firestore) {
-        this.db = firestore;
-    }
-
 
     private void showDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -205,7 +154,6 @@ public class CreateEventActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
     private void showTimePicker() {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
@@ -213,8 +161,6 @@ public class CreateEventActivity extends AppCompatActivity {
                     calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     calendar.set(Calendar.MINUTE, minute);
 
-
-                    // Format date and time and display it in EditText
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     etEventDateTime.setText(dateFormat.format(calendar.getTime()));
                 },
@@ -225,49 +171,66 @@ public class CreateEventActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-
-    private void saveEventToFirestore(Events event) {
+    private void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imageUrl) {
         Map<String, Object> eventData = new HashMap<>();
-        eventData.put("eventName", event.getEventName());
-        eventData.put("eventDateTime", event.getEventDateTime());
-        eventData.put("capacity", event.getCapacity());
-        eventData.put("price", event.getPrice());
-        eventData.put("description", event.getDescription());
-        eventData.put("geolocationEnabled", switchGeolocation.isChecked());
+        eventData.put("eventName", eventName);
+        eventData.put("eventDateTime", eventDateTime);
+        eventData.put("capacity", capacity);
+        eventData.put("price", price);
+        eventData.put("description", description);
+        eventData.put("geolocationEnabled", geolocationEnabled);
+        eventData.put("imageUrl", imageUrl);
 
 
-        // Save event data to Firestore including waitlist
-        db.collection("events").document(event.getEventName())
+        db.collection("events").document(eventName)
                 .set(eventData)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(CreateEventActivity.this, "Event Created Successfully", Toast.LENGTH_SHORT).show();
-                    createWaitingList(event.getEventName()); // Call to create an empty waiting list
+                    Toast.makeText(this, "Event created successfully", Toast.LENGTH_SHORT).show();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(CreateEventActivity.this, "Failed to create event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Failed to create event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    public void onAddImageClicked(View view) {
+        // Create an input dialog to prompt for the image URL
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Image URL");
+
+        // Input field for the URL
+        final EditText input = new EditText(this);
+        input.setHint("Enter image URL");
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            String url = input.getText().toString().trim();
+
+            if (!url.isEmpty()) {
+                // Load the image into the ImageView
+                loadImageFromUrl(url);
+
+                // Store the URL in the imageUrl variable
+                imageUrl = url;
+
+                Toast.makeText(this, "Image URL added successfully!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
     }
 
 
 
-
-    private void createWaitingList(String eventName) {
-        // Example entry in the waiting list
-        Map<String, Object> waitingEntry = new HashMap<>();
-        waitingEntry.put("userId", "sampleUserId");
-        waitingEntry.put("timestamp", new Date());
-
-
-        // Add this entry to the "waitingList" subcollection under the event document
-        db.collection("events").document(eventName)
-                .collection("waitingList")
-                .add(waitingEntry)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Waiting list entry created", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to create waiting list entry: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+    private void loadImageFromUrl(String url) {
+        Glide.with(this)
+                .load(url)
+                .placeholder(R.drawable.ic_image_placeholder) // Optional: Placeholder image
+                .error(R.drawable.ic_error) // Optional: Error image
+                .into(imgEventImage); // Load into the ImageView
     }
 
 
@@ -281,7 +244,6 @@ public class CreateEventActivity extends AppCompatActivity {
             BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
 
-
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
                     bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
@@ -294,22 +256,12 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-
-    public byte[] bitmapToByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
-    }
-
-
     public String generateHashFromBitmap(Bitmap bitmap) {
         byte[] bitmapBytes = bitmapToByteArray(bitmap);
-
 
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = digest.digest(bitmapBytes);
-
 
             StringBuilder hexString = new StringBuilder();
             for (byte b : hashBytes) {
@@ -322,5 +274,11 @@ public class CreateEventActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 }

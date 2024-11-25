@@ -82,7 +82,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvMaxWaitingList = findViewById(R.id.tv_max_waiting_list); // Initialize tvMaxWaitingList
         ivBackArrow = findViewById(R.id.iv_back_arrow);
         qrCodeImageView = findViewById(R.id.img_qr_code);
-        btnViewWaitingList = findViewById(R.id.btn_view_waiting_list); // Initialize the button
+        btnViewWaitingList = findViewById(R.id.btn_view_waiting_list);
+        imgEventImage = findViewById(R.id.img_event_image);// Initialize the button
 
 
         // Fetch event details from Firestore
@@ -114,6 +115,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     String description = document.getString("description");
                     String capacity = document.getString("capacity");
                     String qrhash = document.getString("qrhash");
+                    String imageUrl = document.getString("imageUrl");
 
                     // Set data in views
                     tvEventName.setText(eventName != null ? eventName : "N/A");
@@ -145,6 +147,14 @@ public class EventDetailsActivity extends AppCompatActivity {
                         tvMaxWaitingList.setText("Max Waiting List Entrants: " + maxWaitingList);
                     } else {
                         tvMaxWaitingList.setText("Max Waiting List Entrants: [Tap to Set]");
+                    }
+
+                    // Fetch and load the image from the URL
+                    if (imageUrl != null && !imageUrl.isEmpty()) {
+                        loadImageFromUrl(imageUrl);
+                    } else {
+                        imgEventImage.setImageResource(R.drawable.ic_image_placeholder);
+                        Toast.makeText(this, "No image available for this event", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -243,90 +253,43 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
     public void onAddImageClicked(View view) {
-
         // Create an input dialog to prompt for the URL
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Add Image URL");
-
-
+        builder.setTitle("Add/Update Image URL");
 
         // Set up the input field
-
         final EditText input = new EditText(this);
-
         input.setHint("Enter image URL");
-
         builder.setView(input);
 
-
-
         // Set up the buttons
-
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-
-            @Override
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                String url = input.getText().toString().trim();
-
-                if (!url.isEmpty()) {
-
-                    loadImageFromUrl(url);
-
-                } else {
-
-                    Toast.makeText(EventDetailsActivity.this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
-
-                }
-
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            String url = input.getText().toString().trim();
+            if (!url.isEmpty()) {
+                // Save the new URL to Firestore
+                saveImageUrlToFirestore(url);
+                loadImageFromUrl(url); // Update the displayed image
+            } else {
+                Toast.makeText(this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
             }
-
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-            @Override
-
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.cancel();
-
-            }
-
-        });
-
-
-
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
-
     }
-
-
-
-    // Method to load the image from the provided URL
 
     private void loadImageFromUrl(String url) {
-
-        // Use Glide to load the image from the URL
-
-
         Glide.with(this)
-
                 .load(url)
-
-                .placeholder(R.drawable.ic_image_placeholder) // Add a placeholder drawable
-
-                .error(R.drawable.ic_back_arrow) // Add an error drawable in case URL is invalid
-
+                .placeholder(R.drawable.ic_image_placeholder)
+                .error(R.drawable.ic_error)
                 .into(imgEventImage);
-
     }
 
-
-
-
-
+    private void saveImageUrlToFirestore(String imageUrl) {
+        DocumentReference docRef = db.collection("events").document(eventId);
+        docRef.update("imageUrl", imageUrl)
+                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Image updated successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to update image", Toast.LENGTH_SHORT).show());
+    }
 }
