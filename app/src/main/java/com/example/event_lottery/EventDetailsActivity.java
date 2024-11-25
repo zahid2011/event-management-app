@@ -185,8 +185,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialog, which) -> {
             String inputText = input.getText().toString();
             if (!inputText.isEmpty()) {
-                int maxWaitingListLimit = Integer.parseInt(inputText);
-                updateMaxWaitingListLimit(maxWaitingListLimit);
+                int newMaxWaitingListLimit = Integer.parseInt(inputText);
+                validateAndUpdateMaxWaitingListLimit(newMaxWaitingListLimit); // Validate and update the limit
             } else {
                 Toast.makeText(EventDetailsActivity.this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
             }
@@ -195,6 +195,37 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    private void validateAndUpdateMaxWaitingListLimit(int newMaxWaitingListLimit) {
+        // Reference to the waitingList subcollection for the current event
+        CollectionReference waitingListRef = db.collection("events").document(eventId).collection("waitingList");
+
+        // Fetch all documents in the waitingList subcollection
+        waitingListRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int currentWaitingListSize = task.getResult().size(); // Get the current waiting list size
+
+                // Check if the new max limit is greater than the current waiting list size
+                if (newMaxWaitingListLimit > currentWaitingListSize) {
+                    // Proceed to update the max waiting list limit
+                    updateMaxWaitingListLimit(newMaxWaitingListLimit);
+                } else {
+                    // Show an error message if the new max limit is not valid
+                    Toast.makeText(EventDetailsActivity.this,
+                            "Max waiting list limit must be greater than the current waiting list size: " +
+                                    currentWaitingListSize,
+                            Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Log.e("EventDetailsActivity", "Error fetching waiting list size", task.getException());
+                Toast.makeText(this, "Failed to fetch waiting list size.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> {
+            Log.e("EventDetailsActivity", "Error fetching waiting list size", e);
+            Toast.makeText(this, "Failed to validate waiting list limit.", Toast.LENGTH_SHORT).show();
+        });
+    }
+
 
     private void updateMaxWaitingListLimit(int maxWaitingListLimit) {
         DocumentReference docRef = db.collection("events").document(eventId);
@@ -209,6 +240,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     Toast.makeText(EventDetailsActivity.this, "Failed to update max waiting list", Toast.LENGTH_SHORT).show();
                 });
     }
+
 
     public void onAddImageClicked(View view) {
 
