@@ -1,98 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#F5F5F5">
 
-    <!-- Dashboard Header with Background -->
-    <TextView
-        android:id="@+id/dashboard_header_2"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dashboard_header"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Dashboard"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:background="#000000"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_height="70dp"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Welcome Back Message -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#3333CC"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Dashboard Text -->
+            <TextView
+                android:id="@+id/dashboard_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Dashboard"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Welcome Message -->
     <TextView
-        android:id="@+id/welcome_message_2"
+        android:id="@+id/welcome_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome back"
+        android:layout_marginTop="16dp"
+        android:text="Welcome back!"
+        android:textColor="#333333"
         android:textSize="20sp"
-        android:textColor="#000000"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/dashboard_header_2"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/dashboard_header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Row 1: Profile, Notification -->
     <LinearLayout
         android:id="@+id/row_1_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/welcome_message_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:weightSum="2">
+        android:weightSum="2"
+        app:layout_constraintTop_toBottomOf="@id/welcome_message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Profile -->
-        <LinearLayout
+        <!-- Profile Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/male_image"
-                android:contentDescription="@string/male_user" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Profile"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/profile_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/male_image"
+                    app:tint="#3333CC" />
 
-        <!-- Notification -->
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Notification Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/notify"
-                android:contentDescription="@string/notification" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notification"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/notification_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/notify"
+                    app:tint="#3333CC" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notification"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <!-- Row 2: Join Event, Create Event -->
@@ -100,59 +133,77 @@
         android:id="@+id/row_2_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
         app:layout_constraintTop_toBottomOf="@id/row_1_buttons"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:weightSum="2">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Join Event -->
-        <LinearLayout
+        <!-- Join Event Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/event_join_image"
-                android:contentDescription="@string/join_event" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Join Event"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/join_event_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/event_join_image"
+                    app:tint="#3333CC" />
 
-        <!-- Create Event -->
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Join Event"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Create Event Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/event_add_image"
-                android:contentDescription="@string/create_event" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create Event"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/create_event_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/event_add_image"
+                    app:tint="#3333CC" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create Event"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <!-- Row 3: Create Facility, Entrant Dashboard -->
@@ -160,59 +211,77 @@
         android:id="@+id/row_3_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
         app:layout_constraintTop_toBottomOf="@id/row_2_buttons"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:weightSum="2">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Create Facility -->
-        <LinearLayout
+        <!-- Create Facility Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/facility_image"
-                android:contentDescription="@string/create_facility" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Create Facility"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/create_facility_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/facility_image"
+                    app:tint="#3333CC" />
 
-        <!-- Entrant Dashboard -->
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Create Facility"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Entrant Dashboard Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/entrant_db_image"
-                android:contentDescription="@string/entrant_dashboard" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Entrant Dashboard"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/entrant_dashboard_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/entrant_db_image"
+                    app:tint="#3333CC" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrant Dashboard"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <!-- Row 4: Admin Dashboard, Organizer Dashboard -->
@@ -220,59 +289,91 @@
         android:id="@+id/row_4_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
         app:layout_constraintTop_toBottomOf="@id/row_3_buttons"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:weightSum="2">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Admin Dashboard -->
-        <LinearLayout
+        <!-- Admin Dashboard Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/admin_image"
-                android:contentDescription="@string/admin_dashboard" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Admin Dashboard"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/admin_dashboard_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/admin_image"
+                    app:tint="#3333CC" />
 
-        <!-- Organizer Dashboard -->
-        <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admin Dashboard"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Organizer Dashboard Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="120dp"
             android:layout_weight="1"
-            android:gravity="center">
+            android:layout_margin="8dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-            <ImageView
-                android:layout_width="94dp"
-                android:layout_height="94dp"
-                android:src="@drawable/organizer_image"
-                android:contentDescription="@string/organizer_dashboard" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Organizer Dashboard"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/organizer_dashboard_icon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/organizer_image"
+                    app:tint="#3333CC" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Organizer Dashboard"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#FF0000"
+        android:text="Logout"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

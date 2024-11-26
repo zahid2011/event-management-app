@@ -1,110 +1,122 @@
 package com.example.event_lottery;
 
-
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import com.google.firebase.FirebaseApp;
-
-
 public class MainActivity extends AppCompatActivity {
-    private Button loginButton, signUpButton, btnCreateNewEvent, btnOngoingEvents, btnPastEvents, btnManageFacility;
+    private ImageView profileButton, notificationButton, joinEventButton, createEventButton,
+            createFacilityButton, entrantDashboardButton, adminDashboardButton,
+            organizerDashboardButton;
 
+    private Button logoutButton;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseApp.initializeApp(this);
-        setContentView(R.layout.main_signup_page); 
 
-
-
-        Intent intent = getIntent();
-        if (intent != null && Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri data = intent.getData();
-            if (data != null && "event".equals(data.getHost())) {
-                String eventId = data.getLastPathSegment(); 
-
-                // launch EventDetailsActivity with the eventId
-                Intent detailsIntent = new Intent(this, EventDetailsActivity.class);
-                Intent qr_code_intent = new Intent(this, Entrant_qr_code_activity.class);
-                qr_code_intent.putExtra("event_id", eventId);
-
-                detailsIntent.putExtra("event_id", eventId);
-                startActivity(qr_code_intent);
-                startActivity(detailsIntent);
-            }
-        }
+        // Set the dashboard layout as the main content view
+        setContentView(R.layout.sample_dashboard);
 
         // Initialize buttons
-        loginButton = findViewById(R.id.loginButton);
-        signUpButton = findViewById(R.id.signUpButton);
-        btnCreateNewEvent = findViewById(R.id.btn_create_event);
-        btnOngoingEvents = findViewById(R.id.btn_ongoing_events);
-        btnPastEvents = findViewById(R.id.btn_past_events);
-        btnManageFacility = findViewById(R.id.btn_manage_facility);
+        profileButton = findViewById(R.id.profile_icon);
+        notificationButton = findViewById(R.id.notification_icon);
+        joinEventButton = findViewById(R.id.join_event_icon);
+        createEventButton = findViewById(R.id.create_event_icon);
+        createFacilityButton = findViewById(R.id.create_facility_icon);
+        entrantDashboardButton = findViewById(R.id.entrant_dashboard_icon);
+        adminDashboardButton = findViewById(R.id.admin_dashboard_icon);
+        organizerDashboardButton = findViewById(R.id.organizer_dashboard_icon);
+        logoutButton = findViewById(R.id.logout_button); // Assuming you have added this button to your layout
 
+        // Set click listeners for each button
+        if (profileButton != null) {
+            profileButton.setOnClickListener(v -> {
+                // Check if the user is already logged in
+                SharedPreferences sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
-        // Set up button listeners with null checks
-        if (loginButton != null) {
-            loginButton.setOnClickListener(v -> {
-                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(loginIntent);
-            });
-        } else {
-            Toast.makeText(this, "Login button not found", Toast.LENGTH_SHORT).show();
-        }
-
-
-        if (signUpButton != null) {
-            signUpButton.setOnClickListener(v -> {
-                Intent signUpIntent = new Intent(MainActivity.this, SignupActivity.class);
-                startActivity(signUpIntent);
-            });
-        } else {
-            Toast.makeText(this, "Sign Up button not found", Toast.LENGTH_SHORT).show();
-        }
-
-
-        // Event management buttons
-        if (btnCreateNewEvent != null) {
-            btnCreateNewEvent.setOnClickListener(v -> {
-                Toast.makeText(this, "create event", Toast.LENGTH_SHORT).show();
-                Intent createEventIntent = new Intent(MainActivity.this, CreateEventActivity.class);
-                startActivity(createEventIntent);
+                if (isLoggedIn) {
+                    // Navigate to EditProfileActivity if logged in
+                    Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Navigate to the LoginMainActivity if not logged in
+                    Intent intent = new Intent(MainActivity.this, LoginMainActivity.class);
+                    startActivity(intent);
+                }
             });
         }
 
-
-        if (btnOngoingEvents != null) {
-            btnOngoingEvents.setOnClickListener(v -> {
-                Intent ongoingEventsIntent = new Intent(MainActivity.this, OngoingEventsActivity.class);
-                startActivity(ongoingEventsIntent);
+        if (notificationButton != null) {
+            notificationButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Notification feature is coming soon!", Toast.LENGTH_SHORT).show();
             });
         }
 
-
-        if (btnPastEvents != null) {
-            btnPastEvents.setOnClickListener(v -> {
-                Intent pastEventsIntent = new Intent(MainActivity.this, PastEventsActivity.class);
-                startActivity(pastEventsIntent);
+        if (joinEventButton != null) {
+            joinEventButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Join Event feature is coming soon!", Toast.LENGTH_SHORT).show();
             });
         }
 
+        if (createEventButton != null) {
+            createEventButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Create Event feature is coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }
 
-        if (btnManageFacility != null) {
-            btnManageFacility.setOnClickListener(v -> {
-                Intent manageFacilityIntent = new Intent(MainActivity.this, ManageFacilityActivity.class);
-                startActivity(manageFacilityIntent);
+        if (createFacilityButton != null) {
+            createFacilityButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Create Facility feature is coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        if (entrantDashboardButton != null) {
+            entrantDashboardButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Entrant Dashboard feature is coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        if (adminDashboardButton != null) {
+            adminDashboardButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Admin Dashboard feature is coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        if (organizerDashboardButton != null) {
+            organizerDashboardButton.setOnClickListener(v -> {
+                // Example of a "Coming Soon" feature
+                Toast.makeText(MainActivity.this, "Organizer Dashboard feature is coming soon!", Toast.LENGTH_SHORT).show();
+            });
+        }
+
+        // Set click listener for logout button
+        if (logoutButton != null) {
+            logoutButton.setOnClickListener(v -> {
+                // Clear user session
+                SharedPreferences sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear(); // Clears all the saved session data
+                editor.apply();
+
+                // Redirect to login page after logout
+                Intent intent = new Intent(MainActivity.this, LoginMainActivity.class);
+                startActivity(intent);
+                finish();
             });
         }
     }
