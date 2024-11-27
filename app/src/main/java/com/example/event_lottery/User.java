@@ -8,11 +8,10 @@ public class User {
     private String lastName;
     private String password;
     private String role;
+    private String profileImageUrl;
+    private String phoneNumber;
 
-    public User() {
-    }
-
-    // Constructor to initialize user data
+    // Constructor
     public User(String id, String email, String username, String firstName, String lastName, String password, String role) {
         this.id = id;
         this.email = email;
@@ -23,6 +22,8 @@ public class User {
         this.role = role;
     }
 
+    // Getters and Setters for all fields
+
     public String getId() {
         return id;
     }
@@ -31,6 +32,7 @@ public class User {
         this.id = id;
     }
 
+    // Email
     public String getEmail() {
         return email;
     }
@@ -39,6 +41,7 @@ public class User {
         this.email = email;
     }
 
+    // Username
     public String getUsername() {
         return username;
     }
@@ -47,6 +50,7 @@ public class User {
         this.username = username;
     }
 
+    // First Name
     public String getFirstName() {
         return firstName;
     }
@@ -55,6 +59,7 @@ public class User {
         this.firstName = firstName;
     }
 
+    // Last Name
     public String getLastName() {
         return lastName;
     }
@@ -63,6 +68,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    // Password
     public String getPassword() {
         return password;
     }
@@ -71,6 +77,7 @@ public class User {
         this.password = password;
     }
 
+    // Role
     public String getRole() {
         return role;
     }
@@ -79,6 +86,21 @@ public class User {
         this.role = role;
     }
 
+    // Profile Image URL
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
 
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
 
+    // Phone Number
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
