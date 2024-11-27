@@ -5,21 +5,23 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.widget.ArrayAdapter;
 
 import com.google.firebase.Timestamp;
+
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class EventAdapter extends ArrayAdapter<Event> {
+public class EntrantWaitingListAdapter extends ArrayAdapter<Event> {
     private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
 
-    public EventAdapter(Context context, List<Event> events) {
+    public EntrantWaitingListAdapter(Context context, List<Event> events) {
         super(context, 0, events);
     }
 
@@ -46,7 +48,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             String formattedDate = sdf.format(timestamp.toDate());
             eventDateTimeTextView.setText(formattedDate);
         } else {
-            eventDateTimeTextView.setText(""); // Or handle null case as needed
+            eventDateTimeTextView.setText(""); // Handle null case if needed
         }
 
         capacityTextView.setText("Capacity: " + event.getCapacity());
@@ -54,22 +56,20 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         Button detailsButton = convertView.findViewById(R.id.details_button);
         detailsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EntrantEventWaitingDetails.class);
 
-            Intent intent = new Intent(getContext(), AdminEventDetailsActivity.class);
-
-            // passing the event details to the intent, including eventId and eventDescription
-            intent.putExtra("eventId", event.getEventId()); 
+            // Pass the event details to the intent
+            intent.putExtra("eventId", event.getEventId());
             intent.putExtra("eventName", event.getEventName());
             intent.putExtra("eventDate", timestamp != null ? sdf.format(timestamp.toDate()) : "");
-            intent.putExtra("eventCapacity", event.getCapacity()); 
-            intent.putExtra("eventPrice", event.getPrice());       
-            intent.putExtra("eventDescription", event.getDescription()); 
+            intent.putExtra("eventCapacity", event.getCapacity());
+            intent.putExtra("eventPrice", event.getPrice());
+            intent.putExtra("eventDescription", event.getDescription());
 
-            // Start the activity
+            // Start EntrantEventWaitingDetails activity
             getContext().startActivity(intent);
         });
 
         return convertView;
     }
-
 }

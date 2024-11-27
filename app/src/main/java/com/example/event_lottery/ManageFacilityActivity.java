@@ -48,9 +48,9 @@ public class ManageFacilityActivity extends AppCompatActivity {
         etFacilityOwner = findViewById(R.id.et_facility_owner);
         //etFacilityName = findViewById(R.id.et_facility_name);
         etFacilityAddress = findViewById(R.id.et_facility_address);
-        etFacilityAddress2 = findViewById(R.id.et_facility_address_2);
+        //etFacilityAddress2 = findViewById(R.id.et_facility_address_2);
         etPhone = findViewById(R.id.et_phone);
-        etEmail = findViewById(R.id.et_email);
+        //etEmail = findViewById(R.id.et_email);
         etFacilityDescription = findViewById(R.id.et_facility_description);
         switchGeolocation = findViewById(R.id.switch_geolocation);
         //   btnCreate = findViewById(R.id.btn_create);
@@ -122,9 +122,9 @@ public class ManageFacilityActivity extends AppCompatActivity {
         Map<String, Object> facilityData = new HashMap<>();
         facilityData.put("facilityName", facilityName);
         facilityData.put("facilityAddress", facilityAddress);
-        facilityData.put("facilityAddress2", facilityAddress2);
+       // facilityData.put("facilityAddress2", facilityAddress2);
         facilityData.put("phone", phone);
-        facilityData.put("email", email);
+       // facilityData.put("email", email);
         facilityData.put("facilityDescription", facilityDescription);
         facilityData.put("geolocationEnabled", geolocationEnabled);
 
@@ -143,9 +143,9 @@ public class ManageFacilityActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document != null && document.exists()) {
                             etFacilityAddress.setText(document.getString("facilityAddress"));
-                            etFacilityAddress2.setText(document.getString("facilityAddress2"));
+                           // etFacilityAddress2.setText(document.getString("facilityAddress2"));
                             etPhone.setText(document.getString("phone"));
-                            etEmail.setText(document.getString("email"));
+                          //  etEmail.setText(document.getString("email"));
                             etFacilityDescription.setText(document.getString("facilityDescription"));
                             Toast.makeText(ManageFacilityActivity.this, "Facility data loaded", Toast.LENGTH_SHORT).show();
                         } else {

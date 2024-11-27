@@ -30,7 +30,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "EditProfileActivity";
     private static final int IMAGE_UPLOAD_REQUEST_CODE = 1; // Request code for image upload
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
