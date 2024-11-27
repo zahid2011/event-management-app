@@ -217,19 +217,18 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
-                String qrHash = generateHashFromBitmap(qrCodeBitmap);
-                if (qrHash != null) {
-                    db.collection("events").document(evtID)
-                            .set(Collections.singletonMap("qrhash", qrHash), SetOptions.merge())
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Event and QR hash stored successfully", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Failed to store event data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
-                } else {
-                    Toast.makeText(this, "Failed to generate QR hash", Toast.LENGTH_SHORT).show();
-                }
+                Map<String, Object> qrData = new HashMap<>();
+                qrData.put("qrContent", qrContent); // Save the QR content
+                qrData.put("qrhash", generateHashFromBitmap(qrCodeBitmap)); // Save the hash
+
+                db.collection("events").document(evtID)
+                        .set(qrData, SetOptions.merge())
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(this, "Event and QR Code stored successfully", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Failed to store QR Code data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
             } else {
                 Toast.makeText(this, "Failed to generate QR Code", Toast.LENGTH_SHORT).show();
             }

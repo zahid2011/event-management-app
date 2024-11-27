@@ -116,33 +116,19 @@ public class EventDetailsActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document != null && document.exists()) {
-                    // Retrieve and display event data
+                    // Fetch and display event details
                     String eventName = document.getString("eventName");
-                    Timestamp eventTimestamp = document.getTimestamp("eventDateTime");  // Retrieve as Timestamp
+                    Timestamp eventTimestamp = document.getTimestamp("eventDateTime");
                     String description = document.getString("description");
                     String capacity = document.getString("capacity");
-                    String qrhash = document.getString("qrhash");
+                    String qrContent = document.getString("qrContent"); // Fetch QR content
 
-
-                    // Set data in views
+                    // Set event details in the respective views
                     tvEventName.setText(eventName != null ? eventName : "N/A");
                     tvEventDescription.setText("Event Description: " + (description != null ? description : "N/A"));
                     tvEventCapacity.setText("Capacity: " + (capacity != null ? capacity + " seats available" : "N/A"));
-                    tvQrCodeLabel.setText("QR Code For The Event");
 
-
-
-
-                    // Generate QR code image if qrhash exists
-                    if (qrhash != null && !qrhash.isEmpty()) {
-                        generateQRCodeImage(qrhash); // Call the QR code generator with qrhash
-                    } else {
-                        //tvQrCodeLabel.setText("QR Code: N/A");
-                        qrCodeImageView.setImageDrawable(null); // Clear QR code image if qrhash is not available
-                    }
-
-
-                    // Format date if available
+                    // Format and display the event date if available
                     if (eventTimestamp != null) {
                         Date eventDate = eventTimestamp.toDate();
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -151,16 +137,20 @@ public class EventDetailsActivity extends AppCompatActivity {
                         tvEventDate.setText("Date: N/A");
                     }
 
+                    // Generate QR code if the content is available
+                    if (qrContent != null && !qrContent.isEmpty()) {
+                        generateQRCodeImage(qrContent); // Generate QR code from content
+                    } else {
+                        qrCodeImageView.setImageDrawable(null); // Clear QR code image if no content
+                    }
 
-                    // Only set maxWaitingList if it exists in the document
+                    // Handle max waiting list if present
                     if (document.contains("maxWaitingList")) {
                         Long maxWaitingList = document.getLong("maxWaitingList");
                         tvMaxWaitingList.setText("Max Waiting List Entrants: " + maxWaitingList);
                     } else {
                         tvMaxWaitingList.setText("Max Waiting List Entrants: [Tap to Set]");
                     }
-
-
                 } else {
                     Toast.makeText(this, "Event details not found", Toast.LENGTH_SHORT).show();
                     finish();
@@ -172,6 +162,7 @@ public class EventDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     private void generateQRCodeImage(String qrhash) {
