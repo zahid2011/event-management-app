@@ -39,19 +39,9 @@ public class MainActivity extends AppCompatActivity {
         // Set click listeners for each button
         if (profileButton != null) {
             profileButton.setOnClickListener(v -> {
-                // Check if the user is already logged in
-                SharedPreferences sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
-                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-
-                if (isLoggedIn) {
-                    // Navigate to EditProfileActivity if logged in
-                    Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-                    startActivity(intent);
-                } else {
-                    // Navigate to the LoginMainActivity if not logged in
-                    Intent intent = new Intent(MainActivity.this, LoginMainActivity.class);
-                    startActivity(intent);
-                }
+                // Navigate directly to LoginMainActivity
+                Intent intent = new Intent(MainActivity.this, LoginMainActivity.class);
+                startActivity(intent);
             });
         }
 
