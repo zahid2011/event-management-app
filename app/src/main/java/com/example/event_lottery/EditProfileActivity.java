@@ -1,8 +1,10 @@
 package com.example.event_lottery;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -11,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -26,6 +28,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String userId; // Use email as the user ID
 
+    private static final String TAG = "EditProfileActivity";
+    private static final int IMAGE_UPLOAD_REQUEST_CODE = 1; // Request code for image upload
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,26 +61,8 @@ public class EditProfileActivity extends AppCompatActivity {
         backButton = findViewById(R.id.backButton);
         profileImageView = findViewById(R.id.profileImage);
 
-        // Fetch user data from Firestore
-        db.collection("users").document(userId).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document != null && document.exists()) {
-                            // Populate UI elements with user data
-                            emailEditText.setText(document.getString("email"));
-                            usernameEditText.setText(document.getString("username"));
-                            firstNameEditText.setText(document.getString("firstName"));
-                            lastNameEditText.setText(document.getString("lastName"));
-                            phoneNumberEditText.setText(document.getString("phoneNumber"));
-                            // TODO: Load profile image if stored
-                        } else {
-                            Toast.makeText(EditProfileActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(EditProfileActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        // Fetch and display user data
+        loadUserData();
 
         // Handle "Save Changes" button click
         saveChangesButton.setOnClickListener(v -> updateProfile());
@@ -86,11 +72,45 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Handle "Edit Image" button click
         editImageButton.setOnClickListener(v -> {
-            Toast.makeText(EditProfileActivity.this, "Edit profile image feature coming soon", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(EditProfileActivity.this, ImageUploadActivity.class);
+            startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE);
         });
 
         // Handle "Back" button click
         backButton.setOnClickListener(v -> finish());
+    }
+
+    private void loadUserData() {
+        // Fetch user data from Firestore
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(document -> {
+                    if (document != null && document.exists()) {
+                        // Populate UI elements with user data
+                        emailEditText.setText(document.getString("email"));
+                        usernameEditText.setText(document.getString("username"));
+                        firstNameEditText.setText(document.getString("firstName"));
+                        lastNameEditText.setText(document.getString("lastName"));
+                        phoneNumberEditText.setText(document.getString("phoneNumber"));
+
+                        // Load profile image
+                        String profileImageUrl = document.getString("profileImageUrl");
+                        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                            Glide.with(this)
+                                    .load(profileImageUrl)
+                                    .circleCrop()
+                                    .into(profileImageView);
+                        } else {
+                            profileImageView.setImageResource(R.drawable.ic_image_placeholder); // Use default image
+                        }
+
+                    } else {
+                        Toast.makeText(EditProfileActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(EditProfileActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error fetching user data", e);
+                });
     }
 
     private void updateProfile() {
@@ -120,12 +140,19 @@ public class EditProfileActivity extends AppCompatActivity {
 
         // Update the document in Firestore
         db.collection("users").document(userId).update(updates)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(EditProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                    }
+                .addOnSuccessListener(aVoid -> Toast.makeText(EditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(EditProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error updating profile", e);
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IMAGE_UPLOAD_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Reload the profile image
+            loadUserData();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

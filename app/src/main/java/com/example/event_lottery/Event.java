@@ -10,7 +10,7 @@ public class Event {
     private String price;
     private String description;
 
-    // Default constructor (required for Firebase or other serialization libraries)
+    // constructor 
     public Event() {}
 
     //

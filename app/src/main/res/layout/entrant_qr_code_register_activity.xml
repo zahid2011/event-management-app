@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/entrant_qr_code_register_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF8F8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/iv_back_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow"
+        />
+
+        <!-- Event Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1F41BB"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/event_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event Name"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Event Details Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#E5EFFF"
+            android:padding="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/event_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description:"
+                android:textSize="16sp"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/event_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Capacity: "
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/event_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date: "
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/event_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price:"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/event_geolocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Geolocation Enabled:"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/event_max_waiting_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max Waiting List:"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+        <!-- Register Button -->
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#1F41BB"
+            android:text="Register"
+            android:textSize="18sp" />
+
+        <!-- Already Registered Message -->
+        <TextView
+            android:id="@+id/already_registered_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You are already registered."
+            android:textSize="16sp"
+            android:textColor="#FF0000"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</ScrollView>

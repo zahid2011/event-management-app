@@ -71,7 +71,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
         LinearLayout eventLayout = new LinearLayout(this);
         eventLayout.setOrientation(LinearLayout.HORIZONTAL);
         eventLayout.setPadding(8, 8, 8, 8);
-        eventLayout.setBackgroundColor(getResources().getColor(R.color.event_background));
+       // eventLayout.setBackgroundColor(getResources().getColor(R.color.event_background));
 
         // Event ID TextView
         TextView event_idTextView = new TextView(this);

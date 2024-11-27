@@ -1,0 +1,356 @@
+[33mcommit d4deec9e14b8ed6cde31237037ef0c6834c19329[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Samia Rahman <samia5@ualberta.ca>
+Date:   Thu Nov 7 16:36:54 2024 -0700
+
+    Committed changes to build.gradle.kts and AndroidManifest.xml
+
+[33mcommit bff8afbab2385cf52b962d3e261d1baf11618599[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Samia Rahman <samia5@ualberta.ca>
+Date:   Thu Nov 7 16:13:10 2024 -0700
+
+    Added ic_error.xml from Samia branch
+
+[33mcommit 12f17dceaadc76728d97800e2aa086f547c0e708[m
+Author: Samia Rahman <samia5@ualberta.ca>
+Date:   Thu Nov 7 16:10:30 2024 -0700
+
+    Replaced EventDetailsactivity.java with the correct EventDetailsActivity.java
+
+[33mcommit e9c1e79937c8c017248d92fbae5edbfca2a2b2c2[m
+Merge: 81d05a8 73898d0
+Author: Zahid Hasan <113128458+zahid2011@users.noreply.github.com>
+Date:   Tue Nov 5 15:01:45 2024 -0700
+
+    Merge pull request #63 from CMPUT301F24beacon/zahid
+    
+    Zahid
+
+[33mcommit 73898d061125300fcb8f49b7139bea38ad000357[m[33m ([m[1;31morigin/zahid[m[33m)[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Tue Nov 5 14:59:31 2024 -0700
+
+    completed US 03.01.01 and US 03.04.01 Made the xml and added functionality for browsing and deleting events
+
+[33mcommit 405f30dce4c657d7345f26924c8a22c1f5c60a6d[m
+Merge: 784d3b3 81d05a8
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Tue Nov 5 01:37:18 2024 -0700
+
+    Merge branch 'main' into zahid
+
+[33mcommit 784d3b3c565d26d61a8f223cc1e81616dbd34c09[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Tue Nov 5 01:35:19 2024 -0700
+
+    updated sign up page and remove image xml
+
+[33mcommit 81d05a833240a26271464a4b6ab82a6566d67266[m
+Merge: 201ac22 1d3444b
+Author: Syed Shahmeer Rahman <90085351+Adreet21@users.noreply.github.com>
+Date:   Mon Nov 4 23:18:13 2024 -0700
+
+    Merge pull request #56 from CMPUT301F24beacon/Shahmeer
+    
+    Shahmeer
+
+[33mcommit 1d3444bbf277a3acd3e8c2be757eda91a601897f[m[33m ([m[1;31morigin/Shahmeer[m[33m)[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Mon Nov 4 23:17:25 2024 -0700
+
+    updated after merging main with shahmeer
+
+[33mcommit a677cccd0886ad7f930a75c661e7f07659254746[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Mon Nov 4 23:08:13 2024 -0700
+
+    Update EventDetailsActivity.java
+
+[33mcommit 9e7b1338a68cdfad58ce9fb7ab0a5baf9e5a67bb[m
+Merge: 30f51c5 201ac22
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Mon Nov 4 23:08:03 2024 -0700
+
+    Merge branch 'main' into Shahmeer
+
+[33mcommit 201ac22581b21efd5c58eb9221cbec0cd840f9ac[m
+Merge: ab05322 6eda0ed
+Author: SAB-10 <56857353+SAB-10@users.noreply.github.com>
+Date:   Mon Nov 4 22:58:55 2024 -0700
+
+    Merge pull request #55 from CMPUT301F24beacon/shaaf
+    
+    Shaaf
+
+[33mcommit 6eda0edf7b37f744b0d9f388542b2f1ad5ae101d[m[33m ([m[1;31morigin/shaaf[m[33m)[m
+Author: Shaaf Babar <shaaf.babar@gmail.com>
+Date:   Mon Nov 4 22:58:01 2024 -0700
+
+    test
+
+[33mcommit afc3ef1ac7c869dd92acd38e568494edf0bc394a[m
+Merge: 9e82498 ab05322
+Author: Shaaf Babar <shaaf.babar@gmail.com>
+Date:   Mon Nov 4 22:38:43 2024 -0700
+
+    push
+
+[33mcommit 9e82498d6b242184f5f58300578523b37e2c1ff3[m
+Author: Shaaf Babar <shaaf.babar@gmail.com>
+Date:   Mon Nov 4 22:33:32 2024 -0700
+
+    push
+
+[33mcommit 965590c482d279385fd4f68fad75304a6bf799ad[m
+Author: Shaaf Babar <shaaf.babar@gmail.com>
+Date:   Mon Nov 4 22:21:25 2024 -0700
+
+    test
+
+[33mcommit 30f51c5a99283282d2fe28c01f86795357ae974e[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Mon Nov 4 20:34:04 2024 -0700
+
+    Update AndroidManifest.xml
+
+[33mcommit ab0532230dfeb2563d4c3f270d0d17c36a4c354d[m
+Merge: fc19e92 bd79773
+Author: Zahid Hasan <113128458+zahid2011@users.noreply.github.com>
+Date:   Mon Nov 4 20:29:23 2024 -0700
+
+    Merge pull request #54 from CMPUT301F24beacon/zahid
+    
+    fixed manifest
+
+[33mcommit bd7977391c8a62078bf888e2f4b577edb3671f0d[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Mon Nov 4 20:25:11 2024 -0700
+
+    updated manifest
+
+[33mcommit 2a7c5c37e150edf4522463b2da8b86d2961bc8b0[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Mon Nov 4 20:18:26 2024 -0700
+
+    fixed manifest
+
+[33mcommit c40630ecbbd0b7a5ce9dcbc9429d03ee29fd3d51[m
+Merge: 8ed097f fc19e92
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Mon Nov 4 20:10:02 2024 -0700
+
+    Merge branch 'main' into zahid
+
+[33mcommit 8ed097fa49bc376574bc84e7351dfe3e29dce5e7[m[33m ([m[1;31morigin/Zahid[m[33m)[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Mon Nov 4 20:02:35 2024 -0700
+
+    waiting list of entrant completed
+
+[33mcommit fc19e9233be1eab3077c9b371387b42c082aa9a8[m
+Merge: f47b617 c78c9f0
+Author: Zahid Hasan <113128458+zahid2011@users.noreply.github.com>
+Date:   Mon Nov 4 19:43:52 2024 -0700
+
+    Merge pull request #52 from CMPUT301F24beacon/sadman
+    
+    Sadman
+
+[33mcommit c78c9f0a1050e709a64c0560c4a53379de7c4ac8[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Mon Nov 4 19:41:50 2024 -0700
+
+    entrant fixed
+
+[33mcommit 3f1b8e142b66caecd8c6eb0d69ba79054253dc61[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Mon Nov 4 16:57:50 2024 -0700
+
+    Update AndroidManifest.xml
+
+[33mcommit 05b649c1bd160f3dad4e985b4e644774528ab794[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Mon Nov 4 15:44:44 2024 -0700
+
+    notification work
+
+[33mcommit 061c02aa3cb3302c4e81915045fb8df21ce2f3dd[m
+Author: Shaaf Babar <shaaf.babar@gmail.com>
+Date:   Mon Nov 4 15:02:33 2024 -0700
+
+    test
+
+[33mcommit b8386213b89d5e8ceb3182a5d1eeede8ff8c6f0f[m
+Author: Shaaf Babar <shaaf.babar@gmail.com>
+Date:   Mon Nov 4 15:00:52 2024 -0700
+
+    shaaf
+
+[33mcommit 60c745791eb03553df34a63a059a312d66067bd0[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 22:44:18 2024 -0700
+
+    edit_profile_complete
+
+[33mcommit 7e47bcd9c90fb7265e05fbccd7938d62ba36dcac[m
+Merge: b189f78 f47b617
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Sun Nov 3 21:22:49 2024 -0700
+
+    Merge remote-tracking branch 'origin/main' into Shahmeer
+
+[33mcommit b189f78bb072348493ad0cfa7440a74889c4680b[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Sun Nov 3 21:13:03 2024 -0700
+
+    update
+
+[33mcommit 122421e362bdff435081a5ae407d4746368176ce[m
+Author: SYED SHAHMEER RAHMAN <adreet21@gmail.com>
+Date:   Sun Nov 3 20:32:57 2024 -0700
+
+    Merge main into Shahmeer
+
+[33mcommit 6317d15dfc2a13bfc3c2d05d5abd20dd5cd53e64[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 19:48:30 2024 -0700
+
+    Update main_signup_page.xml
+
+[33mcommit 0909d384e2319c479e6bdf6741d09439d51b3cfb[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 19:48:26 2024 -0700
+
+    login_screen_fixed
+
+[33mcommit f47b61725c2734933d23da589bd1e6b80f0a3720[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 19:44:24 2024 -0700
+
+    login_fixed
+
+[33mcommit 4b6d3a913523d58a04bf605dbb7e7284b2c8473e[m
+Merge: 87382a6 bebd8b8
+Author: Zahid Hasan <113128458+zahid2011@users.noreply.github.com>
+Date:   Sun Nov 3 19:37:00 2024 -0700
+
+    Merge pull request #45 from CMPUT301F24beacon/sadman
+    
+    Sadman
+
+[33mcommit bebd8b83fb085b0ddd003f7e7c2f42af0b8d606e[m
+Merge: 071b7ea 87382a6
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 19:29:05 2024 -0700
+
+    Merge remote-tracking branch 'origin/main' into sadman
+
+[33mcommit 87382a6657c420cdfd708fad58825f2f89d39855[m
+Merge: 3e54e97 afcc5f4
+Author: Sadman Sami <112992400+S-a-m-i-0@users.noreply.github.com>
+Date:   Sun Nov 3 19:12:07 2024 -0700
+
+    Merge pull request #44 from CMPUT301F24beacon/Zahid
+    
+    Zahid
+
+[33mcommit afcc5f4465abb366fe3a268aea6c2a596ce65196[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Sun Nov 3 19:08:14 2024 -0700
+
+    Connected user to database for login and signup access (needs some more imporvement)
+
+[33mcommit 071b7ea4b82e2694c720e245793a89bf043c8035[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 18:49:53 2024 -0700
+
+    welcome page complete
+
+[33mcommit 44080c9b935bad69e3e23b2b183e6fa912378cc7[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Sun Nov 3 00:48:15 2024 -0600
+
+    Changes
+
+[33mcommit 20c8e18f3feb40d235c6e98872aa5a52887860fa[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Sat Nov 2 21:27:42 2024 -0600
+
+    functionality for login, signup and main screen(needs some improvements)
+
+[33mcommit bb83be86add8ea1730fbf8c7efb9dc957e27348f[m
+Author: Zahid Hasan <zhasan@ualberta.ca>
+Date:   Thu Oct 31 14:11:45 2024 -0600
+
+    testing
+
+[33mcommit 55a5681b093d3d67d28bf3b7ea2ed4904716957a[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Thu Oct 31 13:51:56 2024 -0600
+
+    Create welcome screen
+
+[33mcommit 5f31172e1bcf3fbfeb3b372a9027b8a72e7bca24[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Thu Oct 31 13:37:41 2024 -0600
+
+    create signup and login screen
+
+[33mcommit e23e4701ee7821f15de5683d44c52d58909066e6[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Thu Oct 31 13:20:07 2024 -0600
+
+    admin screen and delete screen
+
+[33mcommit 3e54e97372672e3ecb0d9d9341cf3a5ce9338103[m
+Author: S-a-m-i-0 <sadman.sami.arnob@gmail.com>
+Date:   Tue Oct 22 18:59:16 2024 -0600
+
+    Initial Project
+
+[33mcommit 33b8092345fcab4aca6833f518c6ba7c9ecbe026[m
+Author: Syed Shahmeer Rahman <90085351+Adreet21@users.noreply.github.com>
+Date:   Tue Oct 1 12:02:54 2024 -0600
+
+    Update team.txt
+
+[33mcommit e6b5ff46bb4944e4a6aa8551dd225c816e056d01[m
+Author: SAB-10 <56857353+SAB-10@users.noreply.github.com>
+Date:   Tue Oct 1 11:09:36 2024 -0600
+
+    Update team.txt
+
+[33mcommit e2ae2c3e1f8344189b30caf3e6ff4b6953a5c2db[m
+Author: Zahid Hasan <113128458+zahid2011@users.noreply.github.com>
+Date:   Tue Oct 1 11:06:10 2024 -0600
+
+    Update team.txt
+
+[33mcommit bd1dbbc36e5d028187eeb0b343535e711ae2d8c6[m
+Author: SAB-10 <56857353+SAB-10@users.noreply.github.com>
+Date:   Tue Oct 1 11:05:16 2024 -0600
+
+    Update team.txt
+
+[33mcommit ec76cb99871634739ee05f64c0e05101ae0cb679[m
+Author: Sadman Sami <112992400+S-a-m-i-0@users.noreply.github.com>
+Date:   Tue Oct 1 10:51:41 2024 -0600
+
+    Update team.txt
+
+[33mcommit 545a1af2389011013ec27f1220e1e7cb941c6a6c[m
+Author: Samia Rahman <155067354+samia225@users.noreply.github.com>
+Date:   Tue Oct 1 10:33:42 2024 -0600
+
+    Updated team.txt with my username
+
+[33mcommit 3a88d76edd5474fb4401698833f61b1c12efcbf5[m
+Author: krishnav-arora <157076166+krishnav-arora@users.noreply.github.com>
+Date:   Tue Oct 1 09:22:32 2024 -0600
+
+    added my github username in team.txt
+
+[33mcommit e0cd4710364c03d05015cd973f06d8a7e0aec873[m
+Author: krishnav-arora <157076166+krishnav-arora@users.noreply.github.com>
+Date:   Tue Oct 1 09:17:05 2024 -0600
+
+    Initial commit

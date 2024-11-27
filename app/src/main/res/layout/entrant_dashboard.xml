@@ -22,17 +22,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Profile Icon ImageView -->
     <ImageView
         android:id="@+id/profile_icon"
         android:layout_width="60dp"
         android:layout_height="55dp"
-        android:layout_marginTop="84dp"
         android:contentDescription="Profile Icon"
-        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_marginTop="84dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_image_placeholder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/dashboard_title"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/waiting_list"

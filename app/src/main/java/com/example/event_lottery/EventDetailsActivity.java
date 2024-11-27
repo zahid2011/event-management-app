@@ -354,3 +354,4 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
 }
+
