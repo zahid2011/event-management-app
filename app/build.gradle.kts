@@ -58,7 +58,7 @@ dependencies {
     implementation(libs.espresso.core)
     implementation(libs.junit.jupiter)
     implementation(libs.junit.jupiter)
-    implementation(libs.volley)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
