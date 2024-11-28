@@ -1,190 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFF"
-    android:padding="16dp"
     tools:context=".SignupActivity">
-
-    <!-- Top Section with Back and Icons -->
-
-    <!-- Profile Image Section -->
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:background="#3333CC">
-
-        <!-- Back Button -->
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_margin="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_revert" />
-
-        <!-- Title Text -->
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Edit Profile"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Icons -->
-        <ImageView
-            android:id="@+id/emailIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="48dp" />
-
-        <ImageView
-            android:id="@+id/alertIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_marginTop="-40dp">
+        android:orientation="vertical">
 
-
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="100dp"
+        <!-- Top Section with Back and Icons -->
+        <LinearLayout
+            android:id="@+id/topSection"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_gravity="center" />
+            android:orientation="horizontal"
+            android:background="#3333CC"
+            android:gravity="center_vertical">
 
-        <ImageButton
-            android:id="@+id/edit_image"
-            android:layout_width="30dp"
-            android:layout_height="19dp"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
+            <!-- Back Button -->
 
-        <TextView
+            <!-- Title Text -->
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"
+                android:padding="8dp"
+                android:src="@android:drawable/ic_menu_revert" />
+
+            <!-- Icons -->
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="         Edit Profile"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/emailIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="48dp" />
+
+            <ImageView
+                android:id="@+id/alertIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp" />
+        </LinearLayout>
+
+        <!-- Profile Image Section -->
+        <LinearLayout
+            android:id="@+id/profileImageSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Change Picture"
-            android:textSize="14sp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="-40dp">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_image_placeholder" />
+
+            <ImageButton
+                android:id="@+id/edit_image"
+                android:layout_width="30dp"
+                android:layout_height="19dp"
+                android:layout_marginTop="8dp"
+                app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            <TextView
+                android:id="@+id/changePictureText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Change Picture"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+        </LinearLayout>
+
+        <!-- Input Fields -->
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:hint="Email ID*"
+            android:inputType="textEmailAddress"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
-            android:textColor="#000000"/>
+            android:hint="User Name*"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/firstNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:hint="First Name*"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/lastNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:hint="Last Name*"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:hint="Password*"
+            android:inputType="textPassword"
+            android:padding="12dp" />
+
+        <EditText
+            android:id="@+id/phoneNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:padding="12dp" />
+
+        <!-- Save Changes and Cancel Buttons Side by Side -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/save_changes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#3333CC"
+                android:text="Save Changes"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#3333CC"
+                android:text="Cancel"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Input Fields -->
-
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-
-        android:hint="Email ID*"
-        android:inputType="textEmailAddress"
-        android:padding="12dp" />
-
-    <EditText
-        android:id="@+id/userIdEditText"
-        android:layout_width="377dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="User ID"
-        android:padding="12dp" />
-
-    <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="User Name*"
-
-        android:padding="12dp"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/firstNameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="First Name*"
-
-        android:padding="12dp"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/lastNameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Last Name*"
-
-        android:padding="12dp"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Password*"
-
-        android:padding="12dp"
-        android:layout_marginTop="8dp"
-        android:inputType="textPassword"/>
-
-    <EditText
-        android:id="@+id/phoneNumberEditText"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Phone Number"
-
-        android:padding="12dp"
-        android:layout_marginTop="8dp"
-        android:inputType="phone"/>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
-
-        <!-- Save Changes Button -->
-        <Button
-            android:id="@+id/save_changes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#3333CC"
-            android:text="Save Changes"
-            android:textColor="#FFFFFF"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="16dp"/>
-
-        <!-- Cancel Button -->
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="140dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="99dp"
-            android:layout_toEndOf="@id/save_changes"
-            android:backgroundTint="#3333CC"
-            android:text="Cancel"
-            android:textColor="#FFFFFF" />
-    </RelativeLayout>
-
-</LinearLayout>
+</ScrollView>
