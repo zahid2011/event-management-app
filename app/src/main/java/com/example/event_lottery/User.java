@@ -4,6 +4,8 @@ public class User {
     private String id;
     private String email;
     private String username;
+    private String name;
+    private String location;
     private String firstName;
     private String lastName;
     private String password;
@@ -46,10 +48,28 @@ public class User {
         return username;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+
     public void setUsername(String username) {
         this.username = username;
     }
 
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String Name) {
+        this.name = name;
+    }
     // First Name
     public String getFirstName() {
         return firstName;

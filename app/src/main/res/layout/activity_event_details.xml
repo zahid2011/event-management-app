@@ -73,12 +73,12 @@
 
     <TextView
         android:id="@+id/tv_add_image"
-        android:layout_width="131dp"
+        android:layout_width="186dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
         android:clickable="true"
         android:gravity="center"
         android:onClick="onAddImageClicked"
+        android:paddingVertical="12dp"
         android:text="Update Event Image"
         android:textColor="#000000"
         android:textSize="14sp"
@@ -89,9 +89,9 @@
 
     <ImageView
         android:id="@+id/img_event_image"
-        android:layout_width="61dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="17dp"
+        android:layout_width="386dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="Event Image"
         android:src="@drawable/ic_event"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,8 +110,8 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="306dp"
+            android:layout_width="409dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -144,13 +144,13 @@
                 android:layout_marginTop="4dp"
                 android:text="Capacity: "
                 android:textColor="#000000"
-                android:textStyle="bold"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <!-- Max Waiting List Entrants -->
             <TextView
                 android:id="@+id/tv_max_waiting_list"
-                android:layout_width="wrap_content"
+                android:layout_width="273dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="4dp"
                 android:clickable="true"
@@ -158,7 +158,7 @@
                 android:text="Max Waiting List Entrants [Tap to Set] : "
                 android:textColor="#000000"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <!-- Enable Geolocation with Switch -->
             <LinearLayout
@@ -231,16 +231,26 @@
         android:id="@+id/btn_run_lottery"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onRunLotteryClicked"
         android:text="Run Lottery"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
         app:cornerRadius="16dp"
-        android:onClick="onRunLotteryClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_event_details" />
+
+    <Button
+        android:id="@+id/btn_participant_management"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Manage Participants"
+        android:layout_gravity="center_horizontal"
+        tools:ignore="MissingConstraints" />
+
 
     <Button
         android:id="@+id/btn_view_entrant_locations"

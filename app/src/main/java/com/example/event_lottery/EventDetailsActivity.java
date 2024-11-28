@@ -5,10 +5,12 @@ package com.example.event_lottery;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,6 +64,18 @@ public class EventDetailsActivity extends AppCompatActivity {
         //imgEventImage = findViewById(R.id.img_event_image);
         imgEventImage = findViewById(R.id.img_event_image);
 
+        Button btnParticipantManagement = findViewById(R.id.btn_participant_management);
+        btnParticipantManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Intent to navigate to ParticipantManagementActivity
+                Intent intent = new Intent(EventDetailsActivity.this, ParticipantManagementActivity.class);
+
+                // Pass any necessary data like eventId, if needed
+                intent.putExtra("eventId", eventId);
+                startActivity(intent);
+            }
+        });
 
         // Get the event ID passed from the previous activity
         eventId = getIntent().getStringExtra("event_id");
@@ -354,4 +368,3 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
 }
-

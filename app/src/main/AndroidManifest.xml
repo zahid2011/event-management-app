@@ -50,6 +50,14 @@
         <activity android:name=".AdminUserDetailsActivity" />
         <activity android:name=".ManageFacilityActivity" />
         <activity android:name=".NotificationActivity" />
+        <activity android:name=".ParticipantManagementActivity" />
+        <activity android:name=".ChosenEntrantsActivity" />
+
+
+
+
+
+
 
 
     </application>
