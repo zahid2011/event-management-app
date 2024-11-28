@@ -39,8 +39,19 @@ public class MainActivity extends AppCompatActivity {
         // Set click listeners for each button
         if (profileButton != null) {
             profileButton.setOnClickListener(v -> {
-                // Navigate directly to LoginMainActivity
-                Intent intent = new Intent(MainActivity.this, LoginMainActivity.class);
+                // Check if the user is logged in using SharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE); // Use consistent SharedPreferences name
+                String userId = sharedPreferences.getString("USER_ID", null); // Retrieve the stored user ID
+
+                Intent intent;
+                if (userId != null && !userId.isEmpty()) {
+                    // If the user is logged in, navigate to EditProfileActivity
+                    intent = new Intent(MainActivity.this, EditProfileActivity.class);
+                } else {
+                    // If the user is not logged in, navigate to LoginMainActivity
+                    intent = new Intent(MainActivity.this, LoginMainActivity.class);
+                }
+                // Start the appropriate activity
                 startActivity(intent);
             });
         }
@@ -98,16 +109,34 @@ public class MainActivity extends AppCompatActivity {
         if (logoutButton != null) {
             logoutButton.setOnClickListener(v -> {
                 // Clear user session
-                SharedPreferences sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE); // Use consistent SharedPreferences name
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear(); // Clears all the saved session data
                 editor.apply();
 
-                // Redirect to login page after logout
-                Intent intent = new Intent(MainActivity.this, LoginMainActivity.class);
+                // Redirect to MainActivity after logout
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+
+                // Show a toast message after redirect
+                Toast.makeText(MainActivity.this, "You have been logged out. To log in, please click the profile button.", Toast.LENGTH_LONG).show();
+
                 finish();
             });
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check if the user is logged in
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE); // Use consistent SharedPreferences name
+        String userId = sharedPreferences.getString("USER_ID", null);
+
+        if (userId == null || userId.isEmpty()) {
+            // User is not logged in
+            Toast.makeText(this, "You are not logged in. Please log in to access your profile.", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -50,6 +50,7 @@
         <activity android:name=".AdminEventDetailsActivity" />
         <activity android:name=".QRCodeScannerActivity"
             android:exported="true" />
+        <activity android:name=".ImageUploadActivity" />
         <activity android:name=".Entrant_qr_code_activity" />
         <activity android:name=".OngoingEventsActivity" />
         <activity android:name=".EventDetailsActivity" />

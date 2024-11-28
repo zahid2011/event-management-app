@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.espresso.core)
     implementation(libs.junit.jupiter)
     implementation(libs.junit.jupiter)
+    implementation("com.google.firebase:firebase-storage")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
