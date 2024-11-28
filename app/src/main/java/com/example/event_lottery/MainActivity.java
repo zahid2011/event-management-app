@@ -50,17 +50,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Check if the user is logged in
+        // Retrieve user info from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("USER_ID", null);
-        String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", null); // Retrieve the user's first name
+        String userRole = sharedPreferences.getString("USER_ROLE", null); // Retrieve the user's role
+        String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", "User"); // Retrieve the user's first name
 
         if (userId == null || userId.isEmpty()) {
             // User is not logged in
             welcomeMessage.setText("To log in, please click the Profile button.");
+            // Hide all dashboard buttons as there's no logged-in user
+            entrantDashboardButton.setVisibility(View.GONE);
+            organizerDashboardButton.setVisibility(View.GONE);
+            adminDashboardButton.setVisibility(View.GONE);
         } else {
             // User is logged in
             welcomeMessage.setText("Welcome back, " + userFirstName + "!");
+            configureDashboardAccess(userRole); // Reconfigure dashboard based on the role
         }
     }
 
@@ -88,15 +94,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (userRole == null) {
             Toast.makeText(this, "User role not found. Please log in again.", Toast.LENGTH_SHORT).show();
+            android.util.Log.e("MainActivity", "USER_ROLE is null or not found in SharedPreferences");
             return;
         }
 
-        // Standardize role string (remove leading/trailing spaces and ensure proper capitalization)
-        userRole = userRole.trim();
+        android.util.Log.d("MainActivity", "Retrieved USER_ROLE: " + userRole);
+
+        // Standardize role string
+        userRole = userRole.trim().toLowerCase();
 
         // Enable and configure the button for the user's role
         switch (userRole) {
-            case "Entrant": // Check for "Entrant"
+            case "entrant":
+                android.util.Log.d("MainActivity", "Entrant role detected");
                 entrantDashboardButton.setVisibility(View.VISIBLE);
                 entrantDashboardButton.setOnClickListener(v -> {
                     Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
@@ -104,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
 
-            case "Organizer": // Check for "Organizer"
+            case "organizer":
+                android.util.Log.d("MainActivity", "Organizer role detected");
                 organizerDashboardButton.setVisibility(View.VISIBLE);
                 organizerDashboardButton.setOnClickListener(v -> {
                     Intent intent = new Intent(MainActivity.this, OrganizerDashboardActivity.class);
@@ -112,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
 
-            case "Admin": // Check for "Admin"
+            case "admin":
+                android.util.Log.d("MainActivity", "Admin role detected");
                 adminDashboardButton.setVisibility(View.VISIBLE);
                 adminDashboardButton.setOnClickListener(v -> {
                     Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
@@ -120,8 +132,9 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
 
-            default: // Unknown role
+            default:
                 Toast.makeText(this, "Unknown role: " + userRole, Toast.LENGTH_SHORT).show();
+                android.util.Log.e("MainActivity", "Unknown role: " + userRole);
                 break;
         }
     }
