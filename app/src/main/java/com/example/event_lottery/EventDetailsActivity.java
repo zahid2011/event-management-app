@@ -26,6 +26,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
@@ -47,8 +48,9 @@ public class EventDetailsActivity extends AppCompatActivity {
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
     private ImageView ivBackArrow, imgEventImage, qrCodeImageView;
     private FirebaseFirestore db;
-    private Button btnViewWaitingList;
+    private Button btnViewWaitingList, btnRunLottery;
     private String eventId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,15 @@ public class EventDetailsActivity extends AppCompatActivity {
         // Set back arrow click listener to finish the activity
         ivBackArrow.setOnClickListener(v -> finish());
 
+        btnRunLottery = findViewById(R.id.btn_run_lottery);
+
+
+        btnRunLottery.setOnClickListener(v -> {
+            Intent intent = new Intent(EventDetailsActivity.this, RunLotteryActivity.class);
+            intent.putExtra("event_id", eventId); // Pass the event ID to the next activity
+            startActivity(intent);
+        });
+
         btnViewWaitingList.setOnClickListener(v -> {
             Log.d("EventDetailsActivity", "Navigating to WaitingListActivity with Event ID: " + eventId);
             Intent intent = new Intent(EventDetailsActivity.this, WaitingListActivity.class);
@@ -122,6 +133,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     tvEventDescription.setText("Event Description: " + (description != null ? description : "N/A"));
                     tvEventCapacity.setText("Capacity: " + (capacity != null ? capacity + " seats available" : "N/A"));
                     tvQrCodeLabel.setText("QR Code For The Event");
+
 
 
                     // Generate QR code image if qrhash exists
@@ -168,6 +180,9 @@ public class EventDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
     private void generateQRCodeImage(String qrhash) {
         try {

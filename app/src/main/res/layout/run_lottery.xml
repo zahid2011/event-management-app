@@ -1,117 +1,196 @@
-<!-- run_lottery.xml -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#EFEFEF">
+    android:background="#ffffff">
 
-    <TextView
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/back_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Run Lottery"
-        android:textSize="20sp"
-        android:paddingBottom="8dp"
-        android:background="#1F41BB"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:padding="12dp" />
+        android:layout_height="44dp"
+        android:layout_gravity="start"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back"
+        android:padding="16dp"
+        android:src="@drawable/ic_back_arrow" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Progress: Sampling Participants.."
-        android:paddingTop="8dp"/>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Number of Attendees to Sample"/>
-
-    <EditText
+    <!-- Rounded Toolbar -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Max Sample Size: (input)"
-        android:inputType="number"/>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:backgroundTint="@color/button_color" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selected Participants:"
-        android:paddingTop="8dp"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:background="#e0e0e0"
-        android:layout_marginTop="8dp">
-
-        <!-- <ImageView
-             android:layout_width="40dp"
-             android:layout_height="40dp"
-             android:src="@drawable/ic_user"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/rounded_top_shape" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingStart="8dp"
-            android:text="User"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notify"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remove"
-            android:backgroundTint="#FF0000"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Run Lottery"
             android:textColor="@android:color/white"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
+            android:textSize="20sp" />
+    </FrameLayout>
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Draw Replacement"
-        android:backgroundTint="@color/button_color"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="16dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lottery Completed Successfully!"
-        android:textColor="#000000"
-        android:paddingTop="16dp"/>
-
-    <Button
+    <!-- Blue Background Content -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Notify All"
-        android:backgroundTint="@color/button_color"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#e5eaff">
+
+        <!-- Progress and Input Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="Progress: Sampling Participants..."
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/loading_spinner"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="#000000"
+                style="?android:attr/progressBarStyleSmall"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Number of Attendees to Sample"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/sample_size_input"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_box_edit"
+                    android:hint="Max Sample Size: (input)"
+                    android:inputType="number"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:padding="8dp"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <Button
+                    android:id="@+id/confirm_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#1F41BB"
+                    android:text="Confirm"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Selected Participants -->
+        <TextView
+            android:id="@+id/selected_participants_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selected Participants:"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:padding="8dp"
+            android:textColor="#000000" />
+
+        <!-- Scrollable List -->
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:id="@+id/participants_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!-- Participant items will be dynamically added here -->
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Buttons Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/user_declined_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User: @User Declined."
+                android:textColor="#FF0000"
+                android:padding="4dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:visibility="gone"/>
+
+            <!-- Draw Replacement Button -->
+            <Button
+                android:id="@+id/draw_replacement_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Draw Replacement"
+                android:backgroundTint="#1F41BB"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp"
+                android:padding="8dp"
+                android:textSize="14sp" />
+
+            <!-- Lottery Completed Successfully -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lottery Completed Successfully!"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textSize="14sp" />
+
+            <!-- Notify All Button -->
+            <Button
+                android:id="@+id/notify_all_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notify All"
+                android:backgroundTint="#1F41BB"
+                android:textColor="@android:color/white"
+                android:padding="8dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

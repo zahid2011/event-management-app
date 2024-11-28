@@ -49,7 +49,11 @@
         <activity android:name=".AdminProfileManagementActivity" />
         <activity android:name=".AdminUserDetailsActivity" />
         <activity android:name=".ManageFacilityActivity" />
-        <activity android:name=".NotificationActivity" />
+        <activity android:name=".NotificationActivity"/>
+        <activity
+            android:name=".RunLotteryActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+
 
 
     </application>
