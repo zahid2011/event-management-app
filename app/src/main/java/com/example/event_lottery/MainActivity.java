@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 break;
 
-            case "organizer":
+            case "organiser":
                 android.util.Log.d("MainActivity", "Organizer role detected");
                 organizerDashboardButton.setVisibility(View.VISIBLE);
                 organizerDashboardButton.setOnClickListener(v -> {
