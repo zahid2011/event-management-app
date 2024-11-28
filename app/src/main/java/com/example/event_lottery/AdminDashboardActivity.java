@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,18 @@ public class AdminDashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_dashboard);
 
+        // Back Button functionality
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to MainActivity
+                Intent intent = new Intent(AdminDashboardActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                finish(); // Close AdminDashboardActivity
+            }
+        });
 
 
 
@@ -23,13 +36,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
         eventManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to EventManagementActivity
+                // navigating to EventManagementActivity
                 Intent intent = new Intent(AdminDashboardActivity.this, EventManagementActivity.class);
                 startActivity(intent);
             }
         });
 
-        // Placeholder for other buttons - add functionality later
+        // added
         Button profileManagementButton = findViewById(R.id.profile_management_button);
         profileManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,10 +82,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminDashboardActivity.this, LoginActivity.class);
-                // Clear the activity stack to prevent returning to the dashboard
+            
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                finish(); // Finish the current activity
+                finish(); // finishing the current activity
                 Toast.makeText(AdminDashboardActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
             }
         });

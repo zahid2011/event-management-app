@@ -58,6 +58,10 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+        if (db == null) {
+            db = FirebaseFirestore.getInstance();
+        }
+
 
         db = FirebaseFirestore.getInstance(); // Initialize Firestore
 
@@ -155,19 +159,24 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
-                String qrHash = generateHashFromBitmap(qrCodeBitmap);
-                if (qrHash != null) {
-                    db.collection("events").document(evtID)
-                            .set(Collections.singletonMap("qrhash", qrHash), SetOptions.merge())
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Event and QR hash stored successfully", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Failed to store event data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
-                } else {
-                    Toast.makeText(this, "Failed to generate QR hash", Toast.LENGTH_SHORT).show();
-                }
+
+
+
+
+
+                Map<String, Object> qrData = new HashMap<>();
+                qrData.put("qrContent", qrContent); // Save the QR content
+                qrData.put("qrhash", generateHashFromBitmap(qrCodeBitmap)); // Save the hash
+
+                db.collection("events").document(evtID)
+                        .set(qrData, SetOptions.merge())
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(this, "Event and QR Code stored successfully", Toast.LENGTH_SHORT).show();
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Failed to store QR Code data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
             } else {
                 Toast.makeText(this, "Failed to generate QR Code", Toast.LENGTH_SHORT).show();
             }
@@ -177,6 +186,11 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
         btnCancel.setOnClickListener(v -> finish()); // Close the activity
+    }
+
+    // Setter for Firestore to allow testing with mock instances
+    public void setFirestore(FirebaseFirestore firestore) {
+        this.db = firestore;
     }
 
 
