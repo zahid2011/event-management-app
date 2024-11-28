@@ -6,7 +6,7 @@
     <string name="lose_lottery">Lose Lottery</string>
     <string-array name="role_options">
         <item>Admin</item>
-        <item>Organiser</item>
+        <item>Organizer</item>
         <item>Entrant</item>
     </string-array>
 </resources>

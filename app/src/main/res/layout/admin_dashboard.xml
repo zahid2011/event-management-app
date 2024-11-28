@@ -8,7 +8,15 @@
     android:background="#FAF8F8"
     android:gravity="center_horizontal">
 
-    <!-- Back Arrow -->
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="47dp"
+        android:layout_height="48dp"
+        android:layout_gravity="start"
+        android:backgroundTint="#F8F7F7"
+        android:contentDescription="Back Button"
+        android:src="@android:drawable/ic_menu_revert" />
 
     <!-- Dashboard Title and Icon -->
     <LinearLayout
@@ -39,7 +47,6 @@
     </LinearLayout>
 
     <!-- Buttons for different sections -->
-    <!-- Buttons for different sections with increased height -->
     <Button
         android:id="@+id/event_management_button"
         android:layout_width="match_parent"
@@ -96,5 +103,7 @@
         android:layout_height="64dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="#0D0D0D"
-        android:text="Log out" />
+        android:text="Log out"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
 </LinearLayout>
