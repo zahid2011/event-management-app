@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent dashboardIntent;
                                     if (selectedRole.equals("Entrant")) {
                                         dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                    } else if (selectedRole.equals("Organizer")) {
+                                    } else if (selectedRole.equals("Organiser")) {
                                         dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
                                     } else if (selectedRole.equals("Admin")) { // Check for Admin role
                                         dashboardIntent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
