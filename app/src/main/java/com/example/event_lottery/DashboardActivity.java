@@ -51,6 +51,14 @@ public class DashboardActivity extends AppCompatActivity {
         // Retrieve user ID (email) from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userId = sharedPreferences.getString("USER_ID", null);
+        String userRole = sharedPreferences.getString("USER_ROLE", null);
+
+        if (userRole == null || !userRole.equals("Entrant")) {
+            Toast.makeText(DashboardActivity.this, "Access denied. You are not authorized to access this dashboard.", Toast.LENGTH_SHORT).show();
+            redirectToLogin();
+            return;
+        }
+
 
         if (userId == null || userId.isEmpty()) {
             Toast.makeText(DashboardActivity.this, "No user ID found. Please log in again.", Toast.LENGTH_SHORT).show();
@@ -108,6 +116,11 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         });
+    }
+    private void redirectToLogin() {
+        Intent loginIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
 
     @Override

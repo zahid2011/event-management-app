@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
             organizerDashboardButton;
 
     private Button logoutButton;
+    private TextView welcomeMessage; // For displaying the user's first name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +28,43 @@ public class MainActivity extends AppCompatActivity {
         // Set the dashboard layout as the main content view
         setContentView(R.layout.sample_dashboard);
 
-        // Initialize buttons
+        // Initialize UI elements
+        initializeUI();
+
+        // Retrieve user info from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String userRole = sharedPreferences.getString("USER_ROLE", null);
+        String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", "User"); // Default to "User"
+
+        // Display the user's first name in the welcome message
+        welcomeMessage.setText("Welcome back, " + userFirstName + "!");
+
+        // Configure dashboard buttons based on the role
+        configureDashboardAccess(userRole);
+
+        // Set up common listeners (e.g., logout, profile)
+        setupCommonListeners();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Check if the user is logged in
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("USER_ID", null);
+        String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", null); // Retrieve the user's first name
+
+        if (userId == null || userId.isEmpty()) {
+            // User is not logged in
+            welcomeMessage.setText("To log in, please click the Profile button.");
+        } else {
+            // User is logged in
+            welcomeMessage.setText("Welcome back, " + userFirstName + "!");
+        }
+    }
+
+    private void initializeUI() {
         profileButton = findViewById(R.id.profile_icon);
         notificationButton = findViewById(R.id.notification_icon);
         joinEventButton = findViewById(R.id.join_event_icon);
@@ -34,109 +73,89 @@ public class MainActivity extends AppCompatActivity {
         entrantDashboardButton = findViewById(R.id.entrant_dashboard_icon);
         adminDashboardButton = findViewById(R.id.admin_dashboard_icon);
         organizerDashboardButton = findViewById(R.id.organizer_dashboard_icon);
-        logoutButton = findViewById(R.id.logout_button); // Assuming you have added this button to your layout
+        logoutButton = findViewById(R.id.logout_button);
+        welcomeMessage = findViewById(R.id.welcome_message);
 
-        // Set click listeners for each button
+
+        welcomeMessage.setText("To log in, please click the Profile button.");
+    }
+
+    private void configureDashboardAccess(String userRole) {
+        // Hide all dashboard buttons by default
+        entrantDashboardButton.setVisibility(View.GONE);
+        organizerDashboardButton.setVisibility(View.GONE);
+        adminDashboardButton.setVisibility(View.GONE);
+
+        if (userRole == null) {
+            Toast.makeText(this, "User role not found. Please log in again.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Standardize role string (remove leading/trailing spaces and ensure proper capitalization)
+        userRole = userRole.trim();
+
+        // Enable and configure the button for the user's role
+        switch (userRole) {
+            case "Entrant": // Check for "Entrant"
+                entrantDashboardButton.setVisibility(View.VISIBLE);
+                entrantDashboardButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                    startActivity(intent);
+                });
+                break;
+
+            case "Organizer": // Check for "Organizer"
+                organizerDashboardButton.setVisibility(View.VISIBLE);
+                organizerDashboardButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(MainActivity.this, OrganizerDashboardActivity.class);
+                    startActivity(intent);
+                });
+                break;
+
+            case "Admin": // Check for "Admin"
+                adminDashboardButton.setVisibility(View.VISIBLE);
+                adminDashboardButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
+                    startActivity(intent);
+                });
+                break;
+
+            default: // Unknown role
+                Toast.makeText(this, "Unknown role: " + userRole, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void setupCommonListeners() {
         if (profileButton != null) {
             profileButton.setOnClickListener(v -> {
-                // Check if the user is logged in using SharedPreferences
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE); // Use consistent SharedPreferences name
-                String userId = sharedPreferences.getString("USER_ID", null); // Retrieve the stored user ID
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String userId = sharedPreferences.getString("USER_ID", null);
 
                 Intent intent;
                 if (userId != null && !userId.isEmpty()) {
-                    // If the user is logged in, navigate to EditProfileActivity
                     intent = new Intent(MainActivity.this, EditProfileActivity.class);
                 } else {
-                    // If the user is not logged in, navigate to LoginMainActivity
                     intent = new Intent(MainActivity.this, LoginMainActivity.class);
                 }
-                // Start the appropriate activity
                 startActivity(intent);
             });
         }
 
-        if (notificationButton != null) {
-            notificationButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Notification feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (joinEventButton != null) {
-            joinEventButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Join Event feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (createEventButton != null) {
-            createEventButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Create Event feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (createFacilityButton != null) {
-            createFacilityButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Create Facility feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (entrantDashboardButton != null) {
-            entrantDashboardButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Entrant Dashboard feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (adminDashboardButton != null) {
-            adminDashboardButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Admin Dashboard feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        if (organizerDashboardButton != null) {
-            organizerDashboardButton.setOnClickListener(v -> {
-                // Example of a "Coming Soon" feature
-                Toast.makeText(MainActivity.this, "Organizer Dashboard feature is coming soon!", Toast.LENGTH_SHORT).show();
-            });
-        }
-
-        // Set click listener for logout button
         if (logoutButton != null) {
             logoutButton.setOnClickListener(v -> {
-                // Clear user session
-                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE); // Use consistent SharedPreferences name
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear(); // Clears all the saved session data
                 editor.apply();
 
-                // Redirect to MainActivity after logout
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 
-                // Show a toast message after redirect
-                Toast.makeText(MainActivity.this, "You have been logged out. To log in, please click the profile button.", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(this, "Logged out successfully. Please log in to access your profile.", Toast.LENGTH_LONG).show();
                 finish();
             });
-        }
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Check if the user is logged in
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE); // Use consistent SharedPreferences name
-        String userId = sharedPreferences.getString("USER_ID", null);
-
-        if (userId == null || userId.isEmpty()) {
-            // User is not logged in
-            Toast.makeText(this, "You are not logged in. Please log in to access your profile.", Toast.LENGTH_SHORT).show();
         }
     }
 }
