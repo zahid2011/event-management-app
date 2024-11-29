@@ -61,6 +61,13 @@
         <activity android:name=".NotificationActivity" />
         <activity android:name=".EntrantUserWaitingListActivity" />
         <activity android:name=".EntrantEventWaitingDetails" />
+        <activity
+            android:name=".RunLotteryActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".SendNotificationActivity" />
+        <activity android:name=".ParticipantManagementActivity" />
+        <activity android:name=".ChosenEntrantsActivity" />
+
 
 
     </application>
