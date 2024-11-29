@@ -59,6 +59,8 @@
         <activity android:name=".AdminUserDetailsActivity" />
         <activity android:name=".ManageFacilityActivity" />
         <activity android:name=".NotificationActivity" />
+        <activity android:name=".EntrantUserWaitingListActivity" />
+        <activity android:name=".EntrantEventWaitingDetails" />
 
 
     </application>
