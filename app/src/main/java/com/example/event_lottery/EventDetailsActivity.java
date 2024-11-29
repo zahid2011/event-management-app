@@ -48,7 +48,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
     private ImageView ivBackArrow, imgEventImage, qrCodeImageView;
     private FirebaseFirestore db;
-    private Button btnViewWaitingList, btnRunLottery;
+    private Button btnViewWaitingList, btnRunLottery, btnParticipantManagement;
     private String eventId;
 
 
@@ -89,17 +89,20 @@ public class EventDetailsActivity extends AppCompatActivity {
         imgEventImage = findViewById(R.id.img_event_image);// Initialize the button
 
 
-        TextView tvParticipantManagement = findViewById(R.id.tv_participant_management);
+        btnParticipantManagement = findViewById(R.id.btn_participant_management);
 
-        // Add OnClickListener for Participant Management
-        tvParticipantManagement.setOnClickListener(v -> {
+// Add OnClickListener for Participant Management button
+        btnParticipantManagement.setOnClickListener(v -> {
             Log.d("EventDetailsActivity", "Navigating to ParticipantManagementActivity with Event ID: " + eventId);
 
             // Navigate to ParticipantManagementActivity
             Intent intent = new Intent(EventDetailsActivity.this, ParticipantManagementActivity.class);
-            intent.putExtra("event_id", eventId); // Pass the event ID
+            intent.putExtra("eventId", eventId); // Pass the event ID
             startActivity(intent);
         });
+
+
+
 
 
         // Fetch event details from Firestore

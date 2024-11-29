@@ -32,18 +32,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Participant Management Header -->
-    <TextView
-        android:id="@+id/tv_participant_management"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+
+    <!-- Event Name Card -->
+
+    <Button
+        android:id="@+id/btn_participant_management"
+        android:layout_width="208dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/zxing_transparent"
+        android:clickable="true"
+        android:focusable="true"
         android:text="Participant Management"
         android:textColor="#000000"
         android:textSize="14sp"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="-12dp" />
 
-    <!-- Event Name Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card_event_name"
         android:layout_width="0dp"
