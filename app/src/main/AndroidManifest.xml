@@ -53,6 +53,10 @@
         <activity
             android:name=".RunLotteryActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".SendNotificationActivity" />
+        <activity android:name=".ParticipantManagementActivity" />
+        <activity android:name=".ChosenEntrantsActivity" />
+
 
 
 

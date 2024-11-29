@@ -2,74 +2,72 @@ package com.example.event_lottery;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.firebase.firestore.DocumentSnapshot;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChosenEntrantsActivity extends AppCompatActivity {
 
-    private FirebaseFirestore db;
     private String eventId;
-    private LinearLayout userListLayout; // Parent layout for user items
+    private RecyclerView recyclerViewChosenEntrants;
+    private ChosenEntrantAdapter chosenEntrantAdapter;
+    private List<ChosenEntrant> entrantList;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chosen_entrants_screen);
 
-        eventId = getIntent().getStringExtra("event_id");
-        db = FirebaseFirestore.getInstance();
-        userListLayout = findViewById(R.id.user_list_layout); // Assume this is the parent LinearLayout for user items
+        // Retrieve eventId from intent
+        eventId = getIntent().getStringExtra("eventId");
+        if (eventId == null || eventId.isEmpty()) {
+            Toast.makeText(this, "Event ID is missing.", Toast.LENGTH_SHORT).show();
+            finish(); // Exit the activity if eventId is not provided
+            return;
+        }
 
-        fetchChosenEntrants(); // Fetch chosen entrants from Firestore
+        // Log for debugging
+        Log.d("ChosenEntrantsActivity", "Received Event ID: " + eventId);
+
+        // Initialize Firebase and RecyclerView
+        db = FirebaseFirestore.getInstance();
+        recyclerViewChosenEntrants = findViewById(R.id.recyclerView_chosen_entrants);
+        entrantList = new ArrayList<>();
+        chosenEntrantAdapter = new ChosenEntrantAdapter(entrantList);
+        recyclerViewChosenEntrants.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewChosenEntrants.setAdapter(chosenEntrantAdapter);
+
+        // Fetch the chosen entrants
+        fetchChosenEntrants();
     }
 
     private void fetchChosenEntrants() {
-        db.collection("events").document(eventId).collection("entrants")
-                .whereEqualTo("status", "chosen")
+        db.collection("events")
+                .document(eventId)
+                .collection("selectedEntrants")
                 .get()
-                .addOnSuccessListener(querySnapshot -> {
-                    for (DocumentSnapshot doc : querySnapshot) {
-                        String userName = doc.getString("username"); // Assuming a field "username"
-                        addUserItem(userName);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        entrantList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String email = document.getString("email");
+                            String location = document.getString("location");
+
+                            if (email != null && location != null) {
+                                entrantList.add(new ChosenEntrant(email, location));
+                            }
+                        }
+                        chosenEntrantAdapter.notifyDataSetChanged();
+                        Log.d("ChosenEntrantsActivity", "Fetched " + entrantList.size() + " entrants.");
+                    } else {
+                        Toast.makeText(this, "Failed to fetch chosen entrants.", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(e -> Log.e("ChosenEntrantsActivity", "Error fetching chosen entrants", e));
+                });
     }
-
-    private void addUserItem(String userName) {
-        // Create a new LinearLayout for the user item
-        LinearLayout userItemLayout = new LinearLayout(this);
-        userItemLayout.setOrientation(LinearLayout.HORIZONTAL);
-        userItemLayout.setPadding(8, 8, 8, 8);
-
-        // Create a TextView for the username
-        TextView userTextView = new TextView(this);
-        userTextView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-        userTextView.setText("@" + userName);
-        userTextView.setTextSize(16);
-        userTextView.setTextColor(getResources().getColor(android.R.color.black));
-        userTextView.setPadding(16, 0, 16, 0);
-
-        // Create a Button for the status
-        Button statusButton = new Button(this);
-        statusButton.setText("Status");
-        statusButton.setTextColor(getResources().getColor(android.R.color.white));
-        statusButton.setBackgroundColor(getResources().getColor(R.color.button_color)); // Replace with actual color if needed
-        statusButton.setPadding(16, 8, 16, 8);
-
-        // Add views to the user item layout
-        userItemLayout.addView(userTextView);
-        userItemLayout.addView(statusButton);
-
-        // Add the user item layout to the parent layout (user_list_layout)
-        userListLayout.addView(userItemLayout);
-    }
-
 }

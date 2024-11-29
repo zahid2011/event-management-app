@@ -1,0 +1,73 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="16dp">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:contentDescription="Back Button" />
+        <!-- android:src="@drawable/ic_back" -->
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Participant Management"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- Section Title -->
+    <TextView
+        android:id="@+id/tv_section_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Management"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"
+        android:gravity="center" />
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/btn_chosen_entrants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chosen Entrants"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#1F41BB"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_cancelled_entrants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancelled Entrants"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#1F41BB"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_final_registered_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Final Registered List"
+        android:backgroundTint="#1F41BB"
+        android:textColor="@android:color/white" />
+</LinearLayout>

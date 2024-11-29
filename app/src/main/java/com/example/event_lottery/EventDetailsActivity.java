@@ -72,6 +72,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
 
+
         // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
@@ -86,6 +87,19 @@ public class EventDetailsActivity extends AppCompatActivity {
         qrCodeImageView = findViewById(R.id.img_qr_code);
         btnViewWaitingList = findViewById(R.id.btn_view_waiting_list);
         imgEventImage = findViewById(R.id.img_event_image);// Initialize the button
+
+
+        TextView tvParticipantManagement = findViewById(R.id.tv_participant_management);
+
+        // Add OnClickListener for Participant Management
+        tvParticipantManagement.setOnClickListener(v -> {
+            Log.d("EventDetailsActivity", "Navigating to ParticipantManagementActivity with Event ID: " + eventId);
+
+            // Navigate to ParticipantManagementActivity
+            Intent intent = new Intent(EventDetailsActivity.this, ParticipantManagementActivity.class);
+            intent.putExtra("event_id", eventId); // Pass the event ID
+            startActivity(intent);
+        });
 
 
         // Fetch event details from Firestore
@@ -125,7 +139,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                     Timestamp eventTimestamp = document.getTimestamp("eventDateTime");  // Retrieve as Timestamp
                     String description = document.getString("description");
                     String capacity = document.getString("capacity");
-                    String qrhash = document.getString("qrhash");
+                    String qrContent = document.getString("qrContent");
                     String imageUrl = document.getString("imageUrl");
 
                     // Set data in views
@@ -137,11 +151,10 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
                     // Generate QR code image if qrhash exists
-                    if (qrhash != null && !qrhash.isEmpty()) {
-                        generateQRCodeImage(qrhash); // Call the QR code generator with qrhash
+                    if (qrContent != null && !qrContent.isEmpty()) {
+                        generateQRCodeImage(qrContent); // Generate QR code from content
                     } else {
-                        //tvQrCodeLabel.setText("QR Code: N/A");
-                        qrCodeImageView.setImageDrawable(null); // Clear QR code image if qrhash is not available
+                        qrCodeImageView.setImageDrawable(null); // Clear QR code image if no content
                     }
 
                     // Format date if available

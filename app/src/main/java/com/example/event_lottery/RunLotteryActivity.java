@@ -1,16 +1,16 @@
 package com.example.event_lottery;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.content.Context;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +123,10 @@ public class RunLotteryActivity extends AppCompatActivity {
                             try {
                                 eventCapacity = Integer.parseInt(capacityStr);
                                 Log.d("RunLotteryActivity", "Event capacity fetched: " + eventCapacity);
+
+                                // Check if selected entrants already exist
+                                fetchSelectedParticipants();
+
                             } catch (NumberFormatException e) {
                                 Log.e("RunLotteryActivity", "Invalid capacity format: " + capacityStr, e);
                                 Toast.makeText(this, "Invalid event capacity", Toast.LENGTH_SHORT).show();
@@ -143,6 +147,25 @@ public class RunLotteryActivity extends AppCompatActivity {
                     Log.e("RunLotteryActivity", "Error fetching event details", e);
                     Toast.makeText(this, "Error fetching event details", Toast.LENGTH_SHORT).show();
                     finish();
+                });
+    }
+
+    private void fetchSelectedParticipants() {
+        db.collection("events").document(eventId).collection("selectedEntrants").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        List<DocumentSnapshot> selectedUsers = new ArrayList<>(task.getResult().getDocuments());
+
+                        if (!selectedUsers.isEmpty()) {
+                            lotteryCompleted = true; // Mark lottery as completed
+                            displaySelectedParticipants(selectedUsers); // Display the selected participants
+                        } else {
+                            Log.d("RunLotteryActivity", "No selected entrants found.");
+                        }
+                    } else {
+                        Log.e("RunLotteryActivity", "Failed to fetch selected entrants", task.getException());
+                        Toast.makeText(this, "Error fetching selected entrants", Toast.LENGTH_SHORT).show();
+                    }
                 });
     }
 
@@ -171,8 +194,13 @@ public class RunLotteryActivity extends AppCompatActivity {
                 // Update selected users in Firestore
                 WriteBatch batch = db.batch();
                 for (DocumentSnapshot user : selectedUsers) {
-                    String docId = user.getId();
-                    batch.set(selectedRef.document(docId), user.getData());
+                    String email = user.getString("email");
+                    if (email != null && !email.isEmpty()) {
+                        // Use email as the document ID
+                        batch.set(selectedRef.document(email), user.getData());
+                    } else {
+                        Log.e("RunLotteryActivity", "Email is missing for user: " + user.getId());
+                    }
                 }
 
                 // Commit batch operation
@@ -194,6 +222,8 @@ public class RunLotteryActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void displaySelectedParticipants(List<DocumentSnapshot> selectedUsers) {
         participantsLayout.removeAllViews();
 
@@ -212,11 +242,25 @@ public class RunLotteryActivity extends AppCompatActivity {
             emailTextView.setText(email);
 
             String finalEmail = email;
-            notifyButton.setOnClickListener(v -> Toast.makeText(this, "Notifying " + finalEmail, Toast.LENGTH_SHORT).show());
-            String finalEmail1 = email;
+            notifyButton.setOnClickListener(v -> {
+                Intent intent = new Intent(RunLotteryActivity.this, NotificationActivity.class);
+                intent.putExtra("email", finalEmail); // Pass email to SendNotificationActivity
+                startActivity(intent);
+            });
+
             removeButton.setOnClickListener(v -> {
-                Toast.makeText(this, "Removing " + finalEmail1, Toast.LENGTH_SHORT).show();
-                participantsLayout.removeView(participantView);
+                db.collection("events")
+                        .document(eventId)
+                        .collection("selectedEntrants")
+                        .document(user.getId())
+                        .delete()
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(this, "Removed " + finalEmail, Toast.LENGTH_SHORT).show();
+                            participantsLayout.removeView(participantView);
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Failed to remove " + finalEmail, Toast.LENGTH_SHORT).show();
+                        });
             });
 
             participantsLayout.addView(participantView);
