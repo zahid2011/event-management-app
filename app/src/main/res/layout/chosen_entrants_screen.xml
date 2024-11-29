@@ -1,36 +1,74 @@
-<!-- res/layout/activity_chosen_entrants.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#E8EAF6"
     android:padding="16dp">
 
+    <!-- Title -->
     <TextView
-        android:id="@+id/total_events_text"
+        android:id="@+id/title_chosen_entrants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Events: 0"
-        android:textSize="16sp" />
+        android:text="Chosen Entrants"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"
+        android:background="#1F41BB"
+        android:padding="8dp"
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/search_entrant"
+    <!-- Total Events and Search Bar -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search"
-        android:padding="8dp"
-        android:background="@android:drawable/edit_text" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
 
+        <TextView
+            android:id="@+id/total_events_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listed Entrants"
+            android:textSize="16sp"
+            android:layout_marginEnd="16dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/search_entrant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Search"
+            android:padding="8dp"
+            android:drawableEnd="@android:drawable/ic_menu_search"
+            android:inputType="text" />
+        <!-- android:background="@drawable/search_bar_background"-->
+
+</LinearLayout>
+
+<!-- RecyclerView for Entrants -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_chosen_entrants"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:padding="8dp" />
 
-
+    <!-- Send Notifications Button -->
     <Button
         android:id="@+id/send_notifications_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Notifications" />
+        android:text="Send Notifications"
+        android:background="@color/button_color"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp" />
 </LinearLayout>
