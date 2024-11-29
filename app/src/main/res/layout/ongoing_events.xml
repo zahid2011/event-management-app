@@ -1,37 +1,104 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#EFEFEF">
+    android:background="#ffffff">
 
-    <TextView
-        android:id="@+id/total_events"
+
+    <!-- Rounded Toolbar -->
+    <ImageButton
+        android:id="@+id/back_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total Events: 0"
-        android:textSize="18sp"
-        android:paddingBottom="8dp" />
+        android:layout_height="44dp"
+        android:layout_gravity="start"
+        android:background="@android:color/transparent"
+        android:contentDescription="Back"
+        android:padding="16dp"
+        android:src="@drawable/ic_back_arrow" />
 
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search"
-        android:inputType="text" />
-
-    <ScrollView
+    <!-- Rounded Toolbar -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Container for dynamically added event views -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/rounded_top_shape" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Ongoing Events"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+
+    <!-- Total Events and Search Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/total_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="Total Events: 0"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_search_bar"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="354dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Search events..."
+                android:inputType="text"
+                android:padding="8dp"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Search"
+                android:src="@drawable/search_icon" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!-- Event List -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#E5EAFF"
+        android:contentDescription="Scrollable list of ongoing events">
+
         <LinearLayout
             android:id="@+id/events_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:background="#E5EAFF">
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>
