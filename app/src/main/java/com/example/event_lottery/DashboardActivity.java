@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class DashboardActivity extends AppCompatActivity {
     private Button editProfileButton;
     private Button qrCodeButton;
     private String userId;
+    private ImageButton backButton;
 
     private ImageView profileIcon;
     private FirebaseFirestore db;
@@ -31,13 +33,13 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.entrant_dashboard);
 
         // Initialize buttons
-        logoutButton = findViewById(R.id.logout);
         waitingListButton = findViewById(R.id.waiting_list);
         notificationButton = findViewById(R.id.notification);
         editProfileButton = findViewById(R.id.edit_profile);
         qrCodeButton = findViewById(R.id.qr_code);
 
         profileIcon = findViewById(R.id.profile_icon);
+        backButton = findViewById(R.id.backButton);
 
         // Check if profileIcon is null
         if (profileIcon == null) {
@@ -49,6 +51,14 @@ public class DashboardActivity extends AppCompatActivity {
         // Retrieve user ID (email) from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userId = sharedPreferences.getString("USER_ID", null);
+        String userRole = sharedPreferences.getString("USER_ROLE", null);
+
+        if (userRole == null || !userRole.equals("Entrant")) {
+            Toast.makeText(DashboardActivity.this, "Access denied. You are not authorized to access this dashboard.", Toast.LENGTH_SHORT).show();
+            redirectToLogin();
+            return;
+        }
+
 
         if (userId == null || userId.isEmpty()) {
             Toast.makeText(DashboardActivity.this, "No user ID found. Please log in again.", Toast.LENGTH_SHORT).show();
@@ -65,17 +75,10 @@ public class DashboardActivity extends AppCompatActivity {
         // Load profile image
         loadProfileImage();
 
-        // Set logout button functionality
-        logoutButton.setOnClickListener(v -> {
-
-            // Clear user data from SharedPreferences
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
-
-            // Go back to LoginActivity
-            Intent intent = new Intent(DashboardActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Back button
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         });
@@ -84,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity {
         waitingListButton.setOnClickListener(v -> {
 
             // Start the EventListActivity
-            Intent waitingListIntent = new Intent(DashboardActivity.this, EventListActivity.class);
+            Intent waitingListIntent = new Intent(DashboardActivity.this, EntrantUserWaitingListActivity.class);
             startActivity(waitingListIntent);
         });
 
@@ -113,6 +116,11 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         });
+    }
+    private void redirectToLogin() {
+        Intent loginIntent = new Intent(DashboardActivity.this, LoginActivity.class);
+        startActivity(loginIntent);
+        finish();
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,34 +16,35 @@ public class OrganizerDashboardActivity extends AppCompatActivity {
     private Button button_Event;
     private Button button_Facility;
     private Button logoutButton;  // Add this line
-
+    private String userId;
+    private String userRole;
+    private SharedPreferences sharedPreferences;
+    private ImageButton backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard); // Organizer-specific layout
 
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        userId = sharedPreferences.getString("USER_ID", null);
+        userRole = sharedPreferences.getString("USER_ROLE", null);
+
         // Initialize buttons
         buttonEvent = findViewById(R.id.btn_create_event);
         button_Event = findViewById(R.id.btn_ongoing_events);
         button_Facility = findViewById(R.id.btn_manage_facility);
-        logoutButton = findViewById(R.id.btn_logout); // Add this line
 
-        // Set up logout button listener
-        logoutButton.setOnClickListener(v -> {
-            // Clear stored user data
-            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.clear();
-            editor.apply();
+        backButton = findViewById(R.id.backButton);  // Back button initialization
 
-            // Redirect to LoginActivity
-            Intent intent = new Intent(OrganizerDashboardActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Back Button Listener
+        backButton.setOnClickListener(v -> {
+            // Navigate back to the main activity
+            Intent intent = new Intent(OrganizerDashboardActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
-
-            Toast.makeText(OrganizerDashboardActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         });
+
 
         // Existing listeners for other buttons
         buttonEvent.setOnClickListener(v -> {
