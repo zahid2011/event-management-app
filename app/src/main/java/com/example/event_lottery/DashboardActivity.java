@@ -87,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity {
         waitingListButton.setOnClickListener(v -> {
 
             // Start the EventListActivity
-            Intent waitingListIntent = new Intent(DashboardActivity.this, EventListActivity.class);
+            Intent waitingListIntent = new Intent(DashboardActivity.this, EntrantUserWaitingListActivity.class);
             startActivity(waitingListIntent);
         });
 
