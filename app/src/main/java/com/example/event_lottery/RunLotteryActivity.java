@@ -194,12 +194,12 @@ public class RunLotteryActivity extends AppCompatActivity {
                 // Update selected users in Firestore
                 WriteBatch batch = db.batch();
                 for (DocumentSnapshot user : selectedUsers) {
-                    String email = user.getString("email");
-                    if (email != null && !email.isEmpty()) {
-                        // Use email as the document ID
-                        batch.set(selectedRef.document(email), user.getData());
+                    String userID = user.getString("userID");
+                    if (userID != null && !userID.isEmpty()) {
+                        // Use userID as the document ID
+                        batch.set(selectedRef.document(userID), user.getData());
                     } else {
-                        Log.e("RunLotteryActivity", "Email is missing for user: " + user.getId());
+                        Log.e("RunLotteryActivity", "userID is missing for user: " + user.getId());
                     }
                 }
 
@@ -224,27 +224,28 @@ public class RunLotteryActivity extends AppCompatActivity {
 
 
 
+
     private void displaySelectedParticipants(List<DocumentSnapshot> selectedUsers) {
         participantsLayout.removeAllViews();
 
         for (DocumentSnapshot user : selectedUsers) {
             View participantView = getLayoutInflater().inflate(R.layout.participant_item, participantsLayout, false);
 
-            TextView emailTextView = participantView.findViewById(R.id.participant_email);
+            TextView userIDTextView = participantView.findViewById(R.id.participant_userID);
             Button notifyButton = participantView.findViewById(R.id.notify_button);
             Button removeButton = participantView.findViewById(R.id.remove_button);
 
-            String email = user.getString("email");
-            if (email == null || email.isEmpty()) {
-                email = "Email not provided";
+            String userID = user.getString("userID");
+            if (userID == null || userID.isEmpty()) {
+                userID = "userID not provided";
             }
 
-            emailTextView.setText(email);
+            userIDTextView.setText(userID);
 
-            String finalEmail = email;
+            String finalUserID = userID;
             notifyButton.setOnClickListener(v -> {
                 Intent intent = new Intent(RunLotteryActivity.this, NotificationActivity.class);
-                intent.putExtra("email", finalEmail); // Pass email to SendNotificationActivity
+                intent.putExtra("userID", finalUserID); // Pass userID to SendNotificationActivity
                 startActivity(intent);
             });
 
@@ -255,11 +256,11 @@ public class RunLotteryActivity extends AppCompatActivity {
                         .document(user.getId())
                         .delete()
                         .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(this, "Removed " + finalEmail, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Removed " + finalUserID, Toast.LENGTH_SHORT).show();
                             participantsLayout.removeView(participantView);
                         })
                         .addOnFailureListener(e -> {
-                            Toast.makeText(this, "Failed to remove " + finalEmail, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Failed to remove " + finalUserID, Toast.LENGTH_SHORT).show();
                         });
             });
 
