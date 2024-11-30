@@ -65,7 +65,9 @@ public class NotificationListActivity extends AppCompatActivity {
                             String message = doc.getString("message");
                             Long statusLong = doc.getLong("status");
                             int status = statusLong != null ? statusLong.intValue() : 0;
-                            notificationList.add(new NotificationItem(email, message, status));
+                            String eventName = doc.getString("eventName"); // Get eventName
+
+                            notificationList.add(new NotificationItem(email, message, status, eventName));
                         }
                         notificationAdapter.notifyDataSetChanged();
                     } else {

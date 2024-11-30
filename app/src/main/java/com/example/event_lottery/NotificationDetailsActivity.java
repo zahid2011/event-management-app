@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
 public class NotificationDetailsActivity extends AppCompatActivity {
 
     private TextView messageTextView;
@@ -21,6 +24,10 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     private String email;
     private String message;
     private int status;
+    private String eventName;
+
+    private FirebaseFirestore db;
+    private String userId; // User email
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +41,17 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         tryAgainButton = findViewById(R.id.try_again_button);
         backButton = findViewById(R.id.back_button);
 
+        db = FirebaseFirestore.getInstance();
+
+        // Get userId (email) from SharedPreferences
+        userId = getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("USER_ID", null);
+
         // Get data from intent
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         message = intent.getStringExtra("message");
         status = intent.getIntExtra("status", 0);
+        eventName = intent.getStringExtra("eventName"); // Get eventName from intent
 
         messageTextView.setText(message);
         statusTextView.setText("Status: " + status);
@@ -56,24 +69,58 @@ public class NotificationDetailsActivity extends AppCompatActivity {
 
         acceptButton.setOnClickListener(v -> {
             // Handle accept action
-            Toast.makeText(NotificationDetailsActivity.this, "Accepted", Toast.LENGTH_SHORT).show();
-            // Implement the accept logic here
+            db.collection("events").document(eventName)
+                    .collection("selectedEntrants").document(userId)
+                    .set(new StatusObject(1), SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Accepted", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Error accepting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
 
         rejectButton.setOnClickListener(v -> {
             // Handle reject action
-            Toast.makeText(NotificationDetailsActivity.this, "Rejected", Toast.LENGTH_SHORT).show();
-            // Implement the reject logic here
+            db.collection("events").document(eventName)
+                    .collection("selectedEntrants").document(userId)
+                    .set(new StatusObject(0), SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Rejected", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Error rejecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
 
         tryAgainButton.setOnClickListener(v -> {
             // Handle try again action
-            Toast.makeText(NotificationDetailsActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
-            // Implement the try again logic here
+            db.collection("events").document(eventName)
+                    .collection("waitingList").document(userId)
+                    .set(new StatusObject(1), SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Added to waiting list", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Error trying again: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
         });
 
         backButton.setOnClickListener(v -> {
             finish(); // Go back to previous activity
         });
+    }
+
+    // Create a simple class to hold the status
+    public static class StatusObject {
+        public int status;
+
+        public StatusObject() {
+            // Default constructor required
+        }
+
+        public StatusObject(int status) {
+            this.status = status;
+        }
     }
 }

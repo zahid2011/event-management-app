@@ -64,6 +64,7 @@ public class NotificationAdapter extends BaseAdapter {
             intent.putExtra("email", notificationItem.getEmail());
             intent.putExtra("message", notificationItem.getMessage());
             intent.putExtra("status", notificationItem.getStatus());
+            intent.putExtra("eventName", notificationItem.getEventName()); // Pass eventName
             context.startActivity(intent);
         });
 
