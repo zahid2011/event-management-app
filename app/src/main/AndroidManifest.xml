@@ -69,6 +69,7 @@
         <activity android:name=".ChosenEntrantsActivity" />
         <activity android:name=".AdminListFacilityAcitivity" />
         <activity android:name=".AdminFacilityDetailsActivity" />
+        <activity android:name=".AdminImageManagementActivity" />
 
 
 

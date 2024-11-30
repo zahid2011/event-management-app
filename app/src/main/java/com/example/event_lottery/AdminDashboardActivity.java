@@ -57,7 +57,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         imageManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Image Management - Coming Soon", Toast.LENGTH_SHORT).show();
+                // Navigate to AdminImageManagementActivity
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminImageManagementActivity.class);
+                startActivity(intent);
             }
         });
 
