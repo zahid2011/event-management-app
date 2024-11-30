@@ -67,6 +67,8 @@
         <activity android:name=".SendNotificationActivity" />
         <activity android:name=".ParticipantManagementActivity" />
         <activity android:name=".ChosenEntrantsActivity" />
+        <activity android:name=".AdminListFacilityAcitivity" />
+        <activity android:name=".AdminFacilityDetailsActivity" />
 
 
 

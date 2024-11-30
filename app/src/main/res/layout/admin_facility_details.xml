@@ -9,32 +9,53 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Header Title -->
-        <TextView
-            android:id="@+id/facility_details_header"
-            android:layout_width="0dp"
+        <!-- Back Button -->
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Facility Details"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:src="@android:drawable/ic_menu_revert"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="8dp" />
+
+        <!-- Event Header -->
+        <LinearLayout
+            android:id="@+id/header_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_header_admin"
+            android:orientation="vertical"
+            android:padding="16dp"
             android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/back_button">
 
-        <!-- Facility Name -->
+            <TextView
+                android:id="@+id/facility_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Facility Name"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Facility Description Label -->
         <TextView
-            android:id="@+id/facility_name_details"
-            android:layout_width="0dp"
+            android:id="@+id/label_facility_description"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Facility Name"
-            android:textSize="18sp"
+            android:text="Description:"
             android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/facility_details_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/header_container"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp" />
 
         <!-- Facility Description -->
         <TextView
@@ -44,9 +65,23 @@
             android:text="Facility Description"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/facility_name_details"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/label_facility_description"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="8dp" />
+
+        <!-- Facility Address Label -->
+        <TextView
+            android:id="@+id/label_facility_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address:"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/facility_description"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" />
 
         <!-- Facility Address -->
         <TextView
@@ -56,9 +91,23 @@
             android:text="Facility Address"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/facility_description"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/label_facility_address"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="8dp" />
+
+        <!-- Facility Phone Label -->
+        <TextView
+            android:id="@+id/label_facility_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone Number:"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/facility_address"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" />
 
         <!-- Facility Phone -->
         <TextView
@@ -68,9 +117,23 @@
             android:text="Phone Number"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/facility_address"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp" />
+            app:layout_constraintTop_toBottomOf="@id/label_facility_phone"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="8dp" />
+
+        <!-- Geolocation Status Label -->
+        <TextView
+            android:id="@+id/label_geolocation_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Geolocation Status:"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/facility_phone"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp" />
 
         <!-- Geolocation Status -->
         <TextView
@@ -80,22 +143,24 @@
             android:text="Geolocation Enabled"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/facility_phone"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/label_geolocation_status"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="8dp" />
 
-        <!-- Back Button -->
+        <!-- Remove Facility Button -->
         <Button
-            android:id="@+id/back_button"
-            android:layout_width="wrap_content"
+            android:id="@+id/remove_facility_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Back"
-            android:backgroundTint="#1F41BB"
+            android:text="Remove Facility"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FF0000"
             android:textColor="@android:color/white"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/geolocation_status"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintTop_toBottomOf="@id/geolocation_status" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

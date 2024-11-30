@@ -73,7 +73,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         facilitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Facilities - Coming Soon", Toast.LENGTH_SHORT).show();
+                // Navigate to AdminListFacilityActivity
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminListFacilityAcitivity.class);
+                startActivity(intent);
             }
         });
 
