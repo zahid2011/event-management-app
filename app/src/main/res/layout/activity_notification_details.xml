@@ -6,14 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Back Button -->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_arrow"
+        android:contentDescription="Back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp" />
+    <!-- Replace @drawable/ic_back_arrow with your back arrow icon -->
+
+    <!-- Notification Message -->
     <TextView
         android:id="@+id/notification_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Message"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="8dp" />
 
+    <!-- Notification Status -->
     <TextView
         android:id="@+id/notification_status"
         android:layout_width="match_parent"
@@ -47,13 +61,5 @@
         android:text="Try Again"
         android:layout_marginTop="16dp"
         android:visibility="gone" />
-
-    <!-- Back Button -->
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginTop="16dp" />
 
 </LinearLayout>

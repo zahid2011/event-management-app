@@ -61,10 +61,11 @@ public class NotificationAdapter extends BaseAdapter {
 
         holder.detailsButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, NotificationDetailsActivity.class);
+            intent.putExtra("notificationId", notificationItem.getNotificationId());
             intent.putExtra("email", notificationItem.getEmail());
             intent.putExtra("message", notificationItem.getMessage());
             intent.putExtra("status", notificationItem.getStatus());
-            intent.putExtra("eventName", notificationItem.getEventName()); // Pass eventName
+            intent.putExtra("eventName", notificationItem.getEventName());
             context.startActivity(intent);
         });
 

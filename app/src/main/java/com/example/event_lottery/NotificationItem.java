@@ -1,6 +1,7 @@
 package com.example.event_lottery;
 
 public class NotificationItem {
+    private String notificationId;
     private String email;
     private String message;
     private int status;
@@ -10,11 +11,16 @@ public class NotificationItem {
         // Default constructor
     }
 
-    public NotificationItem(String email, String message, int status, String eventName) {
+    public NotificationItem(String notificationId, String email, String message, int status, String eventName) {
+        this.notificationId = notificationId;
         this.email = email;
         this.message = message;
         this.status = status;
         this.eventName = eventName;
+    }
+
+    public String getNotificationId() {
+        return notificationId;
     }
 
     public String getEmail() {

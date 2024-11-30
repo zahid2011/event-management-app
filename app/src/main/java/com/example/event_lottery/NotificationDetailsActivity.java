@@ -3,6 +3,7 @@ package com.example.event_lottery;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.TextView;
@@ -19,12 +20,13 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     private Button acceptButton;
     private Button rejectButton;
     private Button tryAgainButton;
-    private Button backButton;
+    private ImageButton backButton;
 
     private String email;
     private String message;
     private int status;
     private String eventName;
+    private String notificationId;
 
     private FirebaseFirestore db;
     private String userId; // User email
@@ -51,7 +53,8 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         email = intent.getStringExtra("email");
         message = intent.getStringExtra("message");
         status = intent.getIntExtra("status", 0);
-        eventName = intent.getStringExtra("eventName"); // Get eventName from intent
+        eventName = intent.getStringExtra("eventName");
+        notificationId = intent.getStringExtra("notificationId");
 
         messageTextView.setText(message);
         statusTextView.setText("Status: " + status);
@@ -73,7 +76,8 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                     .collection("selectedEntrants").document(userId)
                     .set(new StatusObject(1), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(NotificationDetailsActivity.this, "Accepted", Toast.LENGTH_SHORT).show();
+                        // Delete the notification
+                        deleteNotification();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(NotificationDetailsActivity.this, "Error accepting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -86,7 +90,8 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                     .collection("selectedEntrants").document(userId)
                     .set(new StatusObject(0), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(NotificationDetailsActivity.this, "Rejected", Toast.LENGTH_SHORT).show();
+                        // Delete the notification
+                        deleteNotification();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(NotificationDetailsActivity.this, "Error rejecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -99,16 +104,28 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                     .collection("waitingList").document(userId)
                     .set(new StatusObject(1), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(NotificationDetailsActivity.this, "Added to waiting list", Toast.LENGTH_SHORT).show();
+                        // Delete the notification
+                        deleteNotification();
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(NotificationDetailsActivity.this, "Error trying again: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
 
-        backButton.setOnClickListener(v -> {
-            finish(); // Go back to previous activity
-        });
+        backButton.setOnClickListener(v -> finish());
+    }
+
+    private void deleteNotification() {
+        db.collection("users").document(userId)
+                .collection("notifications").document(notificationId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(NotificationDetailsActivity.this, "Action completed and notification deleted", Toast.LENGTH_SHORT).show();
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(NotificationDetailsActivity.this, "Error deleting notification: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     // Create a simple class to hold the status
