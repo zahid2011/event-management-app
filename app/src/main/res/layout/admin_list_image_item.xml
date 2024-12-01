@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:layout_marginVertical="8dp"
+    android:background="#FFFFFF"
+    android:elevation="6dp">
+
+    <!-- Image -->
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Uploaded Image"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/image_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Delete Button -->
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:text="Delete"
+        android:backgroundTint="#FF0000"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/image_view"
+        app:layout_constraintBottom_toBottomOf="@id/image_view" />
+</androidx.constraintlayout.widget.ConstraintLayout>

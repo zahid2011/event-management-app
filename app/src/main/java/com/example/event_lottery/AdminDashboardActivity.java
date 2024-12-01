@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
@@ -29,10 +30,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-
-
-        // "Event Management" button
-        Button eventManagementButton = findViewById(R.id.event_management_button);
+        // "Event Management" card
+        CardView eventManagementButton = findViewById(R.id.event_management_button);
         eventManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,8 +41,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        // added
-        Button profileManagementButton = findViewById(R.id.profile_management_button);
+        // Profile Management Card
+        CardView profileManagementButton = findViewById(R.id.profile_management_button);
         profileManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,15 +52,19 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        Button imageManagementButton = findViewById(R.id.image_management_button);
+        // Image Management Card
+        CardView imageManagementButton = findViewById(R.id.image_management_button);
         imageManagementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Image Management - Coming Soon", Toast.LENGTH_SHORT).show();
+                // Navigate to AdminImageManagementActivity
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminImageManagementActivity.class);
+                startActivity(intent);
             }
         });
 
-        Button qrCodeDataButton = findViewById(R.id.qr_code_data_button);
+        // QR Code Data Card
+        CardView qrCodeDataButton = findViewById(R.id.qr_code_data_button);
         qrCodeDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,24 +72,14 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        Button facilitiesButton = findViewById(R.id.facilities_button);
+        // Facilities Card
+        CardView facilitiesButton = findViewById(R.id.facilities_button);
         facilitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "Facilities - Coming Soon", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Button logoutButton = findViewById(R.id.button);
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminDashboardActivity.this, LoginActivity.class);
-            
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                // Navigate to AdminListFacilityActivity
+                Intent intent = new Intent(AdminDashboardActivity.this, AdminListFacilityAcitivity.class);
                 startActivity(intent);
-                finish(); // finishing the current activity
-                Toast.makeText(AdminDashboardActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
             }
         });
     }

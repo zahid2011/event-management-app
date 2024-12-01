@@ -110,6 +110,11 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
                     });
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchEventsWithUserInWaitingList(); // Re-fetch the waiting list when the activity resumes
+    }
 
     private void updateEventList(List<Event> tempEventList) {
         eventsList.clear();
