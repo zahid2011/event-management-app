@@ -1,5 +1,6 @@
 package com.example.event_lottery;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -212,12 +213,14 @@ public class RunLotteryActivity extends AppCompatActivity {
                 // Update selected users in Firestore
                 WriteBatch batch = db.batch();
                 for (DocumentSnapshot user : selectedUsers) {
+
                     String userId = user.getString("userId");
                     if (userId != null && !userId.isEmpty()) {
                         // Use userId as the document ID
                         batch.set(selectedRef.document(userId), user.getData());
                     } else {
                         Log.e("RunLotteryActivity", "userId is missing for user: " + user.getId());
+
                     }
                 }
 
@@ -250,6 +253,7 @@ public class RunLotteryActivity extends AppCompatActivity {
             Button notifyButton = participantView.findViewById(R.id.notify_button);
             Button removeButton = participantView.findViewById(R.id.remove_button);
 
+
             String userId = user.getString("userId");
             if (userId == null || userId.isEmpty()) {
                 userId = "User ID not provided";
@@ -261,6 +265,7 @@ public class RunLotteryActivity extends AppCompatActivity {
             notifyButton.setOnClickListener(v -> {
                 sendNotificationToUser(finalUserId, true);
                 Toast.makeText(this, "Notification sent to " + finalUserId, Toast.LENGTH_SHORT).show();
+
             });
 
             removeButton.setOnClickListener(v -> {
@@ -270,11 +275,13 @@ public class RunLotteryActivity extends AppCompatActivity {
                         .document(user.getId())
                         .delete()
                         .addOnSuccessListener(aVoid -> {
+
                             Toast.makeText(this, "Removed " + finalUserId, Toast.LENGTH_SHORT).show();
                             participantsLayout.removeView(participantView);
                         })
                         .addOnFailureListener(e -> {
                             Toast.makeText(this, "Failed to remove " + finalUserId, Toast.LENGTH_SHORT).show();
+
                         });
             });
 
