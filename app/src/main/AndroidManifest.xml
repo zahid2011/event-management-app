@@ -61,15 +61,14 @@
         <activity android:name=".NotificationActivity" />
         <activity android:name=".EntrantUserWaitingListActivity" />
         <activity android:name=".EntrantEventWaitingDetails" />
+        <activity android:name=".NotificationListActivity" />
         <activity
             android:name=".RunLotteryActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name=".SendNotificationActivity" />
         <activity android:name=".ParticipantManagementActivity" />
         <activity android:name=".ChosenEntrantsActivity" />
-        <activity android:name=".AdminListFacilityAcitivity" />
-        <activity android:name=".AdminFacilityDetailsActivity" />
-        <activity android:name=".AdminImageManagementActivity" />
+        <activity android:name=".NotificationDetailsActivity" />
 
 
 
