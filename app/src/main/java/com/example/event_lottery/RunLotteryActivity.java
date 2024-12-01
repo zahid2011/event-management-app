@@ -1,5 +1,6 @@
 package com.example.event_lottery;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
@@ -36,6 +38,7 @@ public class RunLotteryActivity extends AppCompatActivity {
     private Button confirmButton, notifyAllButton, drawReplacementButton;
     private LinearLayout participantsLayout;
     private ImageView ivBackArrow;
+    private String eventName; // New field to store the event name
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,14 @@ public class RunLotteryActivity extends AppCompatActivity {
         });
 
         // Notify All button
-        notifyAllButton.setOnClickListener(v -> Toast.makeText(this, "Notifying all selected participants", Toast.LENGTH_SHORT).show());
+        notifyAllButton.setOnClickListener(v -> {
+            if (!lotteryCompleted) {
+                Toast.makeText(this, "Please run the lottery before notifying participants.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sendNotificationsToAllSelectedParticipants(); // Call the method to notify all winners
+        });
 
         // Draw Replacement button
         drawReplacementButton.setOnClickListener(v -> Toast.makeText(this, "Drawing replacement for declined participant", Toast.LENGTH_SHORT).show());
@@ -123,6 +133,13 @@ public class RunLotteryActivity extends AppCompatActivity {
                             try {
                                 eventCapacity = Integer.parseInt(capacityStr);
                                 Log.d("RunLotteryActivity", "Event capacity fetched: " + eventCapacity);
+
+                                // Fetch event name
+                                eventName = documentSnapshot.getString("eventName"); // Adjust the field name as per your Firestore structure
+                                if (eventName == null || eventName.isEmpty()) {
+                                    eventName = "Unnamed Event";
+                                }
+                                Log.d("RunLotteryActivity", "Event name fetched: " + eventName);
 
                                 // Check if selected entrants already exist
                                 fetchSelectedParticipants();
@@ -210,7 +227,7 @@ public class RunLotteryActivity extends AppCompatActivity {
                     if (updateTask.isSuccessful()) {
                         lotteryCompleted = true;
                         Toast.makeText(this, "Lottery completed successfully", Toast.LENGTH_SHORT).show();
-                        displaySelectedParticipants(selectedUsers);
+                        fetchSelectedParticipants(); // Refresh the list
                     } else {
                         Toast.makeText(this, "Failed to complete the lottery", Toast.LENGTH_SHORT).show();
                     }
@@ -221,9 +238,6 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
 
     private void displaySelectedParticipants(List<DocumentSnapshot> selectedUsers) {
         participantsLayout.removeAllViews();
@@ -245,7 +259,7 @@ public class RunLotteryActivity extends AppCompatActivity {
             String finalUserID = userID;
             notifyButton.setOnClickListener(v -> {
                 Intent intent = new Intent(RunLotteryActivity.this, NotificationActivity.class);
-                intent.putExtra("userID", finalUserID); // Pass userID to SendNotificationActivity
+                intent.putExtra("email", finalUserID); // Pass email to NotificationActivity
                 startActivity(intent);
             });
 
@@ -266,5 +280,49 @@ public class RunLotteryActivity extends AppCompatActivity {
 
             participantsLayout.addView(participantView);
         }
+    }
+
+    private void sendNotificationToUser(String email) {
+        // Reference the specific user's document
+        DocumentReference userRef = db.collection("users").document(email);
+
+        // Create the notification message with the event name
+        String message = "Congratulations! You have won the lottery for " + eventName;
+
+        // Add notification under the user's notifications subcollection
+        userRef.collection("notifications")
+                .add(new NotificationData(email, message, 1, eventName))
+                .addOnSuccessListener(documentReference ->
+                        Log.d("RunLotteryActivity", "Notification sent to user: " + email))
+                .addOnFailureListener(e ->
+                        Log.e("RunLotteryActivity", "Failed to send notification to user: " + email, e));
+    }
+
+    private void sendNotificationsToAllSelectedParticipants() {
+        CollectionReference selectedEntrantsRef = db.collection("events").document(eventId).collection("selectedEntrants");
+
+        // Fetch all selected entrants
+        selectedEntrantsRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<DocumentSnapshot> selectedUsers = task.getResult().getDocuments();
+
+                if (selectedUsers.isEmpty()) {
+                    Toast.makeText(this, "No selected participants to notify.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                for (DocumentSnapshot user : selectedUsers) {
+                    String email = user.getString("email");
+                    if (email != null && !email.isEmpty()) {
+                        sendNotificationToUser(email); // Call the method to send notifications
+                    }
+                }
+
+                Toast.makeText(this, "Notifications sent to all participants!", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e("RunLotteryActivity", "Failed to fetch selected entrants", task.getException());
+                Toast.makeText(this, "Error fetching selected participants.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
