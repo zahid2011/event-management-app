@@ -10,6 +10,7 @@ public class Events {
     private String capacity;
     private String price;
     private String description;
+    private String imageUrl;
 
 
     public Events() {} // Default constructor needed for Firestore
@@ -46,5 +47,13 @@ public class Events {
 
     public String getDescription(){
         return description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

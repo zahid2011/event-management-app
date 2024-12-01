@@ -6,7 +6,6 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
-
 public class NotificationSettingsActivity extends AppCompatActivity {
 
     private SwitchCompat switchWinLottery;

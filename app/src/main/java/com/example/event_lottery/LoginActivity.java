@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (document != null && document.exists()) {
                             String storedPassword = document.getString("password");
                             String registeredRole = document.getString("role");
+                            String firstName = document.getString("firstName");
 
                             // Check if the password and role match
                             if (storedPassword != null && storedPassword.equals(password)) {
@@ -79,6 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("USER_ID", email); // Use email as the user ID
+                                    editor.putString("USER_ROLE", registeredRole); // Save the user's role
+                                    editor.putString("USER_FIRST_NAME", firstName != null ? firstName : "User");
                                     editor.apply();
 
                                     // Redirect based on role

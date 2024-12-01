@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".LoginMainActivity">
 
     <TextView
         android:id="@+id/tv_create_event_title"
@@ -26,6 +26,7 @@
         android:layout_height="57dp"
         android:layout_marginTop="16dp"
         android:contentDescription="Add Event Image"
+        android:onClick="onAddImageClicked"
         android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -123,8 +124,8 @@
 
     <Button
         android:id="@+id/btn_generate_qr"
-        android:layout_width="332dp"
-        android:layout_height="55dp"
+        android:layout_width="325dp"
+        android:layout_height="48dp"
         android:layout_marginTop="4dp"
         android:text="Generate QR Code"
         android:textColor="#FFFFFF"
@@ -178,8 +179,8 @@
 
     <ImageView
         android:id="@+id/qrCodeImageView"
-        android:layout_width="107dp"
-        android:layout_height="94dp"
+        android:layout_width="91dp"
+        android:layout_height="59dp"
         android:contentDescription="QR Code Image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

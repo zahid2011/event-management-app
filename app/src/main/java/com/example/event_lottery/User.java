@@ -13,6 +13,9 @@ public class User {
     private String profileImageUrl;
     private String phoneNumber;
 
+    // No-argument constructor required by Firebase
+    public User() {}
+
     // Constructor
     public User(String id, String email, String username, String firstName, String lastName, String password, String role) {
         this.id = id;
