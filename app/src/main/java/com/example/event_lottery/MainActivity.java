@@ -31,25 +31,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the dashboard layout as the main content view
+        // setting the dashboard layout as the main content view
         setContentView(R.layout.sample_dashboard);
 
-        // Initialize UI elements
+        // initializing the UI elements
         initializeUI();
         db = FirebaseFirestore.getInstance();
 
-        // Retrieve user info from SharedPreferences
+        // retrieving the user info from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String userRole = sharedPreferences.getString("USER_ROLE", null);
-        String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", "User"); // Default to "User"
+        String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", "User");
 
-        // Display the user's first name in the welcome message
+        // displaying the user's first name in the welcome message
         welcomeMessage.setText("Welcome back, " + userFirstName + "!");
 
-        // Configure dashboard buttons based on the role
+        // configuring the dashboard buttons based on the role
         configureDashboardAccess(userRole);
 
-        // Set up common listeners (e.g., logout, profile)
+        // setting up the common listeners (e.g logout, profile)
         setupCommonListeners();
     }
 
@@ -57,37 +57,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Retrieve SharedPreferences
+        // retrieving SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         String savedDeviceId = sharedPreferences.getString("DEVICE_ID", null);
 
-        // Get current device's identifier
+        // getting the current device's identifier
         String currentDeviceId = getDeviceIdentifier();
 
         if (savedDeviceId != null && savedDeviceId.equals(currentDeviceId)) {
             // Device matches, fetch saved user info
             String userRole = sharedPreferences.getString("USER_ROLE", null);
             String userFirstName = sharedPreferences.getString("USER_FIRST_NAME", "User");
+            String role2 = sharedPreferences.getString("ROLE2", null);
+            android.util.Log.d("MainActivity", "onResume() - SharedPreferences - USER_ROLE: " + userRole + ", ROLE2: " + role2);
 
             welcomeMessage.setText("Welcome back, " + userFirstName + "!");
             configureDashboardAccess(userRole); // Configure buttons based on role
         } else {
-            // Device mismatch or no saved device, check Firestore for deviceId
+            // Device mismatch or no saved device, we check Firestore for deviceId
             db.collection("users").whereEqualTo("deviceId", currentDeviceId).get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
-                            // Device found, retrieve user data
+                            // Device found so we retrieve user data
                             DocumentSnapshot document = task.getResult().getDocuments().get(0);
                             String email = document.getString("email");
                             String role = document.getString("role");
+                            String role2 = document.getString("role2");
                             String firstName = document.getString("firstName");
 
-                            // Save user info in SharedPreferences
+                            // Saving user info in SharedPreferences
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("USER_ID", email);
                             editor.putString("USER_ROLE", role);
+                            editor.putString("ROLE2", role2);
                             editor.putString("USER_FIRST_NAME", firstName != null ? firstName : "User");
-                            editor.putString("DEVICE_ID", currentDeviceId); // Save current device ID
+                            editor.putString("DEVICE_ID", currentDeviceId); // Saving the current device ID
                             editor.apply();
 
                             // Update UI
@@ -98,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Device not recognized. Please log in.", Toast.LENGTH_SHORT).show();
                             welcomeMessage.setText("To log in, please click the Profile button.");
                             hideDashboardButtons();
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.clear();
+                            editor.apply();
                         }
                     });
         }
@@ -106,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
         return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    // Hide dashboard buttons if login fails
+    // Hiding the dashboard buttons if login fails
     private void hideDashboardButtons() {
-        // Hide the entire card views
+        // Hiding the entire card views
         entrantDashboardCard.setVisibility(View.GONE);
         organizerDashboardCard.setVisibility(View.GONE);
         adminDashboardCard.setVisibility(View.GONE);
@@ -125,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logout_button);
         welcomeMessage = findViewById(R.id.welcome_message);
 
-        // Initialize CardViews
         entrantDashboardCard = findViewById(R.id.card_entrant_dashboard);
         organizerDashboardCard = findViewById(R.id.card_organizer_dashboard);
         adminDashboardCard = findViewById(R.id.card_admin_dashboard);
@@ -133,9 +139,18 @@ public class MainActivity extends AppCompatActivity {
         welcomeMessage.setText("To log in, please click the Profile button.");
 
         createFacilityButton.setOnClickListener(v -> {
-            // Navigate to the ManageFacilityActivity screen
-            Intent intent = new Intent(MainActivity.this, ManageFacilityActivity.class);
-            startActivity(intent);
+            // navigating to the ManageFacilityActivity screen
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            String userId = sharedPreferences.getString("USER_ID", null);
+
+            if (userId == null || userId.isEmpty()) {
+                // if User is not logged in, show a message
+                Toast.makeText(MainActivity.this, "Please log in first by clicking the Profile button.", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(MainActivity.this, ManageFacilityActivity.class);
+                intent.putExtra("fromMainActivity", true);
+                startActivity(intent);
+            }
         });
     }
 
@@ -148,12 +163,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        android.util.Log.d("MainActivity", "Retrieved USER_ROLE: " + userRole);
+        android.util.Log.d("MainActivity", "configureDashboardAccess() - Retrieved USER_ROLE: " + userRole);
 
-        // Standardize role string
+        // Standardizing the role string
         userRole = userRole.trim().toLowerCase();
 
-        // Show the appropriate card based on the role
+        // showing the appropriate card based on the role
         switch (userRole) {
             case "entrant":
                 entrantDashboardCard.setVisibility(View.VISIBLE);
@@ -161,6 +176,36 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                     startActivity(intent);
                 });
+
+                // getting role2 from Firestore
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                String userId = sharedPreferences.getString("USER_ID", null);
+
+                if (userId != null && !userId.isEmpty()) {
+                    db.collection("users").document(userId).get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful() && task.getResult() != null) {
+                                    DocumentSnapshot document = task.getResult();
+                                    String role2 = document.getString("role2");
+                                    android.util.Log.d("MainActivity", "configureDashboardAccess() - Firestore fetched ROLE2: " + role2);
+
+                                    if ("Organiser".equalsIgnoreCase(role2)) {
+                                        // If the user has role2 as "Organiser", also giving them access to organizer dashboard
+                                        organizerDashboardCard.setVisibility(View.VISIBLE);
+                                        organizerDashboardButton.setOnClickListener(v -> {
+                                            Intent intent = new Intent(MainActivity.this, OrganizerDashboardActivity.class);
+                                            startActivity(intent);
+                                        });
+                                    } else {
+                                        android.util.Log.d("MainActivity", "configureDashboardAccess() - ROLE2 did not match 'Organiser', organizer dashboard not shown.");
+                                    }
+                                } else {
+                                    android.util.Log.e("MainActivity", "configureDashboardAccess() - Failed to fetch role2 from Firestore");
+                                }
+                            });
+                } else {
+                    android.util.Log.e("MainActivity", "configureDashboardAccess() - USER_ID not found in SharedPreferences");
+                }
                 break;
 
             case "organiser":
@@ -176,6 +221,12 @@ public class MainActivity extends AppCompatActivity {
                 adminDashboardButton.setOnClickListener(v -> {
                     Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
                     startActivity(intent);
+                });
+
+                createFacilityButton.setEnabled(false);
+                createFacilityButton.setOnClickListener(v -> {
+                    // Show a message that admins cannot create facilities
+                    Toast.makeText(MainActivity.this, "Admins cannot create facilities.", Toast.LENGTH_SHORT).show();
                 });
                 break;
 
@@ -210,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 if (userId != null && db != null) {
                     db.collection("users").document(userId).update("deviceId", null)
                             .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(MainActivity.this, "Device ID cleared in Firestore.", Toast.LENGTH_SHORT).show();
+
                             })
                             .addOnFailureListener(e -> {
                                 Toast.makeText(MainActivity.this, "Failed to clear device ID.", Toast.LENGTH_SHORT).show();
@@ -219,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Firestore is not initialized.", Toast.LENGTH_SHORT).show();
                 }
 
-                // Clear SharedPreferences
+                // Clearing SharedPreferences
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();

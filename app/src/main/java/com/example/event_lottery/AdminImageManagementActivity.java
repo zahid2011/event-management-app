@@ -29,7 +29,7 @@ public class AdminImageManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_image_list);
 
-        // Initialize Firebase Storage
+        // Firebase Storage
         storage = FirebaseStorage.getInstance();
         imageReferences = new ArrayList<>();
         adapter = new AdminImageListAdaptor(this, imageReferences);
@@ -45,15 +45,15 @@ public class AdminImageManagementActivity extends AppCompatActivity {
     }
 
     private void fetchAllImages() {
-        StorageReference rootRef = storage.getReference(); // Get the root reference
+        StorageReference rootRef = storage.getReference();
 
         rootRef.listAll()
                 .addOnSuccessListener(listResult -> {
-                    // Fetch images in the root folder
+                    // fetching the images in the root folder
                     imageReferences.addAll(listResult.getItems());
                     adapter.notifyDataSetChanged();
 
-                    // Fetch images from subfolders
+                    // fetching the images from subfolders
                     fetchImagesFromFolders(listResult);
                 })
                 .addOnFailureListener(e -> {
