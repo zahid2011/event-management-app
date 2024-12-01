@@ -25,7 +25,9 @@ import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RunLotteryActivity extends AppCompatActivity {
 
@@ -117,7 +119,7 @@ public class RunLotteryActivity extends AppCompatActivity {
                 return;
             }
 
-            sendNotificationsToAllSelectedParticipants(); // Call the method to notify all winners
+            sendNotificationsToAllParticipants(); // Notify both winners and non-winners
         });
 
         // Draw Replacement button
@@ -211,12 +213,14 @@ public class RunLotteryActivity extends AppCompatActivity {
                 // Update selected users in Firestore
                 WriteBatch batch = db.batch();
                 for (DocumentSnapshot user : selectedUsers) {
-                    String userID = user.getString("userID");
-                    if (userID != null && !userID.isEmpty()) {
-                        // Use userID as the document ID
-                        batch.set(selectedRef.document(userID), user.getData());
+
+                    String userId = user.getString("userId");
+                    if (userId != null && !userId.isEmpty()) {
+                        // Use userId as the document ID
+                        batch.set(selectedRef.document(userId), user.getData());
                     } else {
-                        Log.e("RunLotteryActivity", "userID is missing for user: " + user.getId());
+                        Log.e("RunLotteryActivity", "userId is missing for user: " + user.getId());
+
                     }
                 }
 
@@ -249,18 +253,19 @@ public class RunLotteryActivity extends AppCompatActivity {
             Button notifyButton = participantView.findViewById(R.id.notify_button);
             Button removeButton = participantView.findViewById(R.id.remove_button);
 
-            String userID = user.getString("userID");
-            if (userID == null || userID.isEmpty()) {
-                userID = "userID not provided";
+
+            String userId = user.getString("userId");
+            if (userId == null || userId.isEmpty()) {
+                userId = "User ID not provided";
             }
 
-            userIDTextView.setText(userID);
+            userIDTextView.setText(userId);
 
-            String finalUserID = userID;
+            String finalUserId = userId;
             notifyButton.setOnClickListener(v -> {
-                Intent intent = new Intent(RunLotteryActivity.this, NotificationActivity.class);
-                intent.putExtra("email", finalUserID); // Pass email to NotificationActivity
-                startActivity(intent);
+                sendNotificationToUser(finalUserId, true);
+                Toast.makeText(this, "Notification sent to " + finalUserId, Toast.LENGTH_SHORT).show();
+
             });
 
             removeButton.setOnClickListener(v -> {
@@ -270,11 +275,13 @@ public class RunLotteryActivity extends AppCompatActivity {
                         .document(user.getId())
                         .delete()
                         .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(this, "Removed " + finalUserID, Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(this, "Removed " + finalUserId, Toast.LENGTH_SHORT).show();
                             participantsLayout.removeView(participantView);
                         })
                         .addOnFailureListener(e -> {
-                            Toast.makeText(this, "Failed to remove " + finalUserID, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Failed to remove " + finalUserId, Toast.LENGTH_SHORT).show();
+
                         });
             });
 
@@ -282,45 +289,71 @@ public class RunLotteryActivity extends AppCompatActivity {
         }
     }
 
-    private void sendNotificationToUser(String email) {
+    private void sendNotificationToUser(String userId, boolean isWinner) {
         // Reference the specific user's document
-        DocumentReference userRef = db.collection("users").document(email);
+        DocumentReference userRef = db.collection("users").document(userId);
 
         // Create the notification message with the event name
-        String message = "Congratulations! You have won the lottery for " + eventName;
+        String message;
+        int status;
+        if (isWinner) {
+            message = "Congratulations! You have won the lottery for " + eventName;
+            status = 1;
+        } else {
+            message = "We regret to inform you that you did not win the lottery for " + eventName;
+            status = 0;
+        }
 
         // Add notification under the user's notifications subcollection
         userRef.collection("notifications")
-                .add(new NotificationData(email, message, 1, eventName))
+                .add(new NotificationData(userId, message, status, eventName))
                 .addOnSuccessListener(documentReference ->
-                        Log.d("RunLotteryActivity", "Notification sent to user: " + email))
+                        Log.d("RunLotteryActivity", "Notification sent to user: " + userId))
                 .addOnFailureListener(e ->
-                        Log.e("RunLotteryActivity", "Failed to send notification to user: " + email, e));
+                        Log.e("RunLotteryActivity", "Failed to send notification to user: " + userId, e));
     }
 
-    private void sendNotificationsToAllSelectedParticipants() {
+    private void sendNotificationsToAllParticipants() {
         CollectionReference selectedEntrantsRef = db.collection("events").document(eventId).collection("selectedEntrants");
+        CollectionReference waitingListRef = db.collection("events").document(eventId).collection("waitingList");
 
         // Fetch all selected entrants
-        selectedEntrantsRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult() != null) {
-                List<DocumentSnapshot> selectedUsers = task.getResult().getDocuments();
+        selectedEntrantsRef.get().addOnCompleteListener(selectedTask -> {
+            if (selectedTask.isSuccessful() && selectedTask.getResult() != null) {
+                List<DocumentSnapshot> selectedUsers = selectedTask.getResult().getDocuments();
 
-                if (selectedUsers.isEmpty()) {
-                    Toast.makeText(this, "No selected participants to notify.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                // Fetch all waiting list entrants
+                waitingListRef.get().addOnCompleteListener(waitingTask -> {
+                    if (waitingTask.isSuccessful() && waitingTask.getResult() != null) {
+                        List<DocumentSnapshot> waitingUsers = waitingTask.getResult().getDocuments();
 
-                for (DocumentSnapshot user : selectedUsers) {
-                    String email = user.getString("email");
-                    if (email != null && !email.isEmpty()) {
-                        sendNotificationToUser(email); // Call the method to send notifications
+                        // Create a set of userIds of selected users
+                        Set<String> selectedUserIds = new HashSet<>();
+                        for (DocumentSnapshot user : selectedUsers) {
+                            String userId = user.getString("userId");
+                            if (userId != null && !userId.isEmpty()) {
+                                selectedUserIds.add(userId);
+                                sendNotificationToUser(userId, true); // Send winning notification
+                            }
+                        }
+
+                        // Now, for users in waiting list who are not in selected entrants, send losing notification
+                        for (DocumentSnapshot user : waitingUsers) {
+                            String userId = user.getString("userId");
+                            if (userId != null && !userId.isEmpty() && !selectedUserIds.contains(userId)) {
+                                sendNotificationToUser(userId, false); // Send losing notification
+                            }
+                        }
+
+                        Toast.makeText(this, "Notifications sent to all participants!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("RunLotteryActivity", "Failed to fetch waiting list", waitingTask.getException());
+                        Toast.makeText(this, "Error fetching waiting list.", Toast.LENGTH_SHORT).show();
                     }
-                }
+                });
 
-                Toast.makeText(this, "Notifications sent to all participants!", Toast.LENGTH_SHORT).show();
             } else {
-                Log.e("RunLotteryActivity", "Failed to fetch selected entrants", task.getException());
+                Log.e("RunLotteryActivity", "Failed to fetch selected entrants", selectedTask.getException());
                 Toast.makeText(this, "Error fetching selected participants.", Toast.LENGTH_SHORT).show();
             }
         });
