@@ -1,4 +1,8 @@
 <resources>
+    <string name="list_of_events">List of Events</string>
+    <string name="event_date">Date: %1$s</string>
+    <string name="event_capacity">Capacity: %1$s</string>
+    <string name="event_price">Price: $%1$s</string>
     <string name="app_name">event_lottery</string>
     <string name="notification_settings">Notifications Settings</string>
     <string name="admin_organizer">Admin/Organizer</string>

@@ -65,7 +65,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         qrCodeDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AdminDashboardActivity.this, "QR Code Data - Coming Soon", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AdminDashboardActivity.this, QRCodeManagementActivity.class);
+                startActivity(intent);
             }
         });
 

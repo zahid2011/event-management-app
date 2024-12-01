@@ -9,6 +9,9 @@ public class Event {
     private String capacity;
     private String price;
     private String description;
+    private String qrContent;
+    private String qrHash;
+    private boolean geoLocationEnabled;
 
     // constructor 
     public Event() {}
@@ -21,6 +24,7 @@ public class Event {
         this.capacity = capacity;
         this.price = price;
         this.description = description;
+        this.geoLocationEnabled = geoLocationEnabled;
     }
     public String getEventId() {
         return eventId;
@@ -62,6 +66,7 @@ public class Event {
     public void setPrice(String price) {
         this.price = price;
     }
+
     public String getDescription() {
         return description;
     }
@@ -70,5 +75,15 @@ public class Event {
         this.description = description;
     }
 
+    public String getQrContent() { return qrContent; }
 
+    public void setQrContent(String qrContent) { this.qrContent = qrContent; }
+
+    public String getQrHash() { return qrHash; }
+
+    public void setQrHash(String qrHash) { this.qrHash = qrHash; }
+
+    public boolean isGeoLocationEnabled() { return geoLocationEnabled; }
+
+    public void setGeoLocationEnabled(boolean geoLocation) { this.geoLocationEnabled= geoLocation; }
 }
