@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         // setting the dashboard layout as the main content view
         setContentView(R.layout.sample_dashboard);
 
-        // initializing the UI elements
         initializeUI();
         db = FirebaseFirestore.getInstance();
 
