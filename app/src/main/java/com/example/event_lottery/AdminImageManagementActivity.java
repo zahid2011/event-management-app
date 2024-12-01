@@ -36,11 +36,11 @@ public class AdminImageManagementActivity extends AppCompatActivity {
         listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
-        // Back button functionality
+
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
-        // Fetch and display images
+
         fetchAllImages();
     }
 

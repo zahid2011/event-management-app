@@ -31,19 +31,17 @@ public class AdminImageListAdaptor extends ArrayAdapter<StorageReference> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        // Inflate the layout for each item in the list
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.admin_list_image_item, parent, false);
         }
 
-        // Get the current StorageReference
         StorageReference imageRef = imageReferences.get(position);
 
-        // Reference UI components
+
         ImageView imageView = convertView.findViewById(R.id.image_view);
         Button deleteButton = convertView.findViewById(R.id.delete_button);
 
-        // Load the image from the StorageReference into the ImageView using Glide
+        // loading the image from the StorageReference into the ImageView using Glide
         imageRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Glide.with(context).load(uri).into(imageView)
         ).addOnFailureListener(e ->

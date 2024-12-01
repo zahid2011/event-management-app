@@ -9,7 +9,7 @@
     android:background="#FAF8F8"
     android:gravity="center_horizontal">
 
-    <!-- Back Button -->
+
     <ImageButton
         android:id="@+id/backButton"
         android:layout_width="47dp"
@@ -20,7 +20,6 @@
         android:src="@android:drawable/ic_menu_revert"
         app:tint="#000000" />
 
-    <!-- Dashboard Title -->
     <TextView
         android:id="@+id/dashboard_title"
         android:layout_width="wrap_content"
