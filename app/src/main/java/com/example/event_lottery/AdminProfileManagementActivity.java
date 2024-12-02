@@ -19,26 +19,43 @@ public class AdminProfileManagementActivity extends AppCompatActivity {
     private AdminUserAdapter adminUserAdapter;
     private FirebaseFirestore db;
     private List<User> users;
-
+    private boolean testMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_profile_managament);
+        db = FirebaseFirestore.getInstance();
 
         userListView = findViewById(R.id.list_view);
-        db = FirebaseFirestore.getInstance();
         users = new ArrayList<>();
-
-        // Set up the adapter with an empty list initially
         adminUserAdapter = new AdminUserAdapter(this, users);
         userListView.setAdapter(adminUserAdapter);
 
-        // Load users from Firebase
-        loadUsersFromFirebase();
-
-        // Back button functionality
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
+
+        // checking if test mode is enabled
+        testMode = getIntent().getBooleanExtra("TEST_MODE", false);
+        if (testMode) {
+            initializeMockData(); // Load mock data
+        } else {
+            loadUsersFromFirebase(); // Load from Firebase
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // reloading the list from Firebase whenever the activity is resumed
+        if (!testMode) {
+            loadUsersFromFirebase();
+        }
+    }
+    private void initializeMockData() {
+        users.clear(); // Ensure no other data exists
+        users.add(new User("1", "mockuser@example.com", "mockuser", "John", "Doe", "password123", "User"));
+        adminUserAdapter.notifyDataSetChanged();
     }
 
     private void loadUsersFromFirebase() {

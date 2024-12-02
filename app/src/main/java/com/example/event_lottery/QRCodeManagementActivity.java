@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class QRCodeManagementActivity extends AppCompatActivity {
@@ -23,6 +25,8 @@ public class QRCodeManagementActivity extends AppCompatActivity {
     private QRCodeAdapter qrCodeAdapter;
     private FirebaseFirestore db;
     private List<Event> events;
+    private boolean testMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,15 @@ public class QRCodeManagementActivity extends AppCompatActivity {
         setContentView(R.layout.admin_list_qr_codes);
 
         qrCodeListView = findViewById(R.id.list_view);
-        db = FirebaseFirestore.getInstance();
         events = new ArrayList<>();
+
+        // Check if test mode is enabled
+        boolean testMode = getIntent().getBooleanExtra("TEST_MODE", false);
+
+        if (!testMode) {
+            // initializing the Firebase Firestore only in normal mode
+            db = FirebaseFirestore.getInstance();
+        }
 
         // Back button functionality
         ImageButton backButton = findViewById(R.id.backButton);
@@ -41,8 +52,19 @@ public class QRCodeManagementActivity extends AppCompatActivity {
         qrCodeAdapter = new QRCodeAdapter(this, events);
         qrCodeListView.setAdapter(qrCodeAdapter);
 
-        // Load events with QR codes from Firebase in real-time
-        listenToQRCodesFromFirebase();
+        if (testMode) {
+            // using mock data for testing
+            initializeMockData();
+        } else {
+            // loading events with QR codes from Firebase in real-time
+            listenToQRCodesFromFirebase();
+        }
+    }
+
+    private void initializeMockData() {
+        events.clear();
+        events.add(new Event("1", "Sample Event 1", new Timestamp(new Date()), "50", "10", "Sample Description", false, "mockQR1", "mockHash1"));
+        qrCodeAdapter.notifyDataSetChanged();
     }
 
     private void listenToQRCodesFromFirebase() {
