@@ -78,7 +78,8 @@
                 android:layout_height="48dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="Search"
-                android:src="@drawable/search_icon" />
+                android:src="@drawable/search_icon"
+                android:clickable="true"/>
         </LinearLayout>
 
 
