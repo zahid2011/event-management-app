@@ -20,6 +20,13 @@ public class AdminProfileManagementActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private List<User> users;
     private boolean testMode;
+
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,9 @@ public class AdminProfileManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when the activity becomes visible to the user.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -52,12 +62,19 @@ public class AdminProfileManagementActivity extends AppCompatActivity {
             loadUsersFromFirebase();
         }
     }
+
+    /**
+     * Initializes mock data for testing purposes.
+     */
     private void initializeMockData() {
         users.clear(); // Ensure no other data exists
         users.add(new User("1", "mockuser@example.com", "mockuser", "John", "Doe", "password123", "User"));
         adminUserAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Loads the list of users from Firebase Firestore and updates the adapter.
+     */
     private void loadUsersFromFirebase() {
         db.collection("users")
                 .get()
