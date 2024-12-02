@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -41,13 +44,17 @@ import java.util.Map;
 
 public class CreateEventActivity extends AppCompatActivity {
 
-    private Button btnCreateEvent, btnGenerateQr, btnCancel, btnBackToDashboard;
+    private static final String TAG = "CreateEventActivity";
+    private static final int IMAGE_UPLOAD_REQUEST_CODE = 1; // Request code for image
+
+    private Button btnCreateEvent, btnCancel;
     private FirebaseFirestore db;
-    private ImageView qrCodeImageView, imgEventImage;
+    private ImageView qrCodeImageView, imgEventImage, btnBack, editImageBtn;
     private EditText etEventDateTime;
     private Calendar calendar;
     private Switch switchGeolocation;
-    private String imageUrl; // To store the image URL
+    private String eventId; // Use event name as the event ID
+    private String imageUrl; // Store the image URL
 
 
     @SuppressLint("MissingInflatedId")
@@ -58,25 +65,24 @@ public class CreateEventActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        btnCreateEvent = findViewById(R.id.btn_create_event);
-        btnGenerateQr = findViewById(R.id.btn_generate_qr);
+        btnCreateEvent = findViewById(R.id.btn_create_and_generate_qr);
+
         btnCancel = findViewById(R.id.btn_cancel);
         qrCodeImageView = findViewById(R.id.qrCodeImageView);
-        btnBackToDashboard = findViewById(R.id.btn_back_to_dashboard);
         switchGeolocation = findViewById(R.id.switch_geolocation);
         imgEventImage = findViewById(R.id.img_event_image);
+        editImageBtn = findViewById(R.id.edit_image);
 
         etEventDateTime = findViewById(R.id.et_event_datetime);
         calendar = Calendar.getInstance();
 
         etEventDateTime.setOnClickListener(v -> showDatePicker());
 
-        btnBackToDashboard.setOnClickListener(v -> {
-            Intent intent = new Intent(CreateEventActivity.this, OrganizerDashboardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        });
+        btnBack = findViewById(R.id.btn_back);
+
+        btnBack.setOnClickListener(v -> finish());
+
+
 
         btnCreateEvent.setOnClickListener(v -> {
             String eventName = ((EditText) findViewById(R.id.et_event_name)).getText().toString().trim();
@@ -103,15 +109,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
             // Save event without image URL initially
             saveEventToFirestore(eventName, date, capacity, price, description, geolocationEnabled, imageUrl);
-        });
 
-        btnGenerateQr.setOnClickListener(v ->
-
-
-        {
-            TextView evtView = findViewById(R.id.et_event_name);
-            String evtID = evtView.getText().toString();
-            String qrContent = "myapp://event/" + evtID;
+            String qrContent = "myapp://event/" + eventName;
 
 
             Bitmap qrCodeBitmap = generateQRCode(qrContent);
@@ -120,17 +119,11 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
                 Map<String, Object> qrData = new HashMap<>();
                 qrData.put("qrContent", qrContent); // Save the QR content
                 qrData.put("qrhash", generateHashFromBitmap(qrCodeBitmap)); // Save the hash
 
-                db.collection("events").document(evtID)
+                db.collection("events").document(eventName)
                         .set(qrData, SetOptions.merge())
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(this, "Event and QR Code stored successfully", Toast.LENGTH_SHORT).show();
@@ -145,7 +138,10 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
 
-
+        editImageBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(CreateEventActivity.this, EventImageUploadActivity.class);
+            startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE); // Open image upload activity
+        });
 
         btnCancel.setOnClickListener(v -> finish()); // Close the activity
     }
@@ -188,7 +184,7 @@ public class CreateEventActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imageUrl) {
+    private void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imagePath) {
         Map<String, Object> eventData = new HashMap<>();
         eventData.put("eventName", eventName);
         eventData.put("eventDateTime", eventDateTime);
@@ -196,7 +192,7 @@ public class CreateEventActivity extends AppCompatActivity {
         eventData.put("price", price);
         eventData.put("description", description);
         eventData.put("geolocationEnabled", geolocationEnabled);
-        eventData.put("imageUrl", imageUrl);
+        eventData.put("imagePath", imagePath);
 
 
         db.collection("events").document(eventName)
@@ -209,46 +205,54 @@ public class CreateEventActivity extends AppCompatActivity {
                 });
     }
 
-    public void onAddImageClicked(View view) {
-        // Create an input dialog to prompt for the image URL
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add Image URL");
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        // Input field for the URL
-        final EditText input = new EditText(this);
-        input.setHint("Enter image URL");
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("Add", (dialog, which) -> {
-            String url = input.getText().toString().trim();
-
-            if (!url.isEmpty()) {
-                // Load the image into the ImageView
-                loadImageFromUrl(url);
-
-                // Store the URL in the imageUrl variable
-                imageUrl = url;
-
-                Toast.makeText(this, "Image URL added successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+        if (requestCode == IMAGE_UPLOAD_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                try {
+                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    saveImageToFirestore(selectedImage);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
             }
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
+        }
     }
 
 
+    private void saveImageToFirestore(Bitmap bitmap) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("event_images/" + System.currentTimeMillis() + ".jpg");
 
-    private void loadImageFromUrl(String url) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        storageRef.putBytes(data)
+                .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            // Save the image URL in Firestore
+                            imageUrl = uri.toString();
+                            updateImageView(uri.toString());
+                            Toast.makeText(CreateEventActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
+                        }))
+                .addOnFailureListener(e -> {
+                    Toast.makeText(CreateEventActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
+    }
+
+    private void updateImageView(String imageUrl) {
         Glide.with(this)
-                .load(url)
-                .placeholder(R.drawable.ic_image_placeholder) // Optional: Placeholder image
-                .error(R.drawable.ic_error) // Optional: Error image
-                .into(imgEventImage); // Load into the ImageView
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_image_placeholder) // Add a default placeholder
+                .into(imgEventImage);
     }
+
+
 
 
 

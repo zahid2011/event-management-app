@@ -143,7 +143,15 @@ public class RunLotteryActivity extends AppCompatActivity {
         });
 
         // Draw Replacement button
-        drawReplacementButton.setOnClickListener(v -> Toast.makeText(this, "Drawing replacement for declined participant", Toast.LENGTH_SHORT).show());
+        drawReplacementButton.setOnClickListener(v -> {
+            if (!lotteryCompleted) {
+                Toast.makeText(this, "Please run the lottery before drawing replacements.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            drawReplacementForDeclinedParticipant();
+        });
+
     }
 
     private void fetchEventDetails() {
@@ -208,6 +216,7 @@ public class RunLotteryActivity extends AppCompatActivity {
                 });
     }
 
+    // Updated runLottery Method to Remove Selected Entrants from the Waiting List
     private void runLottery(int sampleSize) {
         loadingSpinner.setVisibility(View.VISIBLE);
 
@@ -233,14 +242,14 @@ public class RunLotteryActivity extends AppCompatActivity {
                 // Update selected users in Firestore
                 WriteBatch batch = db.batch();
                 for (DocumentSnapshot user : selectedUsers) {
-
                     String userId = user.getString("userId");
                     if (userId != null && !userId.isEmpty()) {
-                        // Use userId as the document ID
+                        // Add to selected entrants
                         batch.set(selectedRef.document(userId), user.getData());
+                        // Remove from waiting list
+                        batch.delete(waitingListRef.document(user.getId()));
                     } else {
                         Log.e("RunLotteryActivity", "userId is missing for user: " + user.getId());
-
                     }
                 }
 
@@ -378,4 +387,89 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void drawReplacementForDeclinedParticipant() {
+        loadingSpinner.setVisibility(View.VISIBLE);
+
+        CollectionReference waitingListRef = db.collection("events").document(eventId).collection("waitingList");
+        CollectionReference selectedRef = db.collection("events").document(eventId).collection("selectedEntrants");
+
+        waitingListRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<DocumentSnapshot> waitingList = new ArrayList<>(task.getResult().getDocuments());
+
+                if (waitingList.isEmpty()) {
+                    loadingSpinner.setVisibility(View.GONE);
+                    Toast.makeText(this, "No users available in the waiting list for replacement.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Filter the waiting list for users with status 1 or no status
+                DocumentSnapshot replacementUser = null;
+                for (DocumentSnapshot user : waitingList) {
+                    Long status = user.getLong("status"); // Assuming status is stored as a number
+                    if (status == null || status == 1) {
+                        // If status is null (no status) or status is 1, select the user
+                        replacementUser = user;
+                        break;
+                    } else if (status == 0) {
+                        // Skip users with status 0
+                        continue;
+                    }
+                }
+
+                if (replacementUser == null) {
+                    loadingSpinner.setVisibility(View.GONE);
+                    Toast.makeText(this, "No eligible users found for replacement.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String userId = replacementUser.getString("userId");
+                if (userId != null && !userId.isEmpty()) {
+                    // Update Firestore to add the user to selected entrants
+                    WriteBatch batch = db.batch();
+
+                    // Add to selected entrants
+                    batch.set(selectedRef.document(userId), replacementUser.getData());
+
+                    // Remove from waiting list
+                    batch.delete(waitingListRef.document(replacementUser.getId()));
+
+                    // Commit the batch
+                    batch.commit().addOnCompleteListener(updateTask -> {
+                        loadingSpinner.setVisibility(View.GONE);
+                        if (updateTask.isSuccessful()) {
+                            Toast.makeText(this, "Replacement drawn successfully.", Toast.LENGTH_SHORT).show();
+                            fetchSelectedParticipants(); // Refresh the selected participants list
+                        } else {
+                            Toast.makeText(this, "Failed to draw replacement.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    loadingSpinner.setVisibility(View.GONE);
+                    Toast.makeText(this, "Invalid user data. Unable to draw replacement.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                loadingSpinner.setVisibility(View.GONE);
+                Toast.makeText(this, "Failed to fetch waiting list.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
