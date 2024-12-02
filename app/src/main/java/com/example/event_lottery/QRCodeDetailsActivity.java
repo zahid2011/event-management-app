@@ -27,6 +27,12 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String eventId; // unique identifier for the event document in Firestore
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +40,7 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // Views
+        // Initialize UI components
         eventNameTextView = findViewById(R.id.event_name);
         eventDateTextView = findViewById(R.id.event_date);
         eventCapacityTextView = findViewById(R.id.event_capacity);
@@ -62,6 +68,11 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
         deleteQRCodeButton.setOnClickListener(v -> deleteQRCode());
     }
 
+    /**
+     * Loads event data from Firestore based on the event ID.
+     *
+     * @param eventId The ID of the event to be loaded.
+     */
     private void loadEventData(String eventId) {
         db.collection("events").document(eventId)
                 .get()
@@ -78,6 +89,11 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
                 );
     }
 
+    /**
+     * Displays the event data on the UI.
+     *
+     * @param documentSnapshot The document snapshot containing event data.
+     */
     private void displayEventData(DocumentSnapshot documentSnapshot) {
         // Retrieve and display event data
         String eventName = documentSnapshot.getString("eventName");
@@ -117,6 +133,9 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Deletes the QR code associated with the event.
+     */
     private void deleteQRCode() {
         if (eventId != null && !eventId.isEmpty()) {
             db.collection("events").document(eventId)

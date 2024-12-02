@@ -22,6 +22,12 @@ public class EntrantEventWaitingDetails extends AppCompatActivity {
     private FirebaseFirestore db;
     private static final String TAG = "EntrantEventWaitingDetails";
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,9 @@ public class EntrantEventWaitingDetails extends AppCompatActivity {
         leaveEventButton.setOnClickListener(v -> showConfirmationDialog());
     }
 
+    /**
+     * Shows a confirmation dialog to confirm if the user wants to leave the waiting list.
+     */
     private void showConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Leave Waiting List")
@@ -72,6 +81,9 @@ public class EntrantEventWaitingDetails extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Removes the user from the waiting list of the specified event.
+     */
     private void removeUserFromWaitingList() {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         String userId = sharedPreferences.getString("USER_ID", null); // This is the email

@@ -2,14 +2,12 @@ package com.example.event_lottery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -27,11 +24,25 @@ public class EntrantWaitingListAdapter extends ArrayAdapter<Event> {
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault());
     private final Context context;
 
+    /**
+     * Constructor to create an EntrantWaitingListAdapter.
+     *
+     * @param context The context in which the adapter is created.
+     * @param events  The list of events to be displayed.
+     */
     public EntrantWaitingListAdapter(@NonNull Context context, @NonNull List<Event> events) {
         super(context, 0, events);
         this.context = context;
     }
 
+    /**
+     * Provides a view for an adapter view (ListView, etc.).
+     *
+     * @param position    The position of the item within the adapter's data set.
+     * @param convertView The old view to reuse, if possible.
+     * @param parent      The parent that this view will eventually be attached to.
+     * @return A View corresponding to the data at the specified position.
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

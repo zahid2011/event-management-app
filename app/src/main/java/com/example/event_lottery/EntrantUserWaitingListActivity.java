@@ -1,5 +1,4 @@
 package com.example.event_lottery;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +24,12 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
     private EntrantWaitingListAdapter entrantWaitingListAdapter;
     private List<Event> eventsList;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,9 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
         fetchEventsWithUserInWaitingList();
     }
 
+    /**
+     * Fetches events from Firestore where the user is in the waiting list.
+     */
     private void fetchEventsWithUserInWaitingList() {
         db.collection("events") // Fetch all events
                 .get()
@@ -74,6 +82,11 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Checks the waiting lists of each event to see if the user is present.
+     *
+     * @param eventDocs The list of event documents to check.
+     */
     private void checkWaitingLists(List<DocumentSnapshot> eventDocs) {
         List<Event> tempEventList = new ArrayList<>();
         int[] processedCount = {0}; // Counter for processed documents
@@ -110,12 +123,21 @@ public class EntrantUserWaitingListActivity extends AppCompatActivity {
                     });
         }
     }
+
+    /**
+     * Called when the activity is resumed.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         fetchEventsWithUserInWaitingList(); // Re-fetch the waiting list when the activity resumes
     }
 
+    /**
+     * Updates the event list displayed in the UI.
+     *
+     * @param tempEventList The updated list of events to display.
+     */
     private void updateEventList(List<Event> tempEventList) {
         eventsList.clear();
         eventsList.addAll(tempEventList);

@@ -30,6 +30,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private static final String TAG = "EditProfileActivity";
     private static final int IMAGE_UPLOAD_REQUEST_CODE = 1; // Request code for image upload
+
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +87,9 @@ public class EditProfileActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
     }
 
+    /**
+     * Loads the user data from Firestore and populates the UI fields.
+     */
     private void loadUserData() {
         // Fetch user data from Firestore
         db.collection("users").document(userId).get()
@@ -113,6 +123,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Updates the user profile with the new data entered by the user.
+     */
     private void updateProfile() {
         String email = emailEditText.getText().toString().trim();
         String username = usernameEditText.getText().toString().trim();
@@ -147,6 +160,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Handles the result of activities started with startActivityForResult.
+     *
+     * @param requestCode The integer request code originally supplied to startActivityForResult().
+     * @param resultCode The integer result code returned by the child activity.
+     * @param data An Intent that carries the result data.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_UPLOAD_REQUEST_CODE && resultCode == RESULT_OK) {

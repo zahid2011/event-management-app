@@ -29,6 +29,12 @@ public class SendNotificationActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,11 @@ public class SendNotificationActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(v -> finish());
     }
 
+    /**
+     * Fetches email addresses of selected entrants from Firestore and sends notifications to them.
+     *
+     * @param eventId The ID of the event for which to send notifications.
+     */
     private void fetchEmailsAndSendNotifications(String eventId) {
         db.collection("events")
                 .document(eventId)
@@ -85,6 +96,12 @@ public class SendNotificationActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Sends a notification to a specific user using Firebase Cloud Messaging.
+     *
+     * @param email   The email address of the user to whom the notification will be sent.
+     * @param message The message to be included in the notification.
+     */
     private void sendNotificationToUser(String email, String message) {
         try {
             JSONObject json = new JSONObject();
@@ -121,14 +138,26 @@ public class SendNotificationActivity extends AppCompatActivity {
         }
     }
 
-    // Helper class for mapping Firestore email documents
+    /**
+     * Helper class for mapping Firestore email documents.
+     */
     public static class UserEmail {
         private String email;
 
+        /**
+         * Gets the email address.
+         *
+         * @return The email address.
+         */
         public String getEmail() {
             return email;
         }
 
+        /**
+         * Sets the email address.
+         *
+         * @param email The email address to set.
+         */
         public void setEmail(String email) {
             this.email = email;
         }
