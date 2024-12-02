@@ -25,6 +25,12 @@ public class AdminFacilityDetailsActivity extends AppCompatActivity {
     private boolean testMode = false;
     private AdminFacility mockFacility; // mock facility data for testing
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +86,11 @@ public class AdminFacilityDetailsActivity extends AppCompatActivity {
         removeFacilityButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
+    /**
+     * Initializes the UI with the facility details.
+     *
+     * @param facility The AdminFacility object containing the facility details to display.
+     */
     private void initializeUI(AdminFacility facility) {
         facilityNameTextView = findViewById(R.id.facility_name);
         facilityDescriptionTextView = findViewById(R.id.facility_description);
@@ -102,6 +113,9 @@ public class AdminFacilityDetailsActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
     }
 
+    /**
+     * Fetches facility details from Firebase Firestore and updates the UI accordingly.
+     */
     private void fetchFacilityDetails() {
         db.collection("facilities").document(facilityId)
                 .get()
@@ -126,6 +140,9 @@ public class AdminFacilityDetailsActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Displays a confirmation dialog to the user before deleting the facility.
+     */
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Facility")
@@ -135,6 +152,9 @@ public class AdminFacilityDetailsActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Deletes the facility from Firebase Firestore or performs mock deletion if in test mode.
+     */
     private void deleteFacility() {
         if (testMode) {
             // mock deletion logic for test mode

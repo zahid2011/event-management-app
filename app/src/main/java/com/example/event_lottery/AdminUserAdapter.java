@@ -1,5 +1,4 @@
 package com.example.event_lottery;
-
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -19,10 +18,24 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 public class AdminUserAdapter extends ArrayAdapter<User> {
+    /**
+     * Constructor for AdminUserAdapter.
+     *
+     * @param context The current context.
+     * @param users The list of users to represent in the ListView.
+     */
     public AdminUserAdapter(Context context, List<User> users) {
         super(context, 0, users);
     }
 
+    /**
+     * Provides a view for an adapter view (ListView, GridView, etc.).
+     *
+     * @param position The position of the item within the adapter's data set.
+     * @param convertView The old view to reuse, if possible.
+     * @param parent The parent that this view will eventually be attached to.
+     * @return A View corresponding to the data at the specified position.
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

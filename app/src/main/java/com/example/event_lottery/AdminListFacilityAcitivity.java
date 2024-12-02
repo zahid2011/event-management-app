@@ -20,6 +20,12 @@ public class AdminListFacilityAcitivity extends AppCompatActivity {
     private List<AdminFacility> facilityList;
     private FacilityListAdapter adapter;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +43,19 @@ public class AdminListFacilityAcitivity extends AppCompatActivity {
 
         fetchFacilities();
     }
+
+    /**
+     * Called when the activity becomes visible to the user.
+     */
     @Override
     protected void onResume() {
         super.onResume();
         fetchFacilities();
     }
 
+    /**
+     * Fetches the list of facilities from Firebase Firestore and updates the adapter.
+     */
     private void fetchFacilities() {
         db.collection("facilities")
                 .get()

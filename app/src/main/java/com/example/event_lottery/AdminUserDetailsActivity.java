@@ -17,6 +17,12 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
     private String userId; // storing the user ID for deletion
     private boolean testMode;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +63,9 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
         removeProfileButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
-    // showing the confirmation dialog before deleting the user
+    /**
+     * Shows a confirmation dialog before deleting the user profile.
+     */
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Profile")
@@ -68,7 +76,9 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
                 .show();
     }
 
-    // to delete the user profile
+    /**
+     * Deletes the user profile from Firebase Firestore or performs a mock deletion in test mode.
+     */
     private void deleteUserProfile() {
         if (testMode) {
             // Mock deletion logic for test mode
