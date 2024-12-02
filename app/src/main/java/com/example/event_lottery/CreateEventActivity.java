@@ -184,7 +184,7 @@ public class CreateEventActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imagePath) {
+    public void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imagePath) {
         Map<String, Object> eventData = new HashMap<>();
         eventData.put("eventName", eventName);
         eventData.put("eventDateTime", eventDateTime);
@@ -223,7 +223,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
-    private void saveImageToFirestore(Bitmap bitmap) {
+    public void saveImageToFirestore(Bitmap bitmap) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("event_images/" + System.currentTimeMillis() + ".jpg");
 
