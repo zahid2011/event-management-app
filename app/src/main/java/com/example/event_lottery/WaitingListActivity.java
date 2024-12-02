@@ -89,7 +89,7 @@ public class WaitingListActivity extends AppCompatActivity {
                         // Populate the waiting list
                         waitingListUsers.clear();
                         for (DocumentSnapshot document : querySnapshot) {
-                            String email = document.getString("email");
+                            String email = document.getString("userId");
                             waitingListUsers.add(new WaitingListUser(email != null ? email : "Unknown", R.drawable.ic_image_placeholder));
                         }
 

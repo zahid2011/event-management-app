@@ -48,7 +48,7 @@ public class AdminImageListAdaptor extends ArrayAdapter<StorageReference> {
                 Toast.makeText(context, "Failed to load image", Toast.LENGTH_SHORT).show()
         );
 
-        // Set delete button functionality
+        // setting the delete button functionality
         deleteButton.setOnClickListener(v -> {
             if (context instanceof AdminImageManagementActivity) {
                 ((AdminImageManagementActivity) context).deleteImage(imageRef);

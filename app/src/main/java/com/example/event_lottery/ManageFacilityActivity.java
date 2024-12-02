@@ -1,11 +1,15 @@
 package com.example.event_lottery;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -30,136 +34,116 @@ import java.util.Map;
 
 public class ManageFacilityActivity extends AppCompatActivity {
 
-
-
-
-    // Declare UI elements
     private EditText etFacilityName, etFacilityAddress, etPhone, etFacilityDescription, etFacilityOwner;
-    private Switch switchGeolocation;
     private Button btnCreate, btnSaveChanges, btnGetFacility;
     private FirebaseFirestore db;
-
-
-
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_facility_profile); // Use your layout file
+        setContentView(R.layout.activity_facility_profile);
 
 
-
-
-        // Initialize Firebase Firestore
         db = FirebaseFirestore.getInstance();
 
 
-
-
-        // Link UI elements with XML IDs
         etFacilityName = findViewById(R.id.et_facility_name);
         etFacilityOwner = findViewById(R.id.et_facility_owner);
-        //etFacilityName = findViewById(R.id.et_facility_name);
         etFacilityAddress = findViewById(R.id.et_facility_address);
         etPhone = findViewById(R.id.et_phone);
         etFacilityDescription = findViewById(R.id.et_facility_description);
-        switchGeolocation = findViewById(R.id.switch_geolocation);
-        //   btnCreate = findViewById(R.id.btn_create);
-        btnSaveChanges = findViewById(R.id.btn_save_changes);
+        btnSaveChanges = findViewById(R.id.btn_create);
         btnGetFacility = findViewById(R.id.btn_get_facility);
 
+        // fetching user data from SharedPreferences and update facility owner
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String userId = sharedPreferences.getString("USER_ID", "");
+        etFacilityOwner.setText(userId);
 
 
+        // "Create/Save Changes" button functionality
+        btnSaveChanges.setOnClickListener(v -> saveFacilityProfile());
 
-        // btnCreate.setOnClickListener(new View.OnClickListener() {
-        //   @Override
-        //   public void onClick(View v) {
-        //      saveFacilityProfile();
-        //   }
-        //   });
+        // Back button setup
+        ImageButton btnBackToDashboard = findViewById(R.id.backButton);
+        if (btnBackToDashboard == null) {
+            Log.e("ManageFacilityActivity", "ImageButton backButton is null. Check the layout file.");
+        } else {
+            btnBackToDashboard.setOnClickListener(v -> {
+                // checking if the intent has the "fromMainActivity" flag
+                boolean fromMainActivity = getIntent().getBooleanExtra("fromMainActivity", false);
 
-
-
-
-        btnSaveChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveFacilityProfile();
-            }
-        });
-
-
-        Button btnBackToDashboard = findViewById(R.id.btn_back_to_dashboard);
-        btnBackToDashboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate back to the OrganizerDashboardActivity
-                Intent intent = new Intent(ManageFacilityActivity.this, OrganizerDashboardActivity.class);
+                Intent intent;
+                if (fromMainActivity) {
+                    // navigating back to MainActivity
+                    intent = new Intent(ManageFacilityActivity.this, MainActivity.class);
+                } else {
+                    // navigating back to OrganizerDashboardActivity
+                    intent = new Intent(ManageFacilityActivity.this, OrganizerDashboardActivity.class);
+                }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish(); // Close ManageFacilityActivity
-            }
-        });
+                finish();
+            });
+        }
 
-
-
-
-        btnGetFacility.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                String facilityName = etFacilityName.getText().toString().trim();
-                String facilityOwner = etFacilityOwner.getText().toString().trim();
-                if (!facilityName.isEmpty()) {
-                    fetchFacilityData(facilityName);
-                } else {
-                    Toast.makeText(ManageFacilityActivity.this, "Enter facility name to search", Toast.LENGTH_SHORT).show();
-                }
+        btnGetFacility.setOnClickListener(v -> {
+            String facilityName = etFacilityName.getText().toString().trim();
+            if (!facilityName.isEmpty()) {
+                fetchFacilityData(facilityName);
+            } else {
+                Toast.makeText(ManageFacilityActivity.this, "Enter facility name to search", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
     private void saveFacilityProfile() {
-        // Get input values
         String facilityName = etFacilityName.getText().toString().trim();
         String facilityAddress = etFacilityAddress.getText().toString().trim();
-        //String facilityAddress2 = etFacilityAddress2.getText().toString().trim();
         String phone = etPhone.getText().toString().trim();
-        //String email = etEmail.getText().toString().trim();
         String facilityDescription = etFacilityDescription.getText().toString().trim();
-        boolean geolocationEnabled = switchGeolocation.isChecked();
+        String facilityOwner = etFacilityOwner.getText().toString().trim();
 
-
-
-
-        // Validation check for required fields
-        if (facilityName.isEmpty() || facilityAddress.isEmpty() || phone.isEmpty()) {
+        if (facilityName.isEmpty() || facilityAddress.isEmpty() || phone.isEmpty() || facilityOwner.isEmpty()) {
             Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-
-
-
-        // Create a map to store facility profile data
         Map<String, Object> facilityData = new HashMap<>();
         facilityData.put("facilityName", facilityName);
         facilityData.put("facilityAddress", facilityAddress);
         facilityData.put("phone", phone);
         facilityData.put("facilityDescription", facilityDescription);
-        facilityData.put("geolocationEnabled", geolocationEnabled);
+        facilityData.put("facilityOwner", facilityOwner);
 
-
-
-
-        // Save the data to Firestore under a document named after the facility
+        // saving the data to Firestore under a document named after the facility
         db.collection("facilities").document(facilityName)
                 .set(facilityData)
-                .addOnSuccessListener(aVoid -> Toast.makeText(ManageFacilityActivity.this, "Facility profile saved successfully", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(ManageFacilityActivity.this, "Failed to save profile: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-    }
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ManageFacilityActivity.this, "Facility profile created successfully", Toast.LENGTH_SHORT).show();
 
+                    // updating the user's role2 in Firestore to "organiser"
+                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                    String userId = sharedPreferences.getString("USER_ID", "");
+
+                    if (!userId.isEmpty()) {
+                        db.collection("users").document(userId).update("role2", "Organiser")
+                                .addOnSuccessListener(roleUpdateTask -> {
+                                    Toast.makeText(ManageFacilityActivity.this, "You have been granted organizer privileges.", Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(ManageFacilityActivity.this, "Failed to update role: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+                    }
+
+                    // Navigating back to the previous page
+                    finish();
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(ManageFacilityActivity.this, "Failed to save profile: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
+    }
 
     private void fetchFacilityData(String facilityName) {
         db.collection("facilities").document(facilityName).get()
@@ -170,6 +154,7 @@ public class ManageFacilityActivity extends AppCompatActivity {
                             etFacilityAddress.setText(document.getString("facilityAddress"));
                             etPhone.setText(document.getString("phone"));
                             etFacilityDescription.setText(document.getString("facilityDescription"));
+                            etFacilityOwner.setText(document.getString("facilityOwner"));
                             Toast.makeText(ManageFacilityActivity.this, "Facility data loaded", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ManageFacilityActivity.this, "Facility not found", Toast.LENGTH_SHORT).show();
