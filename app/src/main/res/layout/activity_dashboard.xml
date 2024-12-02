@@ -12,12 +12,12 @@
     <!-- Back Button -->
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="start"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Back Button"
-        android:src="@android:drawable/ic_menu_revert"
+        android:src="@drawable/ic_back_arrow"
         app:tint="#000000" />
 
     <!-- Dashboard Title -->
