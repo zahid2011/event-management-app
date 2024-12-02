@@ -244,18 +244,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/btn_participant_management"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Manage Participants"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
-        app:cornerRadius="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
 
 
