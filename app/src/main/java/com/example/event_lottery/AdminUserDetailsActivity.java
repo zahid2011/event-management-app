@@ -15,16 +15,13 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
     private TextView displayUsername, displayEmail, usernameValue, fullNameValue, emailValue, phoneValue, roleValue;
     private FirebaseFirestore db;
     private String userId; // storing the user ID for deletion
+    private boolean testMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_user_details_page);
 
-        // initializing Firebase
-        db = FirebaseFirestore.getInstance();
-
-        // initializing the UI elements
         displayUsername = findViewById(R.id.display_username);
         displayEmail = findViewById(R.id.display_email);
         usernameValue = findViewById(R.id.username_value);
@@ -32,7 +29,7 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
         emailValue = findViewById(R.id.email_value);
         roleValue = findViewById(R.id.role_value);
 
-        // user data
+        // getting the user data from the intent
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         String email = intent.getStringExtra("email");
@@ -40,7 +37,10 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
         String fullName = intent.getStringExtra("fullName");
         String role = intent.getStringExtra("role");
 
-        // Display user data, with userId at the top
+        // checking for test mode
+        testMode = intent.getBooleanExtra("TEST_MODE", false);
+
+        // Display user data
         displayUsername.setText(userId);
         displayEmail.setText(email);
         usernameValue.setText(username);
@@ -52,7 +52,7 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(v -> finish());
 
-        //confirmation dialog
+        // Remove profile button
         Button removeProfileButton = findViewById(R.id.remove_profile_button);
         removeProfileButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
@@ -70,18 +70,26 @@ public class AdminUserDetailsActivity extends AppCompatActivity {
 
     // to delete the user profile
     private void deleteUserProfile() {
-        if (userId != null && !userId.isEmpty()) {
-            db.collection("users").document(userId)
-                    .delete()
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(AdminUserDetailsActivity.this, "Profile deleted successfully", Toast.LENGTH_SHORT).show();
-                        finish(); // Close the activity after deletion
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(AdminUserDetailsActivity.this, "Error deleting profile", Toast.LENGTH_SHORT).show();
-                    });
+        if (testMode) {
+            // Mock deletion logic for test mode
+            Toast.makeText(this, "Mock profile deleted successfully", Toast.LENGTH_SHORT).show();
+            finish(); // simulating deletion by finishing the activity
         } else {
-            Toast.makeText(this, "User ID is missing, cannot delete profile.", Toast.LENGTH_SHORT).show();
+            // Actual Firebase deletion logic
+            if (userId != null && !userId.isEmpty()) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("users").document(userId)
+                        .delete()
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(AdminUserDetailsActivity.this, "Profile deleted successfully", Toast.LENGTH_SHORT).show();
+                            finish(); // closing the activity after deletion
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(AdminUserDetailsActivity.this, "Error deleting profile", Toast.LENGTH_SHORT).show();
+                        });
+            } else {
+                Toast.makeText(this, "User ID is missing, cannot delete profile.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

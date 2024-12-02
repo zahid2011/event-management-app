@@ -23,25 +23,27 @@ public class AdminImageManagementActivity extends AppCompatActivity {
     private List<StorageReference> imageReferences;
     private AdminImageListAdaptor adapter;
     private ListView listView;
+    private boolean testMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_image_list);
 
-        // Firebase Storage
-        storage = FirebaseStorage.getInstance();
+        testMode = getIntent().getBooleanExtra("TEST_MODE", false);
+
         imageReferences = new ArrayList<>();
         adapter = new AdminImageListAdaptor(this, imageReferences);
         listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
-
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
-
+        // Firebase Storage
+        storage = FirebaseStorage.getInstance();
         fetchAllImages();
+
     }
 
     private void fetchAllImages() {

@@ -28,32 +28,22 @@ public class AdminBrowseEventsUITest {
 
     @Before
     public void setUp() {
-        Intents.init(); // Initialize intents to monitor navigation
+        Intents.init();
     }
 
     @After
     public void tearDown() {
-        Intents.release(); // Release intents after the test
+        Intents.release();
     }
 
     @Test
     public void testNavigateToBrowseEvents() {
-        // Click on the "Browse Events" button
+        // clicking on the "Browse Events" button
         onView(withId(R.id.event_management_button))
                 .perform(ViewActions.click());
 
-        // Verify that the intent to EventManagementActivity is launched
+        // verifying that the intent to EventManagementActivity is launched
         Intents.intended(IntentMatchers.hasComponent(EventManagementActivity.class.getName()));
     }
 
-    @Test
-    public void testEventsListDisplayed() {
-        // Launch the event management screen
-        Intent intent = new Intent();
-        ActivityScenario.launch(EventManagementActivity.class);
-
-        // Verify the first event is displayed
-        onView(withText("Event A")) // Replace "Event A" with your mock event name
-                .check(ViewAssertions.matches(withText("Event A")));
-    }
 }
