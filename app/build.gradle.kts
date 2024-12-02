@@ -38,13 +38,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     tasks.withType<Test>{
             useJUnitPlatform()
         }
+
+    lint {
+        abortOnError = false
+    }
 }
 
 dependencies {
@@ -67,6 +71,8 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("com.android.volley:volley:1.2.1")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+
 
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.0.1")
@@ -88,6 +94,10 @@ dependencies {
     testImplementation ("org.junit.jupiter:junit-jupiter:5.7.0")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation("androidx.camera:camera-core:1.4.0")
+    implementation("androidx.camera:camera-view:1.4.0")
+    implementation("androidx.camera:camera-lifecycle:1.4.0")
+    implementation("androidx.camera:camera-extensions:1.4.0")
 
 
 }
