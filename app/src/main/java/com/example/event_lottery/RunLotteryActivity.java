@@ -21,6 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+// If you have any missing imports, make sure to include them
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -151,7 +152,6 @@ public class RunLotteryActivity extends AppCompatActivity {
 
             drawReplacementForDeclinedParticipant();
         });
-
     }
 
     private void fetchEventDetails() {
@@ -292,9 +292,7 @@ public class RunLotteryActivity extends AppCompatActivity {
 
             String finalUserId = userId;
             notifyButton.setOnClickListener(v -> {
-                sendNotificationToUser(finalUserId, true);
-                Toast.makeText(this, "Notification sent to " + finalUserId, Toast.LENGTH_SHORT).show();
-
+                sendNotificationToUserIfAllowed(finalUserId, true);
             });
 
             removeButton.setOnClickListener(v -> {
@@ -318,10 +316,34 @@ public class RunLotteryActivity extends AppCompatActivity {
         }
     }
 
-    private void sendNotificationToUser(String userId, boolean isWinner) {
+    private void sendNotificationToUserIfAllowed(String userId, boolean isWinner) {
         // Reference the specific user's document
         DocumentReference userRef = db.collection("users").document(userId);
 
+        // Fetch user's notification preference
+        userRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Boolean doNotReceiveAdminNotifications = documentSnapshot.getBoolean("doNotReceiveAdminNotifications");
+                        if (doNotReceiveAdminNotifications != null && doNotReceiveAdminNotifications) {
+                            // User doesn't want to receive notifications
+                            Toast.makeText(this, "User " + userId + " does not want to receive notifications.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // User wants to receive notifications, proceed to send
+                            sendNotification(userRef, userId, isWinner);
+                        }
+                    } else {
+                        // User document doesn't exist, proceed to send notification
+                        sendNotification(userRef, userId, isWinner);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error fetching user document, proceed to send notification
+                    sendNotification(userRef, userId, isWinner);
+                });
+    }
+
+    private void sendNotification(DocumentReference userRef, String userId, boolean isWinner) {
         // Create the notification message with the event name
         String message;
         int status;
@@ -336,10 +358,14 @@ public class RunLotteryActivity extends AppCompatActivity {
         // Add notification under the user's notifications subcollection
         userRef.collection("notifications")
                 .add(new NotificationData(userId, message, status, eventName))
-                .addOnSuccessListener(documentReference ->
-                        Log.d("RunLotteryActivity", "Notification sent to user: " + userId))
-                .addOnFailureListener(e ->
-                        Log.e("RunLotteryActivity", "Failed to send notification to user: " + userId, e));
+                .addOnSuccessListener(documentReference -> {
+                    Log.d("RunLotteryActivity", "Notification sent to user: " + userId);
+                    Toast.makeText(this, "Notification sent to " + userId, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RunLotteryActivity", "Failed to send notification to user: " + userId, e);
+                    Toast.makeText(this, "Failed to send notification to " + userId, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void sendNotificationsToAllParticipants() {
@@ -362,7 +388,7 @@ public class RunLotteryActivity extends AppCompatActivity {
                             String userId = user.getString("userId");
                             if (userId != null && !userId.isEmpty()) {
                                 selectedUserIds.add(userId);
-                                sendNotificationToUser(userId, true); // Send winning notification
+                                sendNotificationToUserIfAllowed(userId, true); // Send winning notification
                             }
                         }
 
@@ -370,11 +396,11 @@ public class RunLotteryActivity extends AppCompatActivity {
                         for (DocumentSnapshot user : waitingUsers) {
                             String userId = user.getString("userId");
                             if (userId != null && !userId.isEmpty() && !selectedUserIds.contains(userId)) {
-                                sendNotificationToUser(userId, false); // Send losing notification
+                                sendNotificationToUserIfAllowed(userId, false); // Send losing notification
                             }
                         }
 
-                        Toast.makeText(this, "Notifications sent to all participants!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Notifications processing started for all participants!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e("RunLotteryActivity", "Failed to fetch waiting list", waitingTask.getException());
                         Toast.makeText(this, "Error fetching waiting list.", Toast.LENGTH_SHORT).show();
@@ -387,7 +413,6 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void drawReplacementForDeclinedParticipant() {
         loadingSpinner.setVisibility(View.VISIBLE);
@@ -456,9 +481,9 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
+
+
 
 
 

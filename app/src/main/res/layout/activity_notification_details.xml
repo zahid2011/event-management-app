@@ -12,10 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_back_arrow"
-        android:contentDescription="Back"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="8dp" />
-    <!-- Replace @drawable/ic_back_arrow with your back arrow icon -->
+    android:contentDescription="Back"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:padding="8dp" />
 
     <!-- Notification Message -->
     <TextView
@@ -36,7 +35,7 @@
         android:textSize="16sp"
         android:layout_marginTop="8dp" />
 
-    <!-- Accept and Reject Buttons -->
+    <!-- Accept and Reject Buttons (for status == 1) -->
     <Button
         android:id="@+id/accept_button"
         android:layout_width="match_parent"
@@ -53,13 +52,21 @@
         android:layout_marginTop="8dp"
         android:visibility="gone" />
 
-    <!-- Try Again Button -->
+    <!-- Try Again and Cancel Buttons (for status == 0) -->
     <Button
         android:id="@+id/try_again_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Try Again"
         android:layout_marginTop="16dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_marginTop="8dp"
         android:visibility="gone" />
 
 </LinearLayout>

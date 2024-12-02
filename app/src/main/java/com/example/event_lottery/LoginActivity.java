@@ -74,31 +74,37 @@ public class LoginActivity extends AppCompatActivity {
                             String storedPassword = document.getString("password");
                             String registeredRole = document.getString("role");
                             String firstName = document.getString("firstName");
+                            String storedDeviceId = document.getString("deviceId");
 
                             if (storedPassword != null && storedPassword.equals(password)) {
                                 if (registeredRole != null && registeredRole.equals(selectedRole)) {
-                                    // Save Device Identifier in Firestore
-                                    String deviceId = getDeviceIdentifier();
-                                    db.collection("users").document(email)
-                                            .update("deviceId", deviceId)
-                                            .addOnSuccessListener(aVoid -> {
-                                                Toast.makeText(LoginActivity.this, "Device registered successfully.", Toast.LENGTH_SHORT).show();
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                Toast.makeText(LoginActivity.this, "Failed to save device ID.", Toast.LENGTH_SHORT).show();
-                                            });
+                                    String currentDeviceId = getDeviceIdentifier();
+                                    // Check if the device ID matches
+                                    if (storedDeviceId == null || storedDeviceId.equals(currentDeviceId)) {
+                                        // Save or update device ID in Firestore
+                                        db.collection("users").document(email)
+                                                .update("deviceId", currentDeviceId)
+                                                .addOnSuccessListener(aVoid -> {
+                                                    Toast.makeText(LoginActivity.this, "Device registered successfully.", Toast.LENGTH_SHORT).show();
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    Toast.makeText(LoginActivity.this, "Failed to save device ID.", Toast.LENGTH_SHORT).show();
+                                                });
 
-                                    // Save user info in SharedPreferences
-                                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("USER_ID", email);
-                                    editor.putString("USER_ROLE", registeredRole);
-                                    editor.putString("USER_FIRST_NAME", firstName != null ? firstName : "User");
-                                    editor.putString("DEVICE_ID", deviceId); // Saving the device ID locally
-                                    editor.apply();
+                                        // Save user info in SharedPreferences
+                                        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("USER_ID", email);
+                                        editor.putString("USER_ROLE", registeredRole);
+                                        editor.putString("USER_FIRST_NAME", firstName != null ? firstName : "User");
+                                        editor.putString("DEVICE_ID", currentDeviceId); // Save current device ID locally
+                                        editor.apply();
 
-                                    // Redirect to the appropriate dashboard
-                                    redirectToDashboard(selectedRole);
+                                        // Redirect to the appropriate dashboard
+                                        redirectToDashboard(selectedRole);
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Login denied. Device mismatch.", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(LoginActivity.this, "Role mismatch.", Toast.LENGTH_SHORT).show();
                                 }
