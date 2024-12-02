@@ -28,7 +28,10 @@ public class OngoingEventsActivity extends AppCompatActivity {
     private EditText searchInput;
     private ImageButton searchButton, backButton;
     private int eventCount = 0;
-    private List<Events> allEvents = new ArrayList<>(); // Store all events for filtering
+    List<Events> allEvents = new ArrayList<>(); // Store all events for filtering
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
         });
     }
 
-    private void loadEvents() {
+    void loadEvents() {
         db.collection("events")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -101,7 +104,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
                 });
     }
 
-    private void displayAllEvents() {
+    void displayAllEvents() {
         eventsContainer.removeAllViews(); // Clear existing views
         eventCount = 0;
 
@@ -143,7 +146,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
 
 
 
-    private void addEventView(Events event) {
+    void addEventView(Events event) {
         eventCount++; // Increment the count for each event
 
         // Inflate the event_item.xml layout

@@ -50,7 +50,12 @@ import java.util.Locale;
 public class EventDetailsActivity extends AppCompatActivity {
     private static final int IMAGE_UPLOAD_REQUEST_CODE = 1;
 
-    private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
+    TextView tvEventName;
+    private TextView tvEventDate;
+    private TextView tvEventDescription;
+    private TextView tvEventCapacity;
+    private TextView tvQrCodeLabel;
+    private TextView tvMaxWaitingList;
     private ImageView ivBackArrow, imgEventImage, qrCodeImageView, editEventImg;
     private FirebaseFirestore db;
     private Button btnViewWaitingList, btnRunLottery, btnParticipantManagement;
@@ -140,7 +145,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchEventDetails() {
+    void fetchEventDetails() {
         DocumentReference docRef = db.collection("events").document(eventId);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -246,7 +251,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void validateAndUpdateMaxWaitingListLimit(int newMaxWaitingListLimit) {
+    void validateAndUpdateMaxWaitingListLimit(int newMaxWaitingListLimit) {
         // Reference to the waitingList subcollection for the current event
         CollectionReference waitingListRef = db.collection("events").document(eventId).collection("waitingList");
 
@@ -311,7 +316,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImageToFirestore(Bitmap bitmap) {
+    void saveImageToFirestore(Bitmap bitmap) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("event_images/" + System.currentTimeMillis() + ".jpg");
 
