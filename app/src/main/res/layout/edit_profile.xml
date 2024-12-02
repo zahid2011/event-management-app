@@ -27,13 +27,13 @@
             <!-- Title Text -->
             <ImageButton
                 android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_margin="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Back"
                 android:padding="8dp"
-                android:src="@android:drawable/ic_menu_revert" />
+                android:src="@drawable/ic_back_arrow" />
 
             <!-- Icons -->
 

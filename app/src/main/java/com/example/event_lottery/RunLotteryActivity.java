@@ -82,6 +82,26 @@ public class RunLotteryActivity extends AppCompatActivity {
         imm.showSoftInput(sampleSizeInput, InputMethodManager.SHOW_IMPLICIT);
     }
 
+    public void onRunLotteryClicked(View view) {
+        // Trigger lottery logic
+        String sampleSizeText = sampleSizeInput.getText().toString().trim();
+        if (!sampleSizeText.isEmpty()) {
+            try {
+                int sampleSize = Integer.parseInt(sampleSizeText);
+                if (sampleSize > 0 && sampleSize <= eventCapacity) {
+                    runLottery(sampleSize);
+                } else {
+                    Toast.makeText(this, "Invalid sample size. Must be between 1 and event capacity.", Toast.LENGTH_SHORT).show();
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid sample size format", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Please enter a sample size", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     private void setupListeners() {
         // Confirm button
         confirmButton.setOnClickListener(v -> {

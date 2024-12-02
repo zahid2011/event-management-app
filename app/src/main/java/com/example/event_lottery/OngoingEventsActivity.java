@@ -114,25 +114,34 @@ public class OngoingEventsActivity extends AppCompatActivity {
     }
 
     private void filterEvents(String query) {
-        eventsContainer.removeAllViews(); // Clear existing views
+        // Ensure the query and events list are not null
+        if (query == null || allEvents == null) {
+            Toast.makeText(this, "No events available to search.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Clear previous views
+        eventsContainer.removeAllViews();
         eventCount = 0;
 
+        // Loop through events and find matches
         for (Events event : allEvents) {
-            // Check if the event name (Event ID) matches the query exactly
-            if (event.getEventName().equalsIgnoreCase(query)) {
-                addEventView(event); // Add the matching event to the view
-                break; // Exit the loop once the event is found (assuming Event IDs are unique)
+            // Check if the event name contains the query (case-insensitive)
+            if (event.getEventName() != null && event.getEventName().toLowerCase().contains(query.toLowerCase())) {
+                addEventView(event); // Add matching event to the view
             }
         }
 
         // Update the total events count
         totalEvents.setText("Total Events: " + eventCount);
 
-        // If no events match the query, show a toast
+        // Handle case where no events match
         if (eventCount == 0) {
-            Toast.makeText(this, "No event found with ID: " + query, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No events found matching: " + query, Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     private void addEventView(Events event) {
         eventCount++; // Increment the count for each event
