@@ -167,7 +167,10 @@ public class MainActivity extends AppCompatActivity {
         // Standardizing the role string
         userRole = userRole.trim().toLowerCase();
 
-        // showing the appropriate card based on the role
+        // Reset notification and join event button listeners to avoid multiple assignments
+        notificationButton.setOnClickListener(null);
+        joinEventButton.setOnClickListener(null);
+
         switch (userRole) {
             case "entrant":
                 entrantDashboardCard.setVisibility(View.VISIBLE);
@@ -176,7 +179,18 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 });
 
-                // getting role2 from Firestore
+                // Allowing "entrant" to access NotificationSettingsActivity and QRCodeScannerActivity
+                notificationButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(MainActivity.this, NotificationListActivity.class);
+                    startActivity(intent);
+                });
+
+                joinEventButton.setOnClickListener(v -> {
+                    Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
+                    startActivity(intent);
+                });
+
+                // Handling role2 for entrant
                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                 String userId = sharedPreferences.getString("USER_ID", null);
 
@@ -189,7 +203,6 @@ public class MainActivity extends AppCompatActivity {
                                     android.util.Log.d("MainActivity", "configureDashboardAccess() - Firestore fetched ROLE2: " + role2);
 
                                     if ("Organiser".equalsIgnoreCase(role2)) {
-                                        // If the user has role2 as "Organiser", also giving them access to organizer dashboard
                                         organizerDashboardCard.setVisibility(View.VISIBLE);
                                         organizerDashboardButton.setOnClickListener(v -> {
                                             Intent intent = new Intent(MainActivity.this, OrganizerDashboardActivity.class);
@@ -208,25 +221,37 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case "organiser":
-                organizerDashboardCard.setVisibility(View.VISIBLE);
-                organizerDashboardButton.setOnClickListener(v -> {
-                    Intent intent = new Intent(MainActivity.this, OrganizerDashboardActivity.class);
-                    startActivity(intent);
-                });
-                break;
-
             case "admin":
-                adminDashboardCard.setVisibility(View.VISIBLE);
-                adminDashboardButton.setOnClickListener(v -> {
-                    Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
-                    startActivity(intent);
-                });
+                if (notificationButton != null) {
+                    notificationButton.setOnClickListener(v -> {
+                        Toast.makeText(MainActivity.this, "You don't have access to notifications.", Toast.LENGTH_SHORT).show();
+                    });
+                }
 
-                createFacilityButton.setEnabled(false);
-                createFacilityButton.setOnClickListener(v -> {
-                    // Show a message that admins cannot create facilities
-                    Toast.makeText(MainActivity.this, "Admins cannot create facilities.", Toast.LENGTH_SHORT).show();
-                });
+                if (joinEventButton != null) {
+                    joinEventButton.setOnClickListener(v -> {
+                        Toast.makeText(MainActivity.this, "You don't have access to join events.", Toast.LENGTH_SHORT).show();
+                    });
+                }
+
+                if ("organiser".equals(userRole)) {
+                    organizerDashboardCard.setVisibility(View.VISIBLE);
+                    organizerDashboardButton.setOnClickListener(v -> {
+                        Intent intent = new Intent(MainActivity.this, OrganizerDashboardActivity.class);
+                        startActivity(intent);
+                    });
+                } else if ("admin".equals(userRole)) {
+                    adminDashboardCard.setVisibility(View.VISIBLE);
+                    adminDashboardButton.setOnClickListener(v -> {
+                        Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
+                        startActivity(intent);
+                    });
+
+                    createFacilityButton.setEnabled(false);
+                    createFacilityButton.setOnClickListener(v -> {
+                        Toast.makeText(MainActivity.this, "Admins cannot create facilities.", Toast.LENGTH_SHORT).show();
+                    });
+                }
                 break;
 
             default:

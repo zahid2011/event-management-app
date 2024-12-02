@@ -3,14 +3,20 @@ package com.example.event_lottery;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NotificationSettingsActivity extends AppCompatActivity {
 
     private SwitchCompat switchWinLottery;
     private SwitchCompat switchLoseLottery;
     private SwitchCompat switchAdminOrganizer;
+    private String userId;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,44 +27,74 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.backButton2);
         backButton.setOnClickListener(v -> finish()); // Closes the activity to go back
 
-        // Initialize switches with SwitchCompat type
+        // Initialize switches
         switchWinLottery = findViewById(R.id.switch_win_lottery);
         switchLoseLottery = findViewById(R.id.switch_lose_lottery);
         switchAdminOrganizer = findViewById(R.id.switch_admin_organizer);
 
-        // Optional: Load saved states of switches from SharedPreferences
+        // Retrieve user ID from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        userId = sharedPreferences.getString("USER_ID", null);
+
+        if (userId == null || userId.isEmpty()) {
+            Toast.makeText(this, "No user ID found. Please log in again.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // Initialize Firestore
+        db = FirebaseFirestore.getInstance();
+
+        // Load switch states from Firebase
         loadSwitchStates();
 
-        // Set listeners to handle switch state changes if needed
+        // Set listeners to handle switch state changes
         switchWinLottery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle "Win Lottery" switch toggle
-            saveSwitchState("winLottery", isChecked);
+            // Optionally handle "Win Lottery" switch toggle
+            // Currently, we don't need to do anything here
         });
 
         switchLoseLottery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Handle "Lose Lottery" switch toggle
-            saveSwitchState("loseLottery", isChecked);
+            // Optionally handle "Lose Lottery" switch toggle
+            // Currently, we don't need to do anything here
         });
 
         switchAdminOrganizer.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // Handle "Admin/Organizer" switch toggle
-            saveSwitchState("adminOrganizer", isChecked);
+            saveSwitchStateToFirebase(isChecked);
         });
     }
 
-    // Method to save switch state in SharedPreferences
-    private void saveSwitchState(String key, boolean state) {
-        SharedPreferences sharedPreferences = getSharedPreferences("NotificationSettings", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(key, state);
-        editor.apply();
+    // Method to save switch state in Firebase
+    private void saveSwitchStateToFirebase(boolean doNotReceiveNotifications) {
+        db.collection("users").document(userId)
+                .update("doNotReceiveAdminNotifications", doNotReceiveNotifications)
+                .addOnSuccessListener(aVoid -> {
+                    // Successfully updated
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to update notification settings", Toast.LENGTH_SHORT).show();
+                });
     }
 
-    // Method to load switch states from SharedPreferences
+    // Method to load switch states from Firebase
     private void loadSwitchStates() {
-        SharedPreferences sharedPreferences = getSharedPreferences("NotificationSettings", MODE_PRIVATE);
-        switchWinLottery.setChecked(sharedPreferences.getBoolean("winLottery", false));
-        switchLoseLottery.setChecked(sharedPreferences.getBoolean("loseLottery", false));
-        switchAdminOrganizer.setChecked(sharedPreferences.getBoolean("adminOrganizer", false));
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Boolean doNotReceiveAdminNotifications = documentSnapshot.getBoolean("doNotReceiveAdminNotifications");
+                        if (doNotReceiveAdminNotifications != null) {
+                            switchAdminOrganizer.setChecked(doNotReceiveAdminNotifications);
+                        } else {
+                            switchAdminOrganizer.setChecked(false); // Default is to receive notifications
+                        }
+
+                        // Optionally load other switches if needed
+                        // For now, we don't need to load win/lose lottery switches
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to load notification settings", Toast.LENGTH_SHORT).show();
+                });
     }
 }
