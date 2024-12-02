@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class NotificationDetailsActivity extends AppCompatActivity {
 
     private TextView messageTextView;
@@ -71,30 +75,84 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         }
 
         acceptButton.setOnClickListener(v -> {
-            // Handle accept action
+            // Add to selectedEntrants collection
             db.collection("events").document(eventName)
                     .collection("selectedEntrants").document(userId)
                     .set(new StatusObject(1), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
-                        // Delete the notification
-                        deleteNotification();
+                        // Add to finalRegistered collection
+                        Map<String, Object> finalRegisteredData = new HashMap<>();
+                        finalRegisteredData.put("userId", userId);
+                        finalRegisteredData.put("status", 1);
+                        finalRegisteredData.put("timestamp", new Date());
+
+                        db.collection("events").document(eventName)
+                                .collection("finalRegistered").document(userId)
+                                .set(finalRegisteredData)
+                                .addOnSuccessListener(registeredAcknowledge -> {
+                                    // Delete the notification
+                                    deleteNotification();
+
+                                    Toast.makeText(NotificationDetailsActivity.this,
+                                            "You have been added to final registered entrants.",
+                                            Toast.LENGTH_SHORT).show();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(NotificationDetailsActivity.this,
+                                            "Error adding to final registered: " + e.getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                });
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(NotificationDetailsActivity.this, "Error accepting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationDetailsActivity.this,
+                                "Error accepting invitation: " + e.getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     });
         });
 
         rejectButton.setOnClickListener(v -> {
-            // Handle reject action
             db.collection("events").document(eventName)
                     .collection("selectedEntrants").document(userId)
-                    .set(new StatusObject(0), SetOptions.merge())
+                    .delete()
                     .addOnSuccessListener(aVoid -> {
-                        // Delete the notification
-                        deleteNotification();
+                        // Add to cancelledEntrants collection
+                        Map<String, Object> cancelledData = new HashMap<>();
+                        cancelledData.put("userId", userId);
+                        cancelledData.put("status", 0);
+                        cancelledData.put("timestamp", new Date());
+
+                        db.collection("events").document(eventName)
+                                .collection("cancelledEntrants")
+                                .document(userId)
+                                .set(cancelledData)
+                                .addOnSuccessListener(cancelledAcknowledge -> {
+                                    // Remove user from waitingList if present
+                                    db.collection("events").document(eventName)
+                                            .collection("waitingList").document(userId)
+                                            .delete()
+                                            .addOnSuccessListener(waitingListRemoval -> {
+                                                // Delete the notification
+                                                deleteNotification();
+
+                                                Toast.makeText(NotificationDetailsActivity.this,
+                                                        "You have been removed and added to cancelled entrants.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(NotificationDetailsActivity.this,
+                                                        "Error removing from waiting list: " + e.getMessage(),
+                                                        Toast.LENGTH_SHORT).show();
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(NotificationDetailsActivity.this,
+                                            "Error adding to cancelled entrants: " + e.getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                });
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(NotificationDetailsActivity.this, "Error rejecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationDetailsActivity.this,
+                                "Error rejecting invitation: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
 
