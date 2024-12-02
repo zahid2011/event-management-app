@@ -169,7 +169,7 @@ public class OngoingEventsActivity extends AppCompatActivity {
     private void openEventDetails(String eventId) {
         // Intent to open EventDetailsActivity (assuming it exists)
         Intent intent = new Intent(OngoingEventsActivity.this, EventDetailsActivity.class);
-        intent.putExtra("event_id", eventId); // Pass event ID
+        intent.putExtra("event_id", eventId);// Pass event ID
         startActivity(intent);
     }
 }
