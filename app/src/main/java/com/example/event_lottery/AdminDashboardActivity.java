@@ -12,6 +12,12 @@ import androidx.cardview.widget.CardView;
 
 public class AdminDashboardActivity extends AppCompatActivity {
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,5 +1,4 @@
 package com.example.event_lottery;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +18,12 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String eventId; // unique identifier for the event document in Firestore
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +38,7 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
         eventCapacityTextView = findViewById(R.id.event_capacity);
         eventPriceTextView = findViewById(R.id.event_price);
         eventDescriptionTextView = findViewById(R.id.event_description);
-        geoLocationTextView = findViewById(R.id.event_geo_location); // Add this to your XML layout
+        geoLocationTextView = findViewById(R.id.event_geo_location);
         removeEventButton = findViewById(R.id.remove_event_button);
 
         // Get data from the Intent
@@ -62,6 +67,9 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
         removeEventButton.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
+    /**
+     * Displays a confirmation dialog to the user before deleting the event.
+     */
     private void showDeleteConfirmationDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Event")
@@ -72,6 +80,9 @@ public class AdminEventDetailsActivity extends AppCompatActivity {
                 .show();
     }
 
+    /**
+     * Deletes the event from Firebase Firestore.
+     */
     private void deleteEvent() {
         // Ensure eventId is not null or empty before attempting to delete
         if (eventId != null && !eventId.isEmpty()) {

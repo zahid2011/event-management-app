@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -25,6 +24,12 @@ public class AdminImageManagementActivity extends AppCompatActivity {
     private ListView listView;
     private boolean testMode;
 
+    /**
+     * Called when the activity is first created.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the most recent data supplied in onSaveInstanceState(Bundle).
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +48,11 @@ public class AdminImageManagementActivity extends AppCompatActivity {
         // Firebase Storage
         storage = FirebaseStorage.getInstance();
         fetchAllImages();
-
     }
 
+    /**
+     * Fetches all images from Firebase Storage, including those in the root folder and subfolders.
+     */
     private void fetchAllImages() {
         StorageReference rootRef = storage.getReference();
 
@@ -64,6 +71,11 @@ public class AdminImageManagementActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Fetches images from all subfolders in Firebase Storage.
+     *
+     * @param listResult The ListResult containing references to subfolders.
+     */
     private void fetchImagesFromFolders(ListResult listResult) {
         for (StorageReference folder : listResult.getPrefixes()) {
             folder.listAll().addOnSuccessListener(folderResult -> {
@@ -75,6 +87,11 @@ public class AdminImageManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Deletes the specified image from Firebase Storage after user confirmation.
+     *
+     * @param imageRef The StorageReference pointing to the image to be deleted.
+     */
     public void deleteImage(StorageReference imageRef) {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Image")
