@@ -108,10 +108,10 @@
         android:layout_height="41dp"
         android:layout_marginTop="16dp"
         android:background="#0D0C0C"
-        android:backgroundTint="#F8F7F7"
+        android:backgroundTint="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@android:drawable/ic_menu_revert" />
+        android:src="@drawable/ic_back_arrow" />
 
     <Button
         android:id="@+id/btn_get_facility"

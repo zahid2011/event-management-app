@@ -8,11 +8,11 @@
     <!-- Back Button -->
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="#000000"
         android:backgroundTint="#FFFFFF"
-        android:src="@android:drawable/ic_menu_revert"
+        android:src="@drawable/ic_back_arrow"
         android:contentDescription="Navigate back"
         app:layout_constraintBottom_toTopOf="@+id/header_layout"
         app:layout_constraintEnd_toEndOf="parent"
