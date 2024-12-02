@@ -23,6 +23,17 @@ import com.google.firebase.storage.StorageReference;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Activity for uploading and managing profile images for events.
+ * <p>
+ * Features include:
+ * - Uploading a new image
+ * - Previewing the uploaded image
+ * - Removing an existing image
+ * - Storing the image in Firebase Storage and updating Firestore
+ * </p>
+ */
+
 public class EventImageUploadActivity extends AppCompatActivity {
 
     private static final String TAG = "EventImageUploadActivity";
@@ -40,6 +51,16 @@ public class EventImageUploadActivity extends AppCompatActivity {
     private String userId;
 
     private ProgressDialog progressDialog;
+
+
+    /**
+     * Initializes the activity.
+     * <p>
+     * Sets up UI elements, Firebase references, and loads the current profile image.
+     * </p>
+     *
+     * @param savedInstanceState The saved state of the activity
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +105,10 @@ public class EventImageUploadActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
     }
 
+    /**
+     * Loads the current profile image from Firestore and displays it.
+     */
+
     private void loadProfileImage() {
         db.collection("users").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -102,12 +127,24 @@ public class EventImageUploadActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Log.e(TAG, "Error loading profile image", e));
     }
 
+    /**
+     * Opens a file chooser for the user to select an image.
+     */
+
     private void openFileChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
+    /**
+     * Handles the result from the image picker activity.
+     *
+     * @param requestCode The request code used to start the activity
+     * @param resultCode  The result code returned by the activity
+     * @param data        The intent data containing the selected image
+     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -132,6 +169,10 @@ public class EventImageUploadActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Uploads the selected image to Firebase Storage and updates Firestore with its URL.
+     */
 
     private void uploadImageToFirebaseStorage() {
         if (imageUri != null) {
@@ -177,6 +218,10 @@ public class EventImageUploadActivity extends AppCompatActivity {
             Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
         }
     }
+
+    /**
+     * Removes the profile image from Firebase Storage and Firestore.
+     */
 
     private void removeProfileImage() {
         progressDialog.setMessage("Removing image...");

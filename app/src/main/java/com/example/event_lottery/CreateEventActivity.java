@@ -42,6 +42,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Activity for creating new events.
+ * Allows users to input event details, generate a QR code, and optionally upload an event image.
+ * Handles saving event data to Firestore and images to Firebase Storage.
+ */
+
 public class CreateEventActivity extends AppCompatActivity {
 
     private static final String TAG = "CreateEventActivity";
@@ -55,6 +61,13 @@ public class CreateEventActivity extends AppCompatActivity {
     private Switch switchGeolocation;
     private String eventId; // Use event name as the event ID
     private String imageUrl; // Store the image URL
+
+    /**
+     * Initializes the activity and sets up event creation UI components.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the data it most recently supplied. Otherwise, it is null.
+     */
 
 
     @SuppressLint("MissingInflatedId")
@@ -151,6 +164,10 @@ public class CreateEventActivity extends AppCompatActivity {
         this.db = firestore;
     }
 
+    /**
+     * Displays a date picker dialog for the user to select an event date.
+     */
+
     private void showDatePicker() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
@@ -166,6 +183,9 @@ public class CreateEventActivity extends AppCompatActivity {
         );
         datePickerDialog.show();
     }
+    /**
+     * Displays a time picker dialog for the user to select an event time.
+     */
 
     private void showTimePicker() {
         TimePickerDialog timePickerDialog = new TimePickerDialog(
@@ -183,6 +203,18 @@ public class CreateEventActivity extends AppCompatActivity {
         );
         timePickerDialog.show();
     }
+
+    /**
+     * Saves event data to Firestore.
+     *
+     * @param eventName           The name of the event.
+     * @param eventDateTime       The date and time of the event.
+     * @param capacity            The capacity of the event.
+     * @param price               The price of the event.
+     * @param description         A brief description of the event.
+     * @param geolocationEnabled  Whether geolocation is enabled for the event.
+     * @param imagePath           The image path or URL of the event.
+     */
 
     public void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imagePath) {
         Map<String, Object> eventData = new HashMap<>();
@@ -222,6 +254,12 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Saves the provided image to Firebase Storage and updates Firestore with the image URL.
+     *
+     * @param bitmap The image to save.
+     */
+
 
     public void saveImageToFirestore(Bitmap bitmap) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -255,7 +293,12 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
-
+    /**
+     * Generates a QR code for the specified text.
+     *
+     * @param text The content to encode in the QR code.
+     * @return A Bitmap representation of the QR code, or null if an error occurs.
+     */
 
     public Bitmap generateQRCode(String text) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();

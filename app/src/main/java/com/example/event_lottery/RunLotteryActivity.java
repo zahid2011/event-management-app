@@ -30,6 +30,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Activity to manage the lottery system for events.
+ * Allows event managers to run a lottery, notify participants, and draw replacements.
+ */
+
 public class RunLotteryActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
@@ -42,6 +47,12 @@ public class RunLotteryActivity extends AppCompatActivity {
     private LinearLayout participantsLayout;
     private ImageView ivBackArrow;
     private String eventName; // New field to store the event name
+
+    /**
+            * Called when the activity is created.
+            *
+            * @param savedInstanceState Saved state of the activity
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +94,12 @@ public class RunLotteryActivity extends AppCompatActivity {
         imm.showSoftInput(sampleSizeInput, InputMethodManager.SHOW_IMPLICIT);
     }
 
+    /**
+     * Triggered when the "Run Lottery" button is clicked.
+     *
+     * @param view The view that was clicked
+     */
+
     public void onRunLotteryClicked(View view) {
         // Trigger lottery logic
         String sampleSizeText = sampleSizeInput.getText().toString().trim();
@@ -101,6 +118,9 @@ public class RunLotteryActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter a sample size", Toast.LENGTH_SHORT).show();
         }
     }
+    /**
+     * Sets up listeners for buttons in the activity.
+     */
 
 
     private void setupListeners() {
@@ -154,6 +174,10 @@ public class RunLotteryActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Fetches event details from Firestore, including capacity and event name.
+     */
+
     private void fetchEventDetails() {
         db.collection("events").document(eventId).get()
                 .addOnSuccessListener(documentSnapshot -> {
@@ -196,6 +220,9 @@ public class RunLotteryActivity extends AppCompatActivity {
                     finish();
                 });
     }
+    /**
+     * Fetches selected participants from Firestore and checks if any need replacements.
+     */
 
     private void fetchSelectedParticipants() {
         db.collection("events").document(eventId).collection("selectedEntrants").get()
@@ -205,7 +232,17 @@ public class RunLotteryActivity extends AppCompatActivity {
 
                         if (!selectedUsers.isEmpty()) {
                             lotteryCompleted = true; // Mark lottery as completed
-                            displaySelectedParticipants(selectedUsers); // Display the selected participants
+                            for (DocumentSnapshot user : selectedUsers) {
+                                Long status = user.getLong("status");
+
+                                // Check if user needs replacement
+                                if (status == null || status == 0 || !user.contains("status")) {
+                                    Log.d("RunLotteryActivity", "User " + user.getId() + " needs replacement.");
+                                    drawReplacementForDeclinedParticipant();
+                                    return; // Exit after replacing one user
+                                }
+                            }
+                            displaySelectedParticipants(selectedUsers); // Display remaining participants
                         } else {
                             Log.d("RunLotteryActivity", "No selected entrants found.");
                         }
@@ -215,6 +252,13 @@ public class RunLotteryActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    /**
+     * Runs the lottery by selecting a random sample of participants from the waiting list.
+     *
+     * @param sampleSize Number of participants to select from the waiting list
+     */
+
 
     // Updated runLottery Method to Remove Selected Entrants from the Waiting List
     private void runLottery(int sampleSize) {
@@ -271,6 +315,13 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    /**
+     * Displays the selected participants in the layout.
+     *
+     * @param selectedUsers List of selected participants from Firestore
+     */
 
     private void displaySelectedParticipants(List<DocumentSnapshot> selectedUsers) {
         participantsLayout.removeAllViews(); // Clear existing views
@@ -342,6 +393,12 @@ public class RunLotteryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Moves the participant to the finalized entrants list in Firestore.
+     *
+     * @param user Document snapshot of the user to be moved
+     */
+
     private void moveToFinalizedEntrants(DocumentSnapshot user) {
         CollectionReference finalizedEntrantsRef = db.collection("events")
                 .document(eventId)
@@ -358,6 +415,13 @@ public class RunLotteryActivity extends AppCompatActivity {
                     Toast.makeText(this, "Error finalizing user: " + user.getString("userId"), Toast.LENGTH_SHORT).show();
                 });
     }
+
+    /**
+     * Sends a notification to the user if allowed by their preferences.
+     *
+     * @param userId   ID of the user to notify
+     * @param isWinner Whether the user is a lottery winner
+     */
 
 
 
@@ -387,6 +451,15 @@ public class RunLotteryActivity extends AppCompatActivity {
                     sendNotification(userRef, userId, isWinner);
                 });
     }
+
+
+    /**
+     * Sends a notification to the specified user.
+     *
+     * @param userRef  Reference to the user's Firestore document
+     * @param userId   ID of the user to notify
+     * @param isWinner Whether the user is a lottery winner
+     */
 
     private void sendNotification(DocumentReference userRef, String userId, boolean isWinner) {
         // Create the notification message with the event name
@@ -459,6 +532,10 @@ public class RunLotteryActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Draws a replacement for a declined participant from the waiting list.
+     */
+
     private void drawReplacementForDeclinedParticipant() {
         loadingSpinner.setVisibility(View.VISIBLE);
 
@@ -510,6 +587,13 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Finds an eligible replacement from the waiting list.
+     *
+     * @param waitingList List of users in the waiting list
+     * @return Eligible user document, or null if none are found
+     */
 
     private DocumentSnapshot findEligibleReplacement(List<DocumentSnapshot> waitingList) {
         for (DocumentSnapshot user : waitingList) {

@@ -1,14 +1,19 @@
 package com.example.event_lottery;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ParticipantManagementActivity extends AppCompatActivity {
 
     private String eventId;
+    private ImageView imgButton;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +25,10 @@ public class ParticipantManagementActivity extends AppCompatActivity {
             finish(); // Exit if no eventId is passed
             return;
         }
+
+        imgButton = findViewById(R.id.btn_back);
+
+        imgButton.setOnClickListener(v -> finish());
 
         Button chosenEntrantsButton = findViewById(R.id.btn_chosen_entrants);
         chosenEntrantsButton.setOnClickListener(v -> {

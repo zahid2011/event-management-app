@@ -27,6 +27,13 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String eventId; // unique identifier for the event document in Firestore
 
+    /**
+     * Called when the activity is created. Initializes the views and loads event data from Firestore.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this contains the data it most recently supplied. Otherwise, it is null.
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +69,12 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
         deleteQRCodeButton.setOnClickListener(v -> deleteQRCode());
     }
 
+    /**
+     * Loads the event data from Firestore using the provided event ID and updates the UI.
+     *
+     * @param eventId The unique identifier of the event in Firestore.
+     */
+
     private void loadEventData(String eventId) {
         db.collection("events").document(eventId)
                 .get()
@@ -77,6 +90,12 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
                         Toast.makeText(QRCodeDetailsActivity.this, "Error loading event data", Toast.LENGTH_SHORT).show()
                 );
     }
+
+    /**
+     * Displays the details of the event on the screen, including generating and showing the QR code.
+     *
+     * @param documentSnapshot The Firestore document snapshot containing the event details.
+     */
 
     private void displayEventData(DocumentSnapshot documentSnapshot) {
         // Retrieve and display event data
@@ -116,6 +135,10 @@ public class QRCodeDetailsActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Deletes the QR code associated with the event by setting its fields to null in Firestore.
+     */
 
     private void deleteQRCode() {
         if (eventId != null && !eventId.isEmpty()) {
