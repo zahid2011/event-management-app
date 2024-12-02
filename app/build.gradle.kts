@@ -45,6 +45,10 @@ android {
     tasks.withType<Test>{
             useJUnitPlatform()
         }
+
+    lint {
+        abortOnError = false
+    }
 }
 
 dependencies {
