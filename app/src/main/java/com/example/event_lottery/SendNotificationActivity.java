@@ -66,10 +66,13 @@ public class SendNotificationActivity extends AppCompatActivity {
                 .collection("selectedEntrants")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<String> emails = queryDocumentSnapshots.toObjects(UserEmail.class)
-                            .stream()
-                            .map(UserEmail::getEmail)
-                            .toList();
+                    List<String> emails = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        emails = queryDocumentSnapshots.toObjects(UserEmail.class)
+                                .stream()
+                                .map(UserEmail::getEmail)
+                                .toList();
+                    }
 
                     if (!emails.isEmpty()) {
                         for (String email : emails) {

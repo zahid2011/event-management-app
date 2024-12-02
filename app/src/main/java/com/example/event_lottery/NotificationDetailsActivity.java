@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class NotificationDetailsActivity extends AppCompatActivity {
 
     private TextView messageTextView;
@@ -84,6 +88,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                     .collection("selectedEntrants").document(userId)
                     .set(new StatusObject(1), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
+                        // Delete the notification
                         deleteNotification();
                     })
                     .addOnFailureListener(e -> {
@@ -92,15 +97,48 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         });
 
         rejectButton.setOnClickListener(v -> {
-            // Handle reject action
             db.collection("events").document(eventName)
                     .collection("selectedEntrants").document(userId)
-                    .set(new StatusObject(0), SetOptions.merge())
+                    .delete()
                     .addOnSuccessListener(aVoid -> {
-                        deleteNotification();
+                        // Add to cancelledEntrants collection
+                        Map<String, Object> cancelledData = new HashMap<>();
+                        cancelledData.put("userId", userId);
+                        cancelledData.put("status", 0);
+                        cancelledData.put("timestamp", new Date());
+
+                        db.collection("events").document(eventName)
+                                .collection("cancelledEntrants")
+                                .document(userId)
+                                .set(cancelledData)
+                                .addOnSuccessListener(cancelledAcknowledge -> {
+                                    // Remove user from waitingList if present
+                                    db.collection("events").document(eventName)
+                                            .collection("waitingList").document(userId)
+                                            .delete()
+                                            .addOnSuccessListener(waitingListRemoval -> {
+                                                // Delete the notification
+                                                deleteNotification();
+
+                                                Toast.makeText(NotificationDetailsActivity.this,
+                                                        "You have been removed and added to cancelled entrants.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(NotificationDetailsActivity.this,
+                                                        "Error removing from waiting list: " + e.getMessage(),
+                                                        Toast.LENGTH_SHORT).show();
+                                            });
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(NotificationDetailsActivity.this,
+                                            "Error adding to cancelled entrants: " + e.getMessage(),
+                                            Toast.LENGTH_SHORT).show();
+                                });
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(NotificationDetailsActivity.this, "Error rejecting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationDetailsActivity.this,
+                                "Error rejecting invitation: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
 
@@ -110,6 +148,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                     .collection("waitingList").document(userId)
                     .set(new StatusObject(1), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
+                        // Delete the notification
                         deleteNotification();
                     })
                     .addOnFailureListener(e -> {
