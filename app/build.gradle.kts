@@ -88,6 +88,10 @@ dependencies {
     testImplementation ("org.junit.jupiter:junit-jupiter:5.7.0")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
     testImplementation ("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation("androidx.camera:camera-core:1.4.0")
+    implementation("androidx.camera:camera-view:1.4.0")
+    implementation("androidx.camera:camera-lifecycle:1.4.0")
+    implementation("androidx.camera:camera-extensions:1.4.0")
 
 
 }
