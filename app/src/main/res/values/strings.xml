@@ -1,4 +1,9 @@
 <resources>
+    <string name="event_id_missing">Event ID missing</string>
+    <string name="unknown_user">Unknown</string>
+    <string name="total_participants">Total Participants: %1$d</string>
+    <string name="no_waiting_list_data">No waiting list data found</string>
+    <string name="failed_to_load_waiting_list">Failed to load waiting list</string>
     <string name="list_of_events">List of Events</string>
     <string name="event_date">Date: %1$s</string>
     <string name="event_capacity">Capacity: %1$s</string>
