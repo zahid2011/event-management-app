@@ -20,6 +20,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages the display and interaction with ongoing events.
+ * This activity fetches event data from Firestore, displays a list of events,
+ * and allows users to search and view event details.
+ */
+
 public class OngoingEventsActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
@@ -29,6 +35,16 @@ public class OngoingEventsActivity extends AppCompatActivity {
     private ImageButton searchButton, backButton;
     private int eventCount = 0;
     List<Events> allEvents = new ArrayList<>(); // Store all events for filtering
+
+
+    /**
+     * Called when the activity is created.
+     * Initializes the Firestore database and sets up the UI components for displaying ongoing events.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this Bundle contains the data it most recently supplied. Otherwise, it is null.
+     */
+
 
 
 
@@ -82,6 +98,10 @@ public class OngoingEventsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads events from Firestore and populates the list of events.
+     */
+
     void loadEvents() {
         db.collection("events")
                 .get()
@@ -104,6 +124,10 @@ public class OngoingEventsActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Displays all events by iterating through the list of all events and adding them to the container.
+     */
+
     void displayAllEvents() {
         eventsContainer.removeAllViews(); // Clear existing views
         eventCount = 0;
@@ -115,6 +139,12 @@ public class OngoingEventsActivity extends AppCompatActivity {
         // Update the total events count
         totalEvents.setText("Total Events: " + eventCount);
     }
+
+    /**
+     * Filters events based on the search query and displays matching results.
+     *
+     * @param query The search query to filter events by.
+     */
 
     private void filterEvents(String query) {
         // Ensure the query and events list are not null
@@ -144,6 +174,11 @@ public class OngoingEventsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adds a view for a single event to the container.
+     *
+     * @param event The event to display.
+     */
 
 
     void addEventView(Events event) {
@@ -168,6 +203,12 @@ public class OngoingEventsActivity extends AppCompatActivity {
         // Add the event view to the container
         eventsContainer.addView(eventView);
     }
+
+    /**
+     * Opens the event details screen for a specific event.
+     *
+     * @param eventId The ID of the event to display details for.
+     */
 
     private void openEventDetails(String eventId) {
         // Intent to open EventDetailsActivity (assuming it exists)

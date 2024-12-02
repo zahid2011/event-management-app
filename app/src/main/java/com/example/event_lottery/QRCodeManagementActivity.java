@@ -27,6 +27,13 @@ public class QRCodeManagementActivity extends AppCompatActivity {
     private List<Event> events;
     private boolean testMode;
 
+    /**
+     * Called when the activity is created. Initializes the views and loads event data from Firestore.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down,
+     *                           this contains the data it most recently supplied. Otherwise, it is null.
+     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +68,21 @@ public class QRCodeManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initializes mock data for testing purposes.
+     * Clears the current list of events and populates it with sample data.
+     */
+
     private void initializeMockData() {
         events.clear();
         events.add(new Event("1", "Sample Event 1", new Timestamp(new Date()), "50", "10", "Sample Description", false, "mockQR1", "mockHash1"));
         qrCodeAdapter.notifyDataSetChanged();
     }
+
+    /**
+     * Listens to real-time updates from the "events" collection in Firebase Firestore.
+     * Filters events with valid QR code data and updates the adapter with the latest events.
+     */
 
     private void listenToQRCodesFromFirebase() {
         CollectionReference eventsRef = db.collection("events");

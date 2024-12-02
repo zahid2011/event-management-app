@@ -19,6 +19,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Activity for managing and displaying the waiting list of participants for an event.
+ * <p>
+ * Provides functionality to fetch the waiting list, display participants, select participants,
+ * and send notifications to selected users.
+ * </p>
+ */
+
 public class WaitingListActivity extends AppCompatActivity {
 
     private ListView lvWaitingList;
@@ -28,6 +36,15 @@ public class WaitingListActivity extends AppCompatActivity {
     private Set<Integer> selectedUsers;
     private TextView tvTotalParticipants;
     private Button btnSelectAll;
+
+    /**
+     * Called when the activity is created.
+     * <p>
+     * Initializes views, fetches the waiting list, and sets up button click listeners.
+     * </p>
+     *
+     * @param savedInstanceState The saved state of the activity
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +96,10 @@ public class WaitingListActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sends notifications to all selected participants.
+     */
+
     private void sendNotificationsToAllSelectedUsers() {
         // Collect selected user ID
         List<String> selectedUserID = new ArrayList<>();
@@ -90,6 +111,12 @@ public class WaitingListActivity extends AppCompatActivity {
             sendNotificationToUserIfAllowed(email);
         }
     }
+
+    /**
+     * Sends a notification to a specific user if allowed by their preferences.
+     *
+     * @param userId The ID of the user to notify
+     */
 
 
 
@@ -120,6 +147,13 @@ public class WaitingListActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Sends a notification to a specific user.
+     *
+     * @param userRef Reference to the user's Firestore document
+     * @param userId  The ID of the user to notify
+     */
+
     private void sendNotification(DocumentReference userRef, String userId) {
         // Create the notification message with the event name
         String message;
@@ -140,6 +174,13 @@ public class WaitingListActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to send notification to " + userId, Toast.LENGTH_SHORT).show();
                 });
     }
+
+    /**
+     * Fetches the waiting list of participants from Firestore.
+     * <p>
+     * Updates the ListView with the fetched data.
+     * </p>
+     */
 
 
     private void fetchWaitingList() {

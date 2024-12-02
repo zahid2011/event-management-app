@@ -44,7 +44,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
+/**
+ * Activity to display and manage details of a specific event.
+ * <p>
+ * Provides functionality for:
+ * - Viewing event details
+ * - Uploading an event image
+ * - Generating and displaying a QR code
+ * - Managing participant and waiting lists
+ * - Updating the maximum waiting list size
+ * </p>
+ */
 
 
 public class EventDetailsActivity extends AppCompatActivity {
@@ -60,6 +70,16 @@ public class EventDetailsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Button btnViewWaitingList, btnRunLottery, btnParticipantManagement;
     private String eventId;
+
+    /**
+     * Called when the activity is created.
+     * <p>
+     * Initializes the UI components, fetches event details from Firestore,
+     * and sets up listeners for managing event-related actions.
+     * </p>
+     *
+     * @param savedInstanceState The saved state of the activity
+     */
 
 
     @Override
@@ -145,6 +165,11 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Fetches the details of the event from Firestore and updates the UI.
+     */
+
     void fetchEventDetails() {
         DocumentReference docRef = db.collection("events").document(eventId);
         docRef.get().addOnCompleteListener(task -> {
@@ -212,7 +237,11 @@ public class EventDetailsActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Generates a QR code image from the provided content and displays it.
+     *
+     * @param qrhash The content to encode in the QR code
+     */
 
     private void generateQRCodeImage(String qrhash) {
         try {
@@ -225,7 +254,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Displays a dialog to set the maximum number of waiting list entrants.
+     */
 
     private void showMaxWaitingListDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -250,6 +281,12 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    /**
+     * Validates and updates the maximum waiting list limit in Firestore.
+     *
+     * @param newMaxWaitingListLimit The new limit to be validated and updated
+     */
 
     void validateAndUpdateMaxWaitingListLimit(int newMaxWaitingListLimit) {
         // Reference to the waitingList subcollection for the current event
@@ -281,6 +318,11 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Updates the max waiting list limit in Firestore.
+     *
+     * @param maxWaitingListLimit The new limit
+     */
 
     private void updateMaxWaitingListLimit(int maxWaitingListLimit) {
         DocumentReference docRef = db.collection("events").document(eventId);
@@ -298,6 +340,17 @@ public class EventDetailsActivity extends AppCompatActivity {
 
 
     // Inside EventDetailsActivity.java
+    /**
+     * Handles the result from the image upload activity.
+     * <p>
+     * Called when the user selects an image from the gallery or captures an image
+     * using the camera. Saves the image to Firestore if successful.
+     * </p>
+     *
+     * @param requestCode The request code used to start the activity
+     * @param resultCode  The result code returned by the activity
+     * @param data        The intent data containing the selected image
+     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -315,6 +368,16 @@ public class EventDetailsActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Saves the selected image to Firestore Storage and retrieves its URL.
+     * <p>
+     * Compresses the image into JPEG format, uploads it to Firestore Storage,
+     * and updates the Firestore database with the image URL.
+     * </p>
+     *
+     * @param bitmap The image selected by the user
+     */
 
     void saveImageToFirestore(Bitmap bitmap) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -338,6 +401,15 @@ public class EventDetailsActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Loads an image from a URL into the ImageView using Glide.
+     * <p>
+     * Displays a placeholder image while loading, and an error image if loading fails.
+     * </p>
+     *
+     * @param url The URL of the image to load
+     */
+
     private void loadImageFromUrl(String url) {
         Glide.with(this)
                 .load(url)
@@ -345,6 +417,12 @@ public class EventDetailsActivity extends AppCompatActivity {
                 .error(R.drawable.ic_error) // Add an error placeholder
                 .into(imgEventImage);
     }
+
+    /**
+     * Saves the image URL to Firestore for the associated event.
+     *
+     * @param imageUrl The URL of the uploaded image
+     */
 
     private void saveImageUrlToFirestore(String imageUrl) {
         DocumentReference docRef = db.collection("events").document(eventId);

@@ -17,9 +17,28 @@ import java.util.List;
 import java.util.Locale;
 
 public class QRCodeAdapter extends ArrayAdapter<Event> {
+    /**
+     * Constructor for the QRCodeAdapter.
+     *
+     * @param context The context in which the adapter is being used.
+     * @param events  The list of events to display.
+     */
+
+
+
+
     public QRCodeAdapter(Context context, List<Event> events) {
         super(context, 0, events);
     }
+
+    /**
+     * Creates and returns a view for a specific item in the list.
+     *
+     * @param position    The position of the item within the adapter's data set.
+     * @param convertView The old view to reuse, if possible. If null, a new view is created.
+     * @param parent      The parent view that this view will be attached to.
+     * @return The view corresponding to the data at the specified position.
+     */
 
     @NonNull
     @Override
