@@ -7,8 +7,8 @@ import java.util.Map;
 public class AdminTestHelper {
     private Map<String, Event> mockEvents;
     private Map<String, User> mockProfiles;
-    private Map<String, String> mockQRCodes; // Event ID to QR Content
-    private List<String> mockImages; // Image identifiers
+    private Map<String, String> mockQRCodes;
+    private List<String> mockImages;
 
     public AdminTestHelper() {
         mockEvents = new HashMap<>();
@@ -19,7 +19,6 @@ public class AdminTestHelper {
     }
 
     private void initializeMockData() {
-        // Initialize mock events
         mockEvents.put("1", new Event(
                 "1", "Event A", null, "100", "20.0",
                 "Description A", true, "QRContentA", "QRHashA"));
@@ -27,17 +26,17 @@ public class AdminTestHelper {
                 "2", "Event B", null, "200", "30.0",
                 "Description B", false, "QRContentB", "QRHashB"));
 
-        // Initialize mock profiles
+        // initializing mock profiles
         mockProfiles.put("1", new User(
                 "1", "john@example.com", "john123", "John", "Doe", "password123", "Admin"));
         mockProfiles.put("2", new User(
                 "2", "jane@example.com", "jane456", "Jane", "Smith", "password456", "User"));
 
-        // Initialize mock QR codes
+        // initializing mock QR codes
         mockQRCodes.put("1", "QRContentA");
         mockQRCodes.put("2", "QRContentB");
 
-        // Initialize mock images
+        // initializing mock images
         mockImages.add("image1");
         mockImages.add("image2");
     }
