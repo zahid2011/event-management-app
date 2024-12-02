@@ -4,15 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:padding="16dp"
     android:background="@drawable/row_background_selector">
 
     <!-- Username -->
     <TextView
         android:id="@+id/tv_username"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="User Name"
+        android:layout_weight="1"
+        android:text="@User"
         android:textSize="16sp"
         android:textColor="#000000" />
+
+    <!-- Selection Circle -->
+    <ImageView
+        android:id="@+id/iv_selection_circle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_circle_outline"
+        android:contentDescription="Selection Circle" />
 </LinearLayout>
