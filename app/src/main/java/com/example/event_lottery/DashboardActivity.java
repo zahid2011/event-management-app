@@ -24,6 +24,8 @@ public class DashboardActivity extends AppCompatActivity {
     private ImageView profileIcon;
     private String userId;
     private FirebaseFirestore db;
+    private ImageButton notificationIconButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
         scanQRCodeCard = findViewById(R.id.scan_qr_code_button);
         backButton = findViewById(R.id.backButton);
         profileIcon = findViewById(R.id.profile_icon);
+        notificationIconButton = findViewById(R.id.notification_button);
 
         // Retrieve user ID from SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
@@ -86,6 +89,11 @@ public class DashboardActivity extends AppCompatActivity {
 
         scanQRCodeCard.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
+            startActivity(intent);
+        });
+
+        notificationIconButton.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, NotificationListActivity.class);
             startActivity(intent);
         });
     }
