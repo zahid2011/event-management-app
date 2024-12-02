@@ -10,7 +10,7 @@
     <string name="event_price">Price: $%1$s</string>
     <string name="app_name">event_lottery</string>
     <string name="notification_settings">Notifications Settings</string>
-    <string name="admin_organizer">Admin/Organizer</string>
+    <string name="admin_organizer">No Admin/Organizer Notification</string>
     <string name="win_lottery">Win Lottery</string>
     <string name="lose_lottery">Lose Lottery</string>
     <string-array name="role_options">

@@ -28,8 +28,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish()); // Closes the activity to go back
 
         // Initialize switches
-        switchWinLottery = findViewById(R.id.switch_win_lottery);
-        switchLoseLottery = findViewById(R.id.switch_lose_lottery);
+
         switchAdminOrganizer = findViewById(R.id.switch_admin_organizer);
 
         // Retrieve user ID from SharedPreferences
@@ -49,15 +48,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         loadSwitchStates();
 
         // Set listeners to handle switch state changes
-        switchWinLottery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Optionally handle "Win Lottery" switch toggle
-            // Currently, we don't need to do anything here
-        });
 
-        switchLoseLottery.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // Optionally handle "Lose Lottery" switch toggle
-            // Currently, we don't need to do anything here
-        });
 
         switchAdminOrganizer.setOnCheckedChangeListener((buttonView, isChecked) -> {
             // Handle "Admin/Organizer" switch toggle

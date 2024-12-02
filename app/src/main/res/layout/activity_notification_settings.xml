@@ -24,26 +24,10 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_win_lottery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="12dp"
-        android:backgroundTint="#1F41BB"
-        android:text="@string/win_lottery"
-        android:textColor="#000000" />
+
 
     <!-- Switch for "Lose Lottery" -->
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switch_lose_lottery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:padding="12dp"
-        android:backgroundTint="#1F41BB"
-        android:text="@string/lose_lottery"
-        android:textColor="#000000" />
+
 
     <!-- Switch for "Admin/Organizer" -->
     <androidx.appcompat.widget.SwitchCompat
