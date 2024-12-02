@@ -5,12 +5,47 @@
     android:padding="8dp"
     android:background="#E5EAFF">
 
-    <TextView
-        android:id="@+id/participant_userID"
+    <!-- Participant Info Layout -->
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Participant userID"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:orientation="vertical">
+
+        <!-- User ID -->
+        <TextView
+            android:id="@+id/participant_userID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Participant userID"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/participant_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- Notify Button -->
+    <Button
+        android:id="@+id/notify_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notify"
+        android:backgroundTint="#1F41BB"
+        android:layout_marginEnd="8dp" />
+
+    <!-- Remove Button -->
+    <Button
+        android:id="@+id/remove_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:backgroundTint="#ED2E2E" />
+
 </LinearLayout>
