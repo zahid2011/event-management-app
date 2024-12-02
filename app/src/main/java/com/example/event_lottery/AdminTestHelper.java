@@ -51,6 +51,18 @@ public class AdminTestHelper {
         return mockEvents.remove(eventId) != null;
     }
 
+    public boolean addEvent(Event event) {
+        if (!mockEvents.containsKey(event.getEventId())) {
+            mockEvents.put(event.getEventId(), event);
+            return true;
+        }
+        return false;
+    }
+
+    public int getEventCount() {
+        return mockEvents.size();
+    }
+
     // Profile Management
     public User getProfileById(String userId) {
         return mockProfiles.get(userId);
@@ -58,6 +70,18 @@ public class AdminTestHelper {
 
     public boolean deleteProfileById(String userId) {
         return mockProfiles.remove(userId) != null;
+    }
+
+    public boolean addProfile(User user) {
+        if (!mockProfiles.containsKey(user.getId())) {
+            mockProfiles.put(user.getId(), user);
+            return true;
+        }
+        return false;
+    }
+
+    public int getProfileCount() {
+        return mockProfiles.size();
     }
 
     // QR Code Management
@@ -69,6 +93,18 @@ public class AdminTestHelper {
         return mockQRCodes.remove(eventId) != null;
     }
 
+    public boolean addQRCode(String eventId, String qrContent) {
+        if (!mockQRCodes.containsKey(eventId)) {
+            mockQRCodes.put(eventId, qrContent);
+            return true;
+        }
+        return false;
+    }
+
+    public int getQRCodeCount() {
+        return mockQRCodes.size();
+    }
+
     // Image Management
     public boolean deleteImage(String imageId) {
         return mockImages.remove(imageId);
@@ -77,4 +113,19 @@ public class AdminTestHelper {
     public List<String> getAllImages() {
         return new ArrayList<>(mockImages);
     }
+
+    public boolean addImage(String imageId) {
+        if (!mockImages.contains(imageId)) {
+            mockImages.add(imageId);
+            return true;
+        }
+        return false;
+    }
+    public List<Event> getAllEvents() {
+        return new ArrayList<>(mockEvents.values());
+    }
+    public List<User> getAllProfiles() {
+        return new ArrayList<>(mockProfiles.values());
+    }
+
 }
