@@ -3,13 +3,12 @@ package com.example.event_lottery;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,12 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
 
-    private Button waitingListButton;
-    private Button notificationSettingsButton;
-    private Button editProfileButton;
-    private Button qrCodeButton;
+    private CardView waitingListCard;
+    private CardView notificationSettingsCard;
+    private CardView editProfileCard;
+    private CardView scanQRCodeCard;
     private ImageButton backButton;
-    private ImageButton notificationIconButton;
     private ImageView profileIcon;
     private String userId;
     private FirebaseFirestore db;
@@ -33,12 +31,11 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.entrant_dashboard);
 
         // Initialize UI elements
-        waitingListButton = findViewById(R.id.waiting_list);
-        notificationSettingsButton = findViewById(R.id.notification);
-        editProfileButton = findViewById(R.id.edit_profile);
-        qrCodeButton = findViewById(R.id.qr_code);
+        waitingListCard = findViewById(R.id.waiting_list_button);
+        notificationSettingsCard = findViewById(R.id.notification_settings_button);
+        editProfileCard = findViewById(R.id.view_edit_profile_button);
+        scanQRCodeCard = findViewById(R.id.scan_qr_code_button);
         backButton = findViewById(R.id.backButton);
-        notificationIconButton = findViewById(R.id.notification_button);
         profileIcon = findViewById(R.id.profile_icon);
 
         // Retrieve user ID from SharedPreferences
@@ -72,28 +69,23 @@ public class DashboardActivity extends AppCompatActivity {
             finish();
         });
 
-        waitingListButton.setOnClickListener(v -> {
+        waitingListCard.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, EntrantUserWaitingListActivity.class);
             startActivity(intent);
         });
 
-        notificationSettingsButton.setOnClickListener(v -> {
+        notificationSettingsCard.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, NotificationSettingsActivity.class);
             startActivity(intent);
         });
 
-        editProfileButton.setOnClickListener(v -> {
+        editProfileCard.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, EditProfileActivity.class);
             startActivity(intent);
         });
 
-        qrCodeButton.setOnClickListener(v -> {
+        scanQRCodeCard.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, QRCodeScannerActivity.class);
-            startActivity(intent);
-        });
-
-        notificationIconButton.setOnClickListener(v -> {
-            Intent intent = new Intent(DashboardActivity.this, NotificationListActivity.class);
             startActivity(intent);
         });
     }
