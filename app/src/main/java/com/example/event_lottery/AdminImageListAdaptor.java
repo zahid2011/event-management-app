@@ -17,17 +17,30 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-
 public class AdminImageListAdaptor extends ArrayAdapter<StorageReference> {
     private final Context context;
     private final List<StorageReference> imageReferences;
 
+    /**
+     * Constructor for AdminImageListAdaptor.
+     *
+     * @param context The context in which the adapter is running.
+     * @param imageReferences The list of StorageReferences representing images to be displayed.
+     */
     public AdminImageListAdaptor(@NonNull Context context, @NonNull List<StorageReference> imageReferences) {
         super(context, 0, imageReferences);
         this.context = context;
         this.imageReferences = imageReferences;
     }
 
+    /**
+     * Provides a view for an adapter view (ListView, GridView, etc.).
+     *
+     * @param position The position of the item within the adapter's data set.
+     * @param convertView The old view to reuse, if possible.
+     * @param parent The parent that this view will eventually be attached to.
+     * @return A View corresponding to the data at the specified position.
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -37,18 +50,17 @@ public class AdminImageListAdaptor extends ArrayAdapter<StorageReference> {
 
         StorageReference imageRef = imageReferences.get(position);
 
-
         ImageView imageView = convertView.findViewById(R.id.image_view);
         Button deleteButton = convertView.findViewById(R.id.delete_button);
 
-        // loading the image from the StorageReference into the ImageView using Glide
+        // Loading the image from the StorageReference into the ImageView using Glide
         imageRef.getDownloadUrl().addOnSuccessListener(uri ->
                 Glide.with(context).load(uri).into(imageView)
         ).addOnFailureListener(e ->
                 Toast.makeText(context, "Failed to load image", Toast.LENGTH_SHORT).show()
         );
 
-        // setting the delete button functionality
+        // Setting the delete button functionality
         deleteButton.setOnClickListener(v -> {
             if (context instanceof AdminImageManagementActivity) {
                 ((AdminImageManagementActivity) context).deleteImage(imageRef);

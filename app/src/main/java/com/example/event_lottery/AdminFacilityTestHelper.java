@@ -1,17 +1,21 @@
 package com.example.event_lottery;
-
 import java.util.HashMap;
 import java.util.Map;
+
 public class AdminFacilityTestHelper {
     private Map<String, AdminFacility> mockFacilities;
 
-    // Constructor to initialize mock data
+    /**
+     * Constructor to initialize mock facility data.
+     */
     public AdminFacilityTestHelper() {
         mockFacilities = new HashMap<>();
         initializeMockData();
     }
 
-    // Initializing the mock facility data
+    /**
+     * Initializes the mock facility data with some predefined facilities.
+     */
     private void initializeMockData() {
         mockFacilities.put("1", new AdminFacility(
                 "1", "Community Hall", "A large hall for events.",
@@ -26,12 +30,22 @@ public class AdminFacilityTestHelper {
                 "789 Business Blvd, Metropolis", "555123456", true));
     }
 
-    // fetching a facility by ID
+    /**
+     * Fetches a facility by its ID.
+     *
+     * @param facilityId The ID of the facility to fetch.
+     * @return The AdminFacility object corresponding to the given ID, or null if not found.
+     */
     public AdminFacility getFacilityById(String facilityId) {
         return mockFacilities.get(facilityId);
     }
 
-    // adding a new facility
+    /**
+     * Adds a new facility to the mock data.
+     *
+     * @param facility The facility to add.
+     * @return true if the facility was added successfully, false if a facility with the same ID already exists.
+     */
     public boolean addFacility(AdminFacility facility) {
         if (mockFacilities.containsKey(facility.getFacilityId())) {
             return false; // means facility with the same ID already exists
@@ -40,12 +54,21 @@ public class AdminFacilityTestHelper {
         return true;
     }
 
-    // deleting a facility by ID
+    /**
+     * Deletes a facility by its ID.
+     *
+     * @param facilityId The ID of the facility to delete.
+     * @return true if the facility was deleted successfully, false if the facility was not found.
+     */
     public boolean deleteFacilityById(String facilityId) {
         return mockFacilities.remove(facilityId) != null;
     }
 
-    // getting the total count of facilities
+    /**
+     * Gets the total count of facilities.
+     *
+     * @return The total number of facilities in the mock data.
+     */
     public int getFacilityCount() {
         return mockFacilities.size();
     }
