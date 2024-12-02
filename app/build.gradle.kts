@@ -67,6 +67,8 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     implementation ("com.android.volley:volley:1.2.1")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
+
 
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.0.1")
