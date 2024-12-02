@@ -24,6 +24,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
     private Button acceptButton;
     private Button rejectButton;
     private Button tryAgainButton;
+    private Button cancelButton;  // Added Cancel button
     private ImageButton backButton;
 
     private String email;
@@ -40,12 +41,17 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_details);
 
+        // Initialize views
         messageTextView = findViewById(R.id.notification_message);
         statusTextView = findViewById(R.id.notification_status);
         acceptButton = findViewById(R.id.accept_button);
         rejectButton = findViewById(R.id.reject_button);
         tryAgainButton = findViewById(R.id.try_again_button);
+        cancelButton = findViewById(R.id.cancel_button);  // Initialize Cancel button
         backButton = findViewById(R.id.back_button);
+
+        // Set up back button listener
+        backButton.setOnClickListener(v -> finish());
 
         db = FirebaseFirestore.getInstance();
 
@@ -63,15 +69,17 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         messageTextView.setText(message);
         statusTextView.setText("Status: " + status);
 
-        // Depending on status, show appropriate buttons
+        // Show appropriate buttons based on status
         if (status == 1) {
             acceptButton.setVisibility(View.VISIBLE);
             rejectButton.setVisibility(View.VISIBLE);
             tryAgainButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
         } else if (status == 0) {
             acceptButton.setVisibility(View.GONE);
             rejectButton.setVisibility(View.GONE);
             tryAgainButton.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);  // Show Cancel button
         }
 
         acceptButton.setOnClickListener(v -> {
@@ -148,7 +156,18 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                     });
         });
 
-        backButton.setOnClickListener(v -> finish());
+        cancelButton.setOnClickListener(v -> {
+            // Handle cancel action
+            db.collection("events").document(eventName)
+                    .collection("waitingList").document(userId)
+                    .set(new StatusObject(0), SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> {
+                        deleteNotification();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(NotificationDetailsActivity.this, "Error cancelling: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        });
     }
 
     private void deleteNotification() {
@@ -164,7 +183,7 @@ public class NotificationDetailsActivity extends AppCompatActivity {
                 });
     }
 
-    // Create a simple class to hold the status
+    // Helper class to hold the status
     public static class StatusObject {
         public int status;
 

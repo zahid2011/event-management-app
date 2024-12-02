@@ -12,11 +12,11 @@
     <!-- Back Button -->
     <ImageButton
         android:id="@+id/backButton2"
-        android:layout_width="57dp"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="#0D0C0C"
         android:backgroundTint="#F8F7F7"
-        android:src="@android:drawable/ic_menu_revert" />
+        android:src="@drawable/ic_back_arrow" />
 
     <!-- Login Text -->
     <TextView

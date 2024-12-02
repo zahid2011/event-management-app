@@ -43,5 +43,7 @@
         android:padding="8dp"
         android:text="Details"
         android:gravity="center"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:onClick="openEventDetails"
+        android:clickable="true"/>
 </LinearLayout>

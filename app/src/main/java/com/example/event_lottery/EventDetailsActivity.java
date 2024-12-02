@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,10 +28,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -44,9 +48,10 @@ import java.util.Locale;
 
 
 public class EventDetailsActivity extends AppCompatActivity {
+    private static final int IMAGE_UPLOAD_REQUEST_CODE = 1;
 
     private TextView tvEventName, tvEventDate, tvEventDescription, tvEventCapacity, tvQrCodeLabel, tvMaxWaitingList;
-    private ImageView ivBackArrow, imgEventImage, qrCodeImageView;
+    private ImageView ivBackArrow, imgEventImage, qrCodeImageView, editEventImg;
     private FirebaseFirestore db;
     private Button btnViewWaitingList, btnRunLottery, btnParticipantManagement;
     private String eventId;
@@ -57,7 +62,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
         //imgEventImage = findViewById(R.id.img_event_image);
-        imgEventImage = findViewById(R.id.img_event_image);
+        imgEventImage = findViewById(R.id.img_event_details_image);
 
         // Get the event ID passed from the previous activity
         eventId = getIntent().getStringExtra("event_id");
@@ -86,7 +91,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         ivBackArrow = findViewById(R.id.iv_back_arrow);
         qrCodeImageView = findViewById(R.id.img_qr_code);
         btnViewWaitingList = findViewById(R.id.btn_view_waiting_list);
-        imgEventImage = findViewById(R.id.img_event_image);// Initialize the button
+        editEventImg=findViewById(R.id.btn_edit_event_details_image);
+
 
 
         btnParticipantManagement = findViewById(R.id.btn_participant_management);
@@ -102,7 +108,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
 
 
-
+        editEventImg.setOnClickListener(v -> {
+            Intent intent = new Intent(EventDetailsActivity.this, EventImageUploadActivity.class);
+            startActivityForResult(intent, IMAGE_UPLOAD_REQUEST_CODE); // Open image upload activity
+        });
 
 
         // Fetch event details from Firestore
@@ -283,37 +292,52 @@ public class EventDetailsActivity extends AppCompatActivity {
     }
 
 
-    public void onAddImageClicked(View view) {
-        // Create an input dialog to prompt for the URL
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add/Update Image URL");
+    // Inside EventDetailsActivity.java
 
-        // Set up the input field
-        final EditText input = new EditText(this);
-        input.setHint("Enter image URL");
-        builder.setView(input);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        // Set up the buttons
-        builder.setPositiveButton("Add", (dialog, which) -> {
-            String url = input.getText().toString().trim();
-            if (!url.isEmpty()) {
-                // Save the new URL to Firestore
-                saveImageUrlToFirestore(url);
-                loadImageFromUrl(url); // Update the displayed image
-            } else {
-                Toast.makeText(this, "URL cannot be empty", Toast.LENGTH_SHORT).show();
+        if (requestCode == IMAGE_UPLOAD_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                try {
+                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    saveImageToFirestore(selectedImage);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
             }
-        });
+        }
+    }
 
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
+    private void saveImageToFirestore(Bitmap bitmap) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference().child("event_images/" + System.currentTimeMillis() + ".jpg");
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        storageRef.putBytes(data)
+                .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
+                        .addOnSuccessListener(uri -> {
+                            // Save the image URL in Firestore
+                            saveImageUrlToFirestore(uri.toString());
+                            loadImageFromUrl(uri.toString());
+                            Toast.makeText(EventDetailsActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
+                        }))
+                .addOnFailureListener(e -> {
+                    Toast.makeText(EventDetailsActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
     }
 
     private void loadImageFromUrl(String url) {
         Glide.with(this)
                 .load(url)
-                .placeholder(R.drawable.ic_image_placeholder)
-                .error(R.drawable.ic_error)
+                .placeholder(R.drawable.ic_image_placeholder) // Add a default placeholder
+                .error(R.drawable.ic_error) // Add an error placeholder
                 .into(imgEventImage);
     }
 
@@ -321,6 +345,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         DocumentReference docRef = db.collection("events").document(eventId);
         docRef.update("imageUrl", imageUrl)
                 .addOnSuccessListener(aVoid -> Toast.makeText(this, "Image updated successfully", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(this, "Failed to update image", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to update image URL", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
     }
+
 }

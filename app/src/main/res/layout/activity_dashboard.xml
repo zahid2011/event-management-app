@@ -53,7 +53,7 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/ic_event"
+                android:src="@drawable/ic_event_management"
                 app:tint="#1F41BB"
                 android:layout_marginEnd="16dp" />
 

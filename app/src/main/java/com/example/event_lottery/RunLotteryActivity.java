@@ -21,6 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+// If you have any missing imports, make sure to include them
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -82,6 +83,26 @@ public class RunLotteryActivity extends AppCompatActivity {
         imm.showSoftInput(sampleSizeInput, InputMethodManager.SHOW_IMPLICIT);
     }
 
+    public void onRunLotteryClicked(View view) {
+        // Trigger lottery logic
+        String sampleSizeText = sampleSizeInput.getText().toString().trim();
+        if (!sampleSizeText.isEmpty()) {
+            try {
+                int sampleSize = Integer.parseInt(sampleSizeText);
+                if (sampleSize > 0 && sampleSize <= eventCapacity) {
+                    runLottery(sampleSize);
+                } else {
+                    Toast.makeText(this, "Invalid sample size. Must be between 1 and event capacity.", Toast.LENGTH_SHORT).show();
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid sample size format", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Please enter a sample size", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     private void setupListeners() {
         // Confirm button
         confirmButton.setOnClickListener(v -> {
@@ -123,7 +144,14 @@ public class RunLotteryActivity extends AppCompatActivity {
         });
 
         // Draw Replacement button
-        drawReplacementButton.setOnClickListener(v -> Toast.makeText(this, "Drawing replacement for declined participant", Toast.LENGTH_SHORT).show());
+        drawReplacementButton.setOnClickListener(v -> {
+            if (!lotteryCompleted) {
+                Toast.makeText(this, "Please run the lottery before drawing replacements.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            drawReplacementForDeclinedParticipant();
+        });
     }
 
     private void fetchEventDetails() {
@@ -188,6 +216,7 @@ public class RunLotteryActivity extends AppCompatActivity {
                 });
     }
 
+    // Updated runLottery Method to Remove Selected Entrants from the Waiting List
     private void runLottery(int sampleSize) {
         loadingSpinner.setVisibility(View.VISIBLE);
 
@@ -213,14 +242,14 @@ public class RunLotteryActivity extends AppCompatActivity {
                 // Update selected users in Firestore
                 WriteBatch batch = db.batch();
                 for (DocumentSnapshot user : selectedUsers) {
-
                     String userId = user.getString("userId");
                     if (userId != null && !userId.isEmpty()) {
-                        // Use userId as the document ID
+                        // Add to selected entrants
                         batch.set(selectedRef.document(userId), user.getData());
+                        // Remove from waiting list
+                        batch.delete(waitingListRef.document(user.getId()));
                     } else {
                         Log.e("RunLotteryActivity", "userId is missing for user: " + user.getId());
-
                     }
                 }
 
@@ -244,30 +273,55 @@ public class RunLotteryActivity extends AppCompatActivity {
     }
 
     private void displaySelectedParticipants(List<DocumentSnapshot> selectedUsers) {
-        participantsLayout.removeAllViews();
+        participantsLayout.removeAllViews(); // Clear existing views
 
         for (DocumentSnapshot user : selectedUsers) {
+            // Inflate the participant item layout
             View participantView = getLayoutInflater().inflate(R.layout.participant_item, participantsLayout, false);
 
+            // Get references to the TextViews and Buttons in the layout
             TextView userIDTextView = participantView.findViewById(R.id.participant_userID);
+            TextView statusTextView = participantView.findViewById(R.id.participant_status);
             Button notifyButton = participantView.findViewById(R.id.notify_button);
             Button removeButton = participantView.findViewById(R.id.remove_button);
 
-
+            // Fetch user data
             String userId = user.getString("userId");
+            Long status = user.getLong("status"); // Assuming status is stored as a Long
+
+            // Display user ID
             if (userId == null || userId.isEmpty()) {
                 userId = "User ID not provided";
             }
-
             userIDTextView.setText(userId);
 
-            String finalUserId = userId;
-            notifyButton.setOnClickListener(v -> {
-                sendNotificationToUser(finalUserId, true);
-                Toast.makeText(this, "Notification sent to " + finalUserId, Toast.LENGTH_SHORT).show();
+            // Determine and display the status message
+            String statusMessage;
+            if (status == null || !user.contains("status") ) {
+                statusMessage = "User hasn't responded.";
+            } else if (status == 0) {
+                statusMessage = "User rejected the invitation.";
+            } else if (status == 1) {
+                statusMessage = "User accepted the invitation.";
+                moveToFinalizedEntrants(user);
 
+                db.collection("events").document(eventId).collection("selectedEntrants")
+                        .document(user.getId())
+                        .update("status", 1)
+                        .addOnSuccessListener(aVoid -> Log.d("RunLotteryActivity", "Status updated to 1 for user: " + user.getId()))
+                        .addOnFailureListener(e -> Log.e("RunLotteryActivity", "Failed to update status for user: " + user.getId(), e));
+            } else {
+                statusMessage = "Unknown status.";
+            }
+            statusTextView.setText(statusMessage);
+
+            // Set up Notify button
+            String finalUserId = userId; // For use in the button listener
+            notifyButton.setOnClickListener(v -> {
+                sendNotificationToUserIfAllowed(finalUserId, true);
             });
 
+            // Set up Remove button
             removeButton.setOnClickListener(v -> {
                 db.collection("events")
                         .document(eventId)
@@ -275,24 +329,66 @@ public class RunLotteryActivity extends AppCompatActivity {
                         .document(user.getId())
                         .delete()
                         .addOnSuccessListener(aVoid -> {
-
                             Toast.makeText(this, "Removed " + finalUserId, Toast.LENGTH_SHORT).show();
                             participantsLayout.removeView(participantView);
                         })
                         .addOnFailureListener(e -> {
                             Toast.makeText(this, "Failed to remove " + finalUserId, Toast.LENGTH_SHORT).show();
-
                         });
             });
 
+            // Add the participant view to the layout
             participantsLayout.addView(participantView);
         }
     }
 
-    private void sendNotificationToUser(String userId, boolean isWinner) {
+    private void moveToFinalizedEntrants(DocumentSnapshot user) {
+        CollectionReference finalizedEntrantsRef = db.collection("events")
+                .document(eventId)
+                .collection("finalizedEntrants");
+
+        // Copy user data to finalizedEntrants collection
+        finalizedEntrantsRef.document(user.getId()).set(user.getData())
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("RunLotteryActivity", "User moved to finalized entrants: " + user.getId());
+                    Toast.makeText(this, "User finalized: " + user.getString("userId"), Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RunLotteryActivity", "Failed to move user to finalized entrants: " + user.getId(), e);
+                    Toast.makeText(this, "Error finalizing user: " + user.getString("userId"), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+
+    private void sendNotificationToUserIfAllowed(String userId, boolean isWinner) {
         // Reference the specific user's document
         DocumentReference userRef = db.collection("users").document(userId);
 
+        // Fetch user's notification preference
+        userRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Boolean doNotReceiveAdminNotifications = documentSnapshot.getBoolean("doNotReceiveAdminNotifications");
+                        if (doNotReceiveAdminNotifications != null && doNotReceiveAdminNotifications) {
+                            // User doesn't want to receive notifications
+                            Toast.makeText(this, "User " + userId + " does not want to receive notifications.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // User wants to receive notifications, proceed to send
+                            sendNotification(userRef, userId, isWinner);
+                        }
+                    } else {
+                        // User document doesn't exist, proceed to send notification
+                        sendNotification(userRef, userId, isWinner);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Error fetching user document, proceed to send notification
+                    sendNotification(userRef, userId, isWinner);
+                });
+    }
+
+    private void sendNotification(DocumentReference userRef, String userId, boolean isWinner) {
         // Create the notification message with the event name
         String message;
         int status;
@@ -307,10 +403,14 @@ public class RunLotteryActivity extends AppCompatActivity {
         // Add notification under the user's notifications subcollection
         userRef.collection("notifications")
                 .add(new NotificationData(userId, message, status, eventName))
-                .addOnSuccessListener(documentReference ->
-                        Log.d("RunLotteryActivity", "Notification sent to user: " + userId))
-                .addOnFailureListener(e ->
-                        Log.e("RunLotteryActivity", "Failed to send notification to user: " + userId, e));
+                .addOnSuccessListener(documentReference -> {
+                    Log.d("RunLotteryActivity", "Notification sent to user: " + userId);
+                    Toast.makeText(this, "Notification sent to " + userId, Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RunLotteryActivity", "Failed to send notification to user: " + userId, e);
+                    Toast.makeText(this, "Failed to send notification to " + userId, Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void sendNotificationsToAllParticipants() {
@@ -333,7 +433,7 @@ public class RunLotteryActivity extends AppCompatActivity {
                             String userId = user.getString("userId");
                             if (userId != null && !userId.isEmpty()) {
                                 selectedUserIds.add(userId);
-                                sendNotificationToUser(userId, true); // Send winning notification
+                                sendNotificationToUserIfAllowed(userId, true); // Send winning notification
                             }
                         }
 
@@ -341,11 +441,11 @@ public class RunLotteryActivity extends AppCompatActivity {
                         for (DocumentSnapshot user : waitingUsers) {
                             String userId = user.getString("userId");
                             if (userId != null && !userId.isEmpty() && !selectedUserIds.contains(userId)) {
-                                sendNotificationToUser(userId, false); // Send losing notification
+                                sendNotificationToUserIfAllowed(userId, false); // Send losing notification
                             }
                         }
 
-                        Toast.makeText(this, "Notifications sent to all participants!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Notifications processing started for all participants!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.e("RunLotteryActivity", "Failed to fetch waiting list", waitingTask.getException());
                         Toast.makeText(this, "Error fetching waiting list.", Toast.LENGTH_SHORT).show();
@@ -358,4 +458,80 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void drawReplacementForDeclinedParticipant() {
+        loadingSpinner.setVisibility(View.VISIBLE);
+
+        CollectionReference waitingListRef = db.collection("events").document(eventId).collection("waitingList");
+        CollectionReference selectedRef = db.collection("events").document(eventId).collection("selectedEntrants");
+
+        waitingListRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<DocumentSnapshot> waitingList = new ArrayList<>(task.getResult().getDocuments());
+
+                if (waitingList.isEmpty()) {
+                    loadingSpinner.setVisibility(View.GONE);
+                    Toast.makeText(this, "No users available in the waiting list for replacement.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Find eligible replacement
+                DocumentSnapshot replacementUser = findEligibleReplacement(waitingList);
+
+                if (replacementUser == null) {
+                    loadingSpinner.setVisibility(View.GONE);
+                    Toast.makeText(this, "No eligible users found for replacement.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String userId = replacementUser.getString("userId");
+                if (userId != null && !userId.isEmpty()) {
+                    // Update Firestore
+                    WriteBatch batch = db.batch();
+                    batch.set(selectedRef.document(userId), replacementUser.getData());
+                    batch.delete(waitingListRef.document(replacementUser.getId()));
+
+                    batch.commit().addOnCompleteListener(updateTask -> {
+                        loadingSpinner.setVisibility(View.GONE);
+                        if (updateTask.isSuccessful()) {
+                            Toast.makeText(this, "Replacement drawn successfully.", Toast.LENGTH_SHORT).show();
+                            fetchSelectedParticipants(); // Refresh the list
+                        } else {
+                            Toast.makeText(this, "Failed to draw replacement.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    loadingSpinner.setVisibility(View.GONE);
+                    Toast.makeText(this, "Invalid user data. Unable to draw replacement.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                loadingSpinner.setVisibility(View.GONE);
+                Toast.makeText(this, "Failed to fetch waiting list.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private DocumentSnapshot findEligibleReplacement(List<DocumentSnapshot> waitingList) {
+        for (DocumentSnapshot user : waitingList) {
+            Long status = user.getLong("status");
+            if (!user.contains("status") || status == null || status == 1) {
+                return user; // Eligible user found
+            }
+        }
+        return null; // No eligible user
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
