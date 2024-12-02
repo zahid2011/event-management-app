@@ -273,28 +273,55 @@ public class RunLotteryActivity extends AppCompatActivity {
     }
 
     private void displaySelectedParticipants(List<DocumentSnapshot> selectedUsers) {
-        participantsLayout.removeAllViews();
+        participantsLayout.removeAllViews(); // Clear existing views
 
         for (DocumentSnapshot user : selectedUsers) {
+            // Inflate the participant item layout
             View participantView = getLayoutInflater().inflate(R.layout.participant_item, participantsLayout, false);
 
+            // Get references to the TextViews and Buttons in the layout
             TextView userIDTextView = participantView.findViewById(R.id.participant_userID);
+            TextView statusTextView = participantView.findViewById(R.id.participant_status);
             Button notifyButton = participantView.findViewById(R.id.notify_button);
             Button removeButton = participantView.findViewById(R.id.remove_button);
 
-
+            // Fetch user data
             String userId = user.getString("userId");
+            Long status = user.getLong("status"); // Assuming status is stored as a Long
+
+            // Display user ID
             if (userId == null || userId.isEmpty()) {
                 userId = "User ID not provided";
             }
-
             userIDTextView.setText(userId);
 
-            String finalUserId = userId;
+            // Determine and display the status message
+            String statusMessage;
+            if (status == null || !user.contains("status") ) {
+                statusMessage = "User hasn't responded.";
+            } else if (status == 0) {
+                statusMessage = "User rejected the invitation.";
+            } else if (status == 1) {
+                statusMessage = "User accepted the invitation.";
+                moveToFinalizedEntrants(user);
+
+                db.collection("events").document(eventId).collection("selectedEntrants")
+                        .document(user.getId())
+                        .update("status", 1)
+                        .addOnSuccessListener(aVoid -> Log.d("RunLotteryActivity", "Status updated to 1 for user: " + user.getId()))
+                        .addOnFailureListener(e -> Log.e("RunLotteryActivity", "Failed to update status for user: " + user.getId(), e));
+            } else {
+                statusMessage = "Unknown status.";
+            }
+            statusTextView.setText(statusMessage);
+
+            // Set up Notify button
+            String finalUserId = userId; // For use in the button listener
             notifyButton.setOnClickListener(v -> {
                 sendNotificationToUserIfAllowed(finalUserId, true);
             });
 
+            // Set up Remove button
             removeButton.setOnClickListener(v -> {
                 db.collection("events")
                         .document(eventId)
@@ -302,19 +329,37 @@ public class RunLotteryActivity extends AppCompatActivity {
                         .document(user.getId())
                         .delete()
                         .addOnSuccessListener(aVoid -> {
-
                             Toast.makeText(this, "Removed " + finalUserId, Toast.LENGTH_SHORT).show();
                             participantsLayout.removeView(participantView);
                         })
                         .addOnFailureListener(e -> {
                             Toast.makeText(this, "Failed to remove " + finalUserId, Toast.LENGTH_SHORT).show();
-
                         });
             });
 
+            // Add the participant view to the layout
             participantsLayout.addView(participantView);
         }
     }
+
+    private void moveToFinalizedEntrants(DocumentSnapshot user) {
+        CollectionReference finalizedEntrantsRef = db.collection("events")
+                .document(eventId)
+                .collection("finalizedEntrants");
+
+        // Copy user data to finalizedEntrants collection
+        finalizedEntrantsRef.document(user.getId()).set(user.getData())
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("RunLotteryActivity", "User moved to finalized entrants: " + user.getId());
+                    Toast.makeText(this, "User finalized: " + user.getString("userId"), Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("RunLotteryActivity", "Failed to move user to finalized entrants: " + user.getId(), e);
+                    Toast.makeText(this, "Error finalizing user: " + user.getString("userId"), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
 
     private void sendNotificationToUserIfAllowed(String userId, boolean isWinner) {
         // Reference the specific user's document
@@ -430,19 +475,8 @@ public class RunLotteryActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Filter the waiting list for users with status 1 or no status
-                DocumentSnapshot replacementUser = null;
-                for (DocumentSnapshot user : waitingList) {
-                    Long status = user.getLong("status"); // Assuming status is stored as a number
-                    if (status == null || status == 1) {
-                        // If status is null (no status) or status is 1, select the user
-                        replacementUser = user;
-                        break;
-                    } else if (status == 0) {
-                        // Skip users with status 0
-                        continue;
-                    }
-                }
+                // Find eligible replacement
+                DocumentSnapshot replacementUser = findEligibleReplacement(waitingList);
 
                 if (replacementUser == null) {
                     loadingSpinner.setVisibility(View.GONE);
@@ -452,21 +486,16 @@ public class RunLotteryActivity extends AppCompatActivity {
 
                 String userId = replacementUser.getString("userId");
                 if (userId != null && !userId.isEmpty()) {
-                    // Update Firestore to add the user to selected entrants
+                    // Update Firestore
                     WriteBatch batch = db.batch();
-
-                    // Add to selected entrants
                     batch.set(selectedRef.document(userId), replacementUser.getData());
-
-                    // Remove from waiting list
                     batch.delete(waitingListRef.document(replacementUser.getId()));
 
-                    // Commit the batch
                     batch.commit().addOnCompleteListener(updateTask -> {
                         loadingSpinner.setVisibility(View.GONE);
                         if (updateTask.isSuccessful()) {
                             Toast.makeText(this, "Replacement drawn successfully.", Toast.LENGTH_SHORT).show();
-                            fetchSelectedParticipants(); // Refresh the selected participants list
+                            fetchSelectedParticipants(); // Refresh the list
                         } else {
                             Toast.makeText(this, "Failed to draw replacement.", Toast.LENGTH_SHORT).show();
                         }
@@ -481,9 +510,17 @@ public class RunLotteryActivity extends AppCompatActivity {
             }
         });
     }
+
+    private DocumentSnapshot findEligibleReplacement(List<DocumentSnapshot> waitingList) {
+        for (DocumentSnapshot user : waitingList) {
+            Long status = user.getLong("status");
+            if (!user.contains("status") || status == null || status == 1) {
+                return user; // Eligible user found
+            }
+        }
+        return null; // No eligible user
+    }
 }
-
-
 
 
 
