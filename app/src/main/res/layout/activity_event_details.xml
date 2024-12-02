@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="#FFFFFF"
     android:padding="16dp">
 
@@ -15,8 +16,7 @@
         android:contentDescription="Back"
         android:src="@drawable/ic_back_arrow"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Event Title Header -->
     <TextView
@@ -26,19 +26,20 @@
         android:layout_marginStart="8dp"
         android:text="Event"
         android:textColor="#000000"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/iv_back_arrow"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back_arrow" />
 
-    <!-- Participant Management Header -->
+    <!-- Participant Management Button -->
 
     <!-- Event Name Card -->
 
     <Button
         android:id="@+id/btn_participant_management"
         android:layout_width="208dp"
-        android:layout_height="39dp"
+        android:layout_height="49dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/zxing_transparent"
         android:clickable="true"
@@ -48,7 +49,7 @@
         android:textSize="14sp"
         app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="-12dp" />
+        app:layout_constraintTop_toTopOf="@+id/iv_back_arrow" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_event_name"
@@ -60,6 +61,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_event_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
 
         <TextView
             android:id="@+id/tv_event_name"
@@ -73,51 +75,58 @@
             android:textStyle="bold" />
     </androidx.cardview.widget.CardView>
 
-    <!-- Event Image Placeholder -->
+
+    <!-- Update Event Image Section -->
+    <LinearLayout
+        android:id="@+id/eventImageSection"
+        android:layout_width="241dp"
+        android:layout_height="169dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_event_name">
+
+        <ImageView
+            android:id="@+id/img_event_details_image"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:layout_marginTop="11dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_placeholder" />
+
+        <ImageButton
+            android:id="@+id/btn_edit_event_details_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="Edit event details image"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <TextView
+            android:id="@+id/tv_change_event_details_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Update Event Image"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <!-- Event Details Card -->
-
-    <TextView
-        android:id="@+id/tv_add_image"
-        android:layout_width="186dp"
-        android:layout_height="48dp"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="onAddImageClicked"
-        android:paddingVertical="12dp"
-        android:text="Update Event Image"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_event_name" />
-
-    <ImageView
-        android:id="@+id/img_event_image"
-        android:layout_width="386dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="4dp"
-        android:contentDescription="Event Image"
-        android:src="@drawable/ic_event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_add_image" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/card_event_details"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#E0E7FF"
+        android:layout_marginTop="16dp"
         app:cardCornerRadius="12dp"
-        app:layout_constraintTop_toBottomOf="@id/img_event_image"
+        app:layout_constraintTop_toBottomOf="@id/eventImageSection"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="#E0E7FF">
 
         <LinearLayout
-            android:layout_width="409dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -136,7 +145,7 @@
                 android:id="@+id/tv_event_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="Event Description:"
                 android:textColor="#000000"
                 android:textSize="14sp"
@@ -147,7 +156,7 @@
                 android:id="@+id/tv_event_capacity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:text="Capacity: "
                 android:textColor="#000000"
                 android:textSize="14sp"
@@ -156,20 +165,18 @@
             <!-- Max Waiting List Entrants -->
             <TextView
                 android:id="@+id/tv_max_waiting_list"
-                android:layout_width="273dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="4dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="Max Waiting List Entrants [Tap to Set] : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Max Waiting List Entrants [Tap to Set]:"
                 android:textColor="#000000"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <!-- Enable Geolocation with Switch -->
+            <!-- Enable Geolocation -->
             <LinearLayout
-                android:layout_width="197dp"
-                android:layout_height="37dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -184,13 +191,11 @@
 
                 <Switch
                     android:id="@+id/switch_geolocation"
-                    android:layout_width="59dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:checked="true"
-                    android:thumbTint="#000000"
-                    android:trackTint="@color/track_color"
-                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
 
             <!-- QR Code -->
@@ -199,18 +204,15 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:contentDescription="QR Code for Event" />
-            <!--   android:src="@drawable/ic_qr_code_placeholder"-->
-
 
             <TextView
                 android:id="@+id/tv_qr_code_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
+                android:layout_marginTop="8dp"
                 android:text="QR Code for Event"
                 android:textColor="#000000"
                 android:textSize="14sp" />
@@ -218,6 +220,17 @@
     </androidx.cardview.widget.CardView>
 
     <!-- Action Buttons -->
+    <Button
+        android:id="@+id/btn_run_lottery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Run Lottery"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#1F41BB"
+        app:layout_constraintTop_toBottomOf="@id/card_event_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btn_view_waiting_list"
@@ -227,39 +240,20 @@
         android:text="View Waiting List"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
-        app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/btn_run_lottery"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_run_lottery" />
-
-    <Button
-        android:id="@+id/btn_run_lottery"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:onClick="onRunLotteryClicked"
-        android:text="Run Lottery"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
-        app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_event_details" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btn_view_entrant_locations"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="View Entrant Locations"
         android:textColor="#FFFFFF"
         app:backgroundTint="#1F41BB"
-        app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/btn_view_waiting_list"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_view_waiting_list" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

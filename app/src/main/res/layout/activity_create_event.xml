@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="16dp"
-    tools:context=".LoginMainActivity">
+    tools:context=".CreateEventActivity">
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
+
 
     <TextView
         android:id="@+id/tv_create_event_title"
@@ -18,49 +30,68 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:id="@+id/img_event_image"
-        android:layout_width="67dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Add Event Image"
-        android:onClick="onAddImageClicked"
-        android:src="@drawable/ic_camera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_create_event_title" />
+         />
 
-    <TextView
-        android:id="@+id/textView"
+    <!-- Profile Image Section -->
+    <LinearLayout
+        android:id="@+id/eventImageSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Add Event Image"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_create_event_title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_event_image" />
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            android:id="@+id/img_event_image"
+            android:layout_width="208dp"
+            android:layout_height="84dp"
+            android:layout_marginTop="11dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_placeholder" />
+
+        <ImageButton
+            android:id="@+id/edit_image"
+            android:layout_width="48dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Edit image button"
+            app:srcCompat="@android:drawable/ic_menu_camera"
+            tools:ignore="SmallDimensions" />
+
+        <TextView
+            android:id="@+id/changePictureText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Add Event Image"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- Event Details Fields -->
     <EditText
         android:id="@+id/et_event_name"
         android:layout_width="0dp"
         android:layout_height="49dp"
         android:layout_marginTop="12dp"
         android:hint="Event Name"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/rounded_box_white"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@id/eventImageSection"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/et_event_datetime"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="11dp"
         android:hint="Event Date and Time Picker"
+        android:background="@drawable/rounded_box_white"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/et_event_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -69,8 +100,10 @@
         android:id="@+id/et_capacity"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="11dp"
         android:hint="Capacity"
+        android:background="@drawable/rounded_box_white"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/et_event_datetime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -79,8 +112,10 @@
         android:id="@+id/et_price"
         android:layout_width="0dp"
         android:layout_height="49dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="11dp"
         android:hint="Price"
+        android:background="@drawable/rounded_box_white"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/et_capacity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -89,17 +124,20 @@
         android:id="@+id/et_event_description"
         android:layout_width="0dp"
         android:layout_height="49dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="11dp"
         android:hint="Event Description"
+        android:background="@drawable/rounded_box_white"
+        android:padding="10dp"
         app:layout_constraintTop_toBottomOf="@id/et_price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Geolocation Section -->
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="13dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,74 +158,53 @@
             android:layout_height="49dp"
             android:layout_marginStart="8dp"
             android:checked="true" />
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_generate_qr"
-        android:layout_width="325dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="4dp"
-        android:text="Generate QR Code"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
+    <!-- QR Code Display -->
+    <ImageView
+        android:id="@+id/qrCodeImageView"
+        android:layout_width="167dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="13dp"
+        android:contentDescription="QR Code Image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qrCodeImageView"
-        tools:ignore="NotSibling" />
+        app:layout_constraintTop_toBottomOf="@id/linearLayout2" />
 
+    <!-- Buttons Side by Side -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="13dp"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/btn_generate_qr"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/qrCodeImageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <Button
-            android:id="@+id/btn_create_event"
+            android:id="@+id/btn_create_and_generate_qr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Create"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#1F41BB" />
-
-        <Button
-            android:id="@+id/btn_back_to_dashboard"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="0dp"
-            android:layout_weight="1.5"
-            android:text="Back to Dashboard"
+            android:textSize="16sp"
+            android:text="Create Event and\n Generate QR"
+            android:background="@drawable/button_shadow_background"
             android:textColor="#FFFFFF"
             app:backgroundTint="#1F41BB" />
 
         <Button
             android:id="@+id/btn_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:text="Cancel"
+            android:background="@drawable/button_shadow_background"
             android:textColor="#FFFFFF"
+            android:textSize="16sp"
             app:backgroundTint="#1F41BB" />
-
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/qrCodeImageView"
-        android:layout_width="91dp"
-        android:layout_height="59dp"
-        android:contentDescription="QR Code Image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.106"
-        tools:ignore="NotSibling" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

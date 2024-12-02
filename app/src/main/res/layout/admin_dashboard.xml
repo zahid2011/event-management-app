@@ -12,12 +12,12 @@
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="47dp"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="start"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Back Button"
-        android:src="@android:drawable/ic_menu_revert"
+        android:src="@drawable/ic_back_arrow"
         app:tint="#000000" />
 
     <TextView
@@ -52,7 +52,7 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/ic_event"
+                android:src="@drawable/ic_event_management"
                 app:tint="#1F41BB"
                 android:layout_marginEnd="16dp" />
 
@@ -120,7 +120,7 @@
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/ic_image"
+                android:src="@drawable/ic_image_folder"
                 app:tint="#1F41BB"
                 android:layout_marginEnd="16dp" />
 

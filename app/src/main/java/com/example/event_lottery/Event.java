@@ -16,8 +16,9 @@ public class Event {
     // constructor 
     public Event() {}
 
-    //
-    public Event(String eventId, String eventName, Timestamp eventDateTime, String capacity, String price) {
+
+    public Event(String eventId, String eventName, Timestamp eventDateTime, String capacity, String price,
+                 String description, boolean geoLocationEnabled, String qrContent, String qrHash) {
         this.eventId = eventId;
         this.eventName = eventName;
         this.eventDateTime = eventDateTime;
@@ -25,6 +26,8 @@ public class Event {
         this.price = price;
         this.description = description;
         this.geoLocationEnabled = geoLocationEnabled;
+        this.qrContent = qrContent;
+        this.qrHash = qrHash;
     }
     public String getEventId() {
         return eventId;

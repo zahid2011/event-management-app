@@ -8,12 +8,11 @@
     android:padding="16dp"
     tools:context=".LoginMainActivity">
 
-
     <TextView
         android:id="@+id/tv_create_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CREATE EVENT"
+        android:text="Create Facility"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -21,17 +20,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <ImageView
         android:id="@+id/img_event_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="16dp"
-        android:contentDescription="Add Event Image"
+        android:contentDescription="Add Facility Image"
         app:layout_constraintTop_toBottomOf="@id/tv_create_event_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,11 +36,10 @@
         android:text="Add Event Image"
         android:textColor="#000000"
         android:textSize="12sp"
+        android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/img_event_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp" />
-
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
         android:id="@+id/et_facility_name"
@@ -55,7 +51,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <EditText
         android:id="@+id/et_facility_owner"
         android:layout_width="0dp"
@@ -65,7 +60,6 @@
         app:layout_constraintTop_toBottomOf="@id/et_facility_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
     <EditText
         android:id="@+id/et_facility_address"
@@ -77,10 +71,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
-
-
-
     <EditText
         android:id="@+id/et_phone"
         android:layout_width="0dp"
@@ -90,10 +80,6 @@
         app:layout_constraintTop_toBottomOf="@id/et_facility_address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
-
-
 
     <EditText
         android:id="@+id/et_facility_description"
@@ -105,7 +91,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
@@ -115,106 +100,54 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_event_description"
-        tools:ignore="NotSibling">
+        app:layout_constraintTop_toBottomOf="@id/et_facility_description"/>
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="47dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:background="#0D0C0C"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_back_arrow" />
+
+    <Button
+        android:id="@+id/btn_get_facility"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Get"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#1F41BB"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enable Geolocation"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-
-        <Switch
-            android:id="@+id/switch_geolocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:checked="true" />
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Cancel"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#1F41BB"
+        app:layout_constraintTop_toBottomOf="@id/btn_get_facility"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btn_create"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Generate QR Code"
+        android:text="Create"
         android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
-        app:layout_constraintTop_toBottomOf="@id/switch_geolocation"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintTop_toBottomOf="@id/btn_cancel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="NotSibling" />
-
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btn_generate_qr"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="NotSibling">
-
-
-        <Button
-            android:id="@+id/btn_save_changes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Save"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#1F41BB" />
-
-
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:textColor="#FFFFFF"
-            app:backgroundTint="#1F41BB" />
-
-        <Button
-            android:id="@+id/btn_back_to_dashboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back to Dashboard" />
-
-
-    </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/qrCodeImageView"
-        android:layout_width="196dp"
-        android:layout_height="193dp"
-        android:contentDescription="QR Code Image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:ignore="NotSibling" />
-
-    <Button
-        android:id="@+id/btn_get_facility"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Get"
-        android:textColor="#FFFFFF"
-        app:backgroundTint="#1F41BB"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_facility_description"
-        tools:layout_editor_absoluteX="138dp"
-        tools:ignore="MissingConstraints" />
-
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

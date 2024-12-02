@@ -3,6 +3,7 @@ package com.example.event_lottery;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
             validateUserCredentials(email, password, selectedRole);
         });
     }
+    private String getDeviceIdentifier() {
+        return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
 
     private void validateUserCredentials(String email, String password, String selectedRole) {
         db.collection("users").document(email).get()
@@ -71,46 +75,61 @@ public class LoginActivity extends AppCompatActivity {
                             String registeredRole = document.getString("role");
                             String firstName = document.getString("firstName");
 
-                            // Check if the password and role match
                             if (storedPassword != null && storedPassword.equals(password)) {
                                 if (registeredRole != null && registeredRole.equals(selectedRole)) {
-                                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                    // Save Device Identifier in Firestore
+                                    String deviceId = getDeviceIdentifier();
+                                    db.collection("users").document(email)
+                                            .update("deviceId", deviceId)
+                                            .addOnSuccessListener(aVoid -> {
+                                                Toast.makeText(LoginActivity.this, "Device registered successfully.", Toast.LENGTH_SHORT).show();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(LoginActivity.this, "Failed to save device ID.", Toast.LENGTH_SHORT).show();
+                                            });
 
-                                    // Save the user ID (email) in SharedPreferences
+                                    // Save user info in SharedPreferences
                                     SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("USER_ID", email); // Use email as the user ID
-                                    editor.putString("USER_ROLE", registeredRole); // Save the user's role
+                                    editor.putString("USER_ID", email);
+                                    editor.putString("USER_ROLE", registeredRole);
                                     editor.putString("USER_FIRST_NAME", firstName != null ? firstName : "User");
+                                    editor.putString("DEVICE_ID", deviceId); // Saving the device ID locally
                                     editor.apply();
 
-                                    // Redirect based on role
-                                    Intent dashboardIntent;
-                                    if (selectedRole.equals("Entrant")) {
-                                        dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                    } else if (selectedRole.equals("Organiser")) {
-                                        dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
-                                    } else if (selectedRole.equals("Admin")) { // Check for Admin role
-                                        dashboardIntent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Invalid role selected.", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-
-                                    startActivity(dashboardIntent);
-                                    finish();
+                                    // Redirect to the appropriate dashboard
+                                    redirectToDashboard(selectedRole);
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Role mismatch.", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(LoginActivity.this, "Invalid credentials or role mismatch.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Invalid credentials.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(LoginActivity.this, "Failed to access database: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Database error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private void redirectToDashboard(String selectedRole) {
+        Intent dashboardIntent;
+
+        // Redirect based on the role
+        if (selectedRole.equalsIgnoreCase("Entrant")) {
+            dashboardIntent = new Intent(LoginActivity.this, DashboardActivity.class);
+        } else if (selectedRole.equalsIgnoreCase("Organiser")) {
+            dashboardIntent = new Intent(LoginActivity.this, OrganizerDashboardActivity.class);
+        } else if (selectedRole.equalsIgnoreCase("Admin")) {
+            dashboardIntent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+        } else {
+            Toast.makeText(LoginActivity.this, "Invalid role selected.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        startActivity(dashboardIntent);
+        finish();
     }
 }
