@@ -74,8 +74,8 @@
         <activity android:name=".AdminListFacilityAcitivity" />
         <activity android:name=".AdminFacilityDetailsActivity" />
         <activity android:name=".AdminImageManagementActivity" />
-
-
+        <activity android:name=".FinalizedParticipantActivity" />
+        <activity android:name=".CancelledParticipantActivity" />
 
     </application>
 

@@ -1,16 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="#E5EAFF">
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/participant_userID"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Participant userID"
-        android:textColor="#000000"
+        android:text="User ID"
         android:textSize="16sp" />
+
+
 </LinearLayout>

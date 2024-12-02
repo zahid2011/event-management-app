@@ -75,38 +75,16 @@ public class NotificationDetailsActivity extends AppCompatActivity {
         }
 
         acceptButton.setOnClickListener(v -> {
-            // Add to selectedEntrants collection
+            // Handle accept action
             db.collection("events").document(eventName)
                     .collection("selectedEntrants").document(userId)
                     .set(new StatusObject(1), SetOptions.merge())
                     .addOnSuccessListener(aVoid -> {
-                        // Add to finalRegistered collection
-                        Map<String, Object> finalRegisteredData = new HashMap<>();
-                        finalRegisteredData.put("userId", userId);
-                        finalRegisteredData.put("status", 1);
-                        finalRegisteredData.put("timestamp", new Date());
-
-                        db.collection("events").document(eventName)
-                                .collection("finalRegistered").document(userId)
-                                .set(finalRegisteredData)
-                                .addOnSuccessListener(registeredAcknowledge -> {
-                                    // Delete the notification
-                                    deleteNotification();
-
-                                    Toast.makeText(NotificationDetailsActivity.this,
-                                            "You have been added to final registered entrants.",
-                                            Toast.LENGTH_SHORT).show();
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(NotificationDetailsActivity.this,
-                                            "Error adding to final registered: " + e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-                                });
+                        // Delete the notification
+                        deleteNotification();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(NotificationDetailsActivity.this,
-                                "Error accepting invitation: " + e.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationDetailsActivity.this, "Error accepting: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
 

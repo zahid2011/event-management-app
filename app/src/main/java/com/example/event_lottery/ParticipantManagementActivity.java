@@ -28,6 +28,21 @@ public class ParticipantManagementActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        Button finalizeListButton = findViewById(R.id.btn_final_registered_list);
+        finalizeListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ParticipantManagementActivity.this, FinalizedParticipantActivity.class);
+            intent.putExtra("eventId", eventId); // Pass any needed data like eventId
+            startActivity(intent);
+        });
+
+        Button cancelledListButton = findViewById(R.id.btn_cancelled_entrants);
+        cancelledListButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ParticipantManagementActivity.this, CancelledParticipantActivity.class);
+            intent.putExtra("eventId", eventId); // Pass the event ID if needed
+            startActivity(intent);
+        });
+
+
         // Additional participant management logic can be added here
     }
 }
