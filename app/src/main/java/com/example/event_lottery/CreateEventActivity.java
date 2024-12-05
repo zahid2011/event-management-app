@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
@@ -213,10 +214,10 @@ public class CreateEventActivity extends AppCompatActivity {
      * @param price               The price of the event.
      * @param description         A brief description of the event.
      * @param geolocationEnabled  Whether geolocation is enabled for the event.
-     * @param imagePath           The image path or URL of the event.
+     * @param imageUrl         The image path or URL of the event.
      */
 
-    public void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imagePath) {
+    public void saveEventToFirestore(String eventName, Date eventDateTime, String capacity, String price, String description, boolean geolocationEnabled, String imageUrl) {
         Map<String, Object> eventData = new HashMap<>();
         eventData.put("eventName", eventName);
         eventData.put("eventDateTime", eventDateTime);
@@ -224,7 +225,7 @@ public class CreateEventActivity extends AppCompatActivity {
         eventData.put("price", price);
         eventData.put("description", description);
         eventData.put("geolocationEnabled", geolocationEnabled);
-        eventData.put("imagePath", imagePath);
+        eventData.put("imageUrl", imageUrl);
 
 
         db.collection("events").document(eventName)
@@ -242,26 +243,28 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == IMAGE_UPLOAD_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                try {
-                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    saveImageToFirestore(selectedImage);
-                } catch (Exception e) {
-                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+            if (data != null && data.hasExtra("imageUrl")) {
+                imageUrl = data.getStringExtra("imageUrl");
+                loadImageFromUrl(imageUrl);
+            } else {
+                Toast.makeText(this, "Failed to retrieve uploaded image URL", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+
+
     /**
-     * Saves the provided image to Firebase Storage and updates Firestore with the image URL.
+     * Saves the selected image to Firestore Storage and retrieves its URL.
+     * <p>
+     * Compresses the image into JPEG format, uploads it to Firestore Storage,
+     * and updates the Firestore database with the image URL.
+     * </p>
      *
-     * @param bitmap The image to save.
+     * @param bitmap The image selected by the user
      */
 
-
-    public void saveImageToFirestore(Bitmap bitmap) {
+    void saveImageToFirestore(Bitmap bitmap) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference().child("event_images/" + System.currentTimeMillis() + ".jpg");
 
@@ -273,8 +276,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> storageRef.getDownloadUrl()
                         .addOnSuccessListener(uri -> {
                             // Save the image URL in Firestore
-                            imageUrl = uri.toString();
-                            updateImageView(uri.toString());
+                            saveImageUrlToFirestore(uri.toString());
+                            loadImageFromUrl(uri.toString());
                             Toast.makeText(CreateEventActivity.this, "Image uploaded successfully!", Toast.LENGTH_SHORT).show();
                         }))
                 .addOnFailureListener(e -> {
@@ -282,6 +285,40 @@ public class CreateEventActivity extends AppCompatActivity {
                     e.printStackTrace();
                 });
     }
+
+    /**
+     * Loads an image from a URL into the ImageView using Glide.
+     * <p>
+     * Displays a placeholder image while loading, and an error image if loading fails.
+     * </p>
+     *
+     * @param url The URL of the image to load
+     */
+
+    private void loadImageFromUrl(String url) {
+        Glide.with(this)
+                .load(url)
+                .placeholder(R.drawable.ic_image_placeholder) // Add a default placeholder
+                .error(R.drawable.ic_error) // Add an error placeholder
+                .into(imgEventImage);
+    }
+
+    /**
+     * Saves the image URL to Firestore for the associated event.
+     *
+     * @param imageUrl The URL of the uploaded image
+     */
+
+    private void saveImageUrlToFirestore(String imageUrl) {
+        DocumentReference docRef = db.collection("events").document(eventId);
+        docRef.update("imageUrl", imageUrl)
+                .addOnSuccessListener(aVoid -> Toast.makeText(this, "Image updated successfully", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to update image URL", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                });
+    }
+
 
     private void updateImageView(String imageUrl) {
         Glide.with(this)

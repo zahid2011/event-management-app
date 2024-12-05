@@ -167,6 +167,8 @@ public class EventImageUploadActivity extends AppCompatActivity {
                 e.printStackTrace();
                 Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
             }
+
+
         }
     }
 
@@ -191,10 +193,14 @@ public class EventImageUploadActivity extends AppCompatActivity {
                             db.collection("users").document(userId).update(updates)
                                     .addOnSuccessListener(aVoid -> {
                                         progressDialog.dismiss();
-                                        Toast.makeText(EventImageUploadActivity.this, "Profile image updated", Toast.LENGTH_SHORT).show();
-                                        setResult(RESULT_OK);
-                                        finish();
 
+                                        // Send the URL back to EventDetailsActivity
+                                        Intent resultIntent = new Intent();
+                                        resultIntent.putExtra("imageUrl", downloadUrl); // Pass the URL back
+                                        setResult(RESULT_OK, resultIntent);
+
+                                        Toast.makeText(EventImageUploadActivity.this, "Profile image updated", Toast.LENGTH_SHORT).show();
+                                        finish();
                                     })
                                     .addOnFailureListener(e -> {
                                         progressDialog.dismiss();

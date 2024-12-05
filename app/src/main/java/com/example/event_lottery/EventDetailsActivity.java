@@ -355,19 +355,17 @@ public class EventDetailsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == IMAGE_UPLOAD_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                try {
-                    Bitmap selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    saveImageToFirestore(selectedImage);
-                } catch (Exception e) {
-                    Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
+            String imageUrl = data.getStringExtra("imageUrl");
+            if (imageUrl != null) {
+                saveImageUrlToFirestore(imageUrl);
+                loadImageFromUrl(imageUrl);
+            } else {
+                Toast.makeText(this, "Failed to retrieve uploaded image URL", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 
     /**
      * Saves the selected image to Firestore Storage and retrieves its URL.
